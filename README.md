@@ -1,4 +1,6 @@
 # Api BLoC
+<a href='https://pub.dev/packages/api_bloc'><img src='https://img.shields.io/pub/v/api_bloc.svg?logo=flutter&color=blue&style=flat-square'/></a>
+
 A Flutter library for managing API calls using the BLoC pattern. This library provides a set of classes and utilities to simplify API calls and manage state changes.
 
 ## Features
@@ -57,3 +59,6 @@ ApiBloc(
   },
 );
 ```
+## Example
+
+- [api_bloc/example/lib](https://github.com/Nialixus/api_bloc/tree/main/example/lib)
