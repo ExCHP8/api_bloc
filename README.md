@@ -1,39 +1,59 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# Api Bloc
+A Flutter library for managing API calls using the BLoC pattern. This library provides a set of classes and utilities to simplify API calls and manage state changes.
 
 ## Features
+- Easily manage API calls and state changes using the BLoC pattern.
+- Generic classes for handling various API states such as loading, success, and error.
+- Customizable builder and listener functions to respond to state changes.
+- Automatic disposal of the controller to prevent memory leaks.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## Getting Started
+To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  api_bloc: ^1.0.0
 ```
 
-## Additional information
+## Usage
+- Create a subclass of [BlocController] with [BlocStates].
+  This library already provide you with FetchStates and SubmitStates,
+  But you can create custom state by extending [BlocStates].
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+import 'package:api_bloc/api_bloc.dart';
+
+class GetUserController extends BlocController<FetchStates> {
+  
+  @override
+  Future<void> request() async {
+    Response response = await http.get(Uri.parse('https://base.url/api/user'),
+      onProgress: (double progress) {
+         emit(FetchLoadingState<double>(data: progress));
+         }
+      );
+  
+     UserModel model = UserModel.fromJson(response.data);
+     emit(FetchSuccessState<UserModel>(data: model));
+  }
+}
+```
+
+- Put the controller inside [ApiBloc] widget.
+
+```dart
+import 'package:api_bloc/api_bloc.dart';
+
+ApiBloc(
+  controller: GetUserController(),
+  builder: (context, state, child) {
+    if (state is FetchSuccessState<UserModel>) {
+      return Text('Username: ${state.data!.username}');
+    } else if (state is FetchErrorState){
+      return Text('Error occurred: ${state.message}');
+    } else {
+      return CircularProgressIndicator();
+    }
+  },
+);
+```

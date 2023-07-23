@@ -1,36 +1,38 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:api_bloc/api_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-part 'request.dart';
+part 'controller.dart';
 part 'model.dart';
 
 class ExamplePage extends StatelessWidget {
   const ExamplePage({super.key});
-  FetchController get controller => ExampleRequest();
+
+  FetchController get controller => ExampleController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('API BLOC')),
-      body: Center(
-        child: FetchBloc(
-          controller: controller,
-          builder: (context, value, child) {
-            if (value is FetchLoadingState) {
-              return const CircularProgressIndicator();
-            } else if (value is FetchSuccessState) {
-              return Text(value.toString());
-            }
-            return child;
-          },
-          // loadingBuilder: (context, value, child) =>
-          //     const CircularProgressIndicator(),
-          // successBuilder: (context, value, child) => Text(value.data.toString()),
-          // errorBuilder: (context, value, child) =>
-          //     const Icon(Icons.error, color: Colors.red),
+    return ApiBloc.listener(
+      controller: controller,
+      listener: (context, value) => log(value.toString()),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Api Bloc')),
+        body: Center(
+          child: ApiBloc.builder(
+            controller: controller,
+            builder: (context, value, child) {
+              if (value is FetchSuccessState<ExampleModel>) {
+                return Text('${value.data!.firstName} ${value.data!.lastName}');
+              } else if (value is FetchErrorState) {
+                return Text('Oops something is wrong\n${value.message}');
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
+          ),
         ),
       ),
     );

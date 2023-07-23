@@ -15,4 +15,17 @@ class ExampleModel {
             firstName: value['data']['first_name'] as String,
             lastName: value['data']['last_name'] as String,
             avatar: value['data']['avatar'] as String);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'avatar': avatar
+    };
+  }
+
+  @override
+  String toString() =>
+      '$runtimeType${toJson().entries.map((e) => '${e.key}: ${e.value}')}';
 }
