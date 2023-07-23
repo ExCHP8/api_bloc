@@ -72,7 +72,8 @@ class SubmitSuccessState<T extends Object> extends SubmitStates<T> {
   /// SubmitSuccessState<Model>(data: Model()));
   /// ```
   const SubmitSuccessState({super.message, required super.data})
-      : super(type: SubmitStateType.success);
+      : assert(data != null, 'data is required in SubmitSuccessState'),
+        super(type: SubmitStateType.success);
 }
 
 /// Represents the failed state when a request submission fails in
@@ -87,7 +88,8 @@ class SubmitFailedState<T extends Object> extends SubmitStates<T> {
   /// SubmitFailedState<Model>(data: Model()));
   /// ```
   const SubmitFailedState({super.message, required super.data})
-      : super(type: SubmitStateType.failed);
+      : assert(data != null, 'data is required in SubmitFailedState'),
+        super(type: SubmitStateType.failed);
 }
 
 /// Represents the error state when an error occurs during request submission in

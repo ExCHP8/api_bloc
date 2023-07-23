@@ -1,3 +1,6 @@
+/// A Flutter library for managing API calls using the BLoC pattern.
+/// This library provides a set of classes and utilities to simplify API
+/// calls and manage state changes.
 library api_bloc;
 
 import 'package:flutter/material.dart';

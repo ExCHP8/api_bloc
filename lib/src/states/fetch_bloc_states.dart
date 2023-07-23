@@ -62,7 +62,8 @@ class FetchSuccessState<T extends Object> extends FetchStates<T> {
   /// FetchSuccessState<Model>(data: Model()));
   /// ```
   const FetchSuccessState({super.message, required super.data})
-      : super(type: FetchStateType.success);
+      : assert(data != null, 'data is required in FetchSuccessState'),
+        super(type: FetchStateType.success);
 }
 
 /// Represents the error state when an error occurs during data fetching in
