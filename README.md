@@ -14,7 +14,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.1.0
+  api_bloc: ^1.2.0
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ dependencies:
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class GetUserController extends BlocController<FetchStates> {
+class GetUserController extends FetchController {
   
   @override
   Future<void> request() async {

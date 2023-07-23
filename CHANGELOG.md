@@ -6,3 +6,6 @@
 
 ## 1.1.0
 * Add data assertion on FetchSuccessState, SubmitSuccessState, SubmitFailedState
+
+## 1.2.0
+* Update Readme
