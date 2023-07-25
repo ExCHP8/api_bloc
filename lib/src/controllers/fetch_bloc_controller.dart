@@ -46,8 +46,9 @@ part of 'package:api_bloc/api_bloc.dart';
 abstract class FetchController extends BlocController<FetchStates> {
   /// This is constructor of fetching api request with its initial value
   /// is [FetchLoadingState] and also automatically calling [run] on init.
-  FetchController() : super(value: const FetchLoadingState()) {
-    run();
+  FetchController({List<Object> args = const []})
+      : super(value: const FetchLoadingState()) {
+    run(args: args);
   }
 
   /// A neccessary function to override when we extends this controller.
@@ -65,7 +66,7 @@ abstract class FetchController extends BlocController<FetchStates> {
   ///   emit(FetchSuccessState<UserModel>(data: model));
   /// }
   /// ```
-  Future<void> request();
+  Future<void> request({List<Object> args = const []});
 
   /// now, when we emitting the [FetchStates] don't forget to define the object
   /// type to emphasize the data that we're going to use in [ApiBloc].
@@ -91,11 +92,14 @@ abstract class FetchController extends BlocController<FetchStates> {
   void emit(FetchStates<Object?> value) => super.emit(value);
 
   @override
-  Future<void> run() async {
+  Future<void> run({List<Object> args = const []}) async {
     emit(const FetchLoadingState());
+    print(value);
     try {
-      await request();
+      await request(args: args);
+      print(value);
     } catch (e) {
+      print(value);
       emit(FetchErrorState(message: '$e'));
     }
   }

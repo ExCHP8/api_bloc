@@ -39,12 +39,13 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
   ///   }
   /// );
   /// ```
-  const ApiBloc(
-      {super.key,
-      required this.controller,
-      this.builder,
-      this.listener,
-      this.child = const Placeholder()});
+  const ApiBloc({
+    super.key,
+    required this.controller,
+    this.child = const Placeholder(),
+    this.listener,
+    this.builder,
+  });
 
   /// The [BlocController] that manages the state of the [ApiBloc].
   final BlocController<T> controller;
@@ -63,12 +64,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
   ///
   /// Use this constructor when you want to use only the [builder] function to build the widget tree
   /// based on the current [BlocStates].
-  const ApiBloc.builder(
-      {super.key,
-      required this.builder,
-      required this.controller,
-      this.child = const Placeholder()})
-      : assert(builder != null, 'Builder is required'),
+  const ApiBloc.builder({
+    super.key,
+    required this.controller,
+    this.child = const Placeholder(),
+    required this.builder,
+  })  : assert(builder != null, 'Builder is required'),
         listener = null;
 
   /// Constructor for [ApiBloc] with [BlocListener] only.
@@ -77,8 +78,8 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
   /// to listen to changes in the [BlocStates].
   const ApiBloc.listener(
       {super.key,
-      required this.listener,
       required this.controller,
+      required this.listener,
       required this.child})
       : assert(listener != null, 'Listener is required'),
         builder = null;
@@ -92,6 +93,7 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
   void initState() {
     if (widget.listener != null) {
       widget.controller.addListener(() {
+        if (mounted) setState(() {});
         widget.listener!(context, widget.controller.value);
       });
     }
@@ -100,13 +102,15 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
 
   @override
   Widget build(BuildContext context) {
+    log("BUILD");
     if (widget.builder != null) {
       return ValueListenableBuilder<T>(
           valueListenable: widget.controller,
-          child: widget.child,
           builder: (context, value, child) {
+            log("Rebuild");
             return widget.builder!(context, value, child!);
-          });
+          },
+          child: widget.child);
     } else {
       return widget.child;
     }
@@ -115,7 +119,10 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
   @override
   void dispose() {
     try {
-      if (widget.controller.autoDispose) widget.controller.dispose();
+      if (widget.controller.autoDispose) {
+        widget.controller.dispose();
+        print("Disposed");
+      }
     } catch (e) {/* do nothing */}
     super.dispose();
   }

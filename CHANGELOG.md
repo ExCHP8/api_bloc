@@ -9,3 +9,9 @@
 
 ## 1.2.0
 * Update Readme
+
+## 1.3.0
+* Add list of arguments inside request function
+* Update Sample
+* Update Readme
+* Fix widget won't rebuild

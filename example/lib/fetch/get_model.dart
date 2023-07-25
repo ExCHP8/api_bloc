@@ -1,7 +1,7 @@
-part of 'page.dart';
+part of 'get_page.dart';
 
-class ExampleModel {
-  const ExampleModel(
+class GetUserModel {
+  const GetUserModel(
       {required this.id,
       required this.firstName,
       required this.lastName,
@@ -9,7 +9,7 @@ class ExampleModel {
   final int id;
   final String firstName, lastName, avatar;
 
-  ExampleModel.fromJson(Map<String, dynamic> value)
+  GetUserModel.fromJson(Map<String, dynamic> value)
       : this(
             id: value['data']['id'] as int,
             firstName: value['data']['first_name'] as String,
