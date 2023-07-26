@@ -3,8 +3,6 @@
 /// calls and manage state changes.
 library api_bloc;
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 part 'package:api_bloc/src/controllers/bloc_controller.dart';
 part 'package:api_bloc/src/controllers/fetch_bloc_controller.dart';

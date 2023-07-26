@@ -102,13 +102,10 @@ abstract class SubmitController extends BlocController<SubmitStates> {
 
   @override
   Future<void> run({List<Object> args = const []}) async {
-    print("run");
     emit(const SubmitLoadingState());
     try {
       await request(args: args);
-      print(args);
     } catch (e) {
-      print(e);
       emit(SubmitErrorState(message: '$e'));
     }
   }

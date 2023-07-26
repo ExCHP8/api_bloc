@@ -9,8 +9,8 @@ part 'get_controller.dart';
 part 'get_model.dart';
 
 class GetPage extends StatelessWidget {
-  const GetPage({super.key});
-  FetchController get controller => GetUserController();
+  GetPage({super.key});
+  final controller = GetUserController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +28,19 @@ class GetPage extends StatelessWidget {
                 height: MediaQuery.sizeOf(context).height,
                 child: ApiBloc.builder(
                   controller: controller,
-                  builder: (context, value, child) {
-                    if (value is FetchSuccessState<GetUserModel>) {
-                      return Text(
-                          '${value.data!.firstName} ${value.data!.lastName}');
-                    } else if (value is FetchErrorState) {
-                      return Text('Oops something is wrong\n${value.message}');
+                  builder: (context, state, child) {
+                    if (state is FetchSuccessState<GetUserModel>) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(state.data!.avatar),
+                          Text(
+                              '${state.data!.firstName} ${state.data!.lastName}'),
+                        ],
+                      );
+                    } else if (state is FetchErrorState) {
+                      return Text('Oops something is wrong\n${state.message}');
                     } else {
                       return const CircularProgressIndicator();
                     }

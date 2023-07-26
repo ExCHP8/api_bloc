@@ -94,12 +94,9 @@ abstract class FetchController extends BlocController<FetchStates> {
   @override
   Future<void> run({List<Object> args = const []}) async {
     emit(const FetchLoadingState());
-    print(value);
     try {
       await request(args: args);
-      print(value);
     } catch (e) {
-      print(value);
       emit(FetchErrorState(message: '$e'));
     }
   }

@@ -42,7 +42,7 @@ abstract class BlocController<T extends BlocStates> extends ValueNotifier<T> {
   ///
   /// ```dart
   /// @override
-  /// Future<void> run() async {
+  /// Future<void> run({List<Object> args = const []}) async {
   ///     emit(LoadingState());
   ///     try {
   ///       /* do api request here */

@@ -8,7 +8,6 @@ class GetUserController extends FetchController {
         onReceiveProgress: (received, total) {
       emit(FetchLoadingState<double>(data: received / total));
     });
-    print(response.data);
 
     final model = GetUserModel.fromJson(response.data);
     emit(FetchSuccessState<GetUserModel>(data: model));

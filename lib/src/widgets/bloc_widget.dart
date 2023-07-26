@@ -93,7 +93,6 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
   void initState() {
     if (widget.listener != null) {
       widget.controller.addListener(() {
-        if (mounted) setState(() {});
         widget.listener!(context, widget.controller.value);
       });
     }
@@ -102,12 +101,10 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
 
   @override
   Widget build(BuildContext context) {
-    log("BUILD");
     if (widget.builder != null) {
       return ValueListenableBuilder<T>(
           valueListenable: widget.controller,
           builder: (context, value, child) {
-            log("Rebuild");
             return widget.builder!(context, value, child!);
           },
           child: widget.child);
@@ -119,10 +116,7 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
   @override
   void dispose() {
     try {
-      if (widget.controller.autoDispose) {
-        widget.controller.dispose();
-        print("Disposed");
-      }
+      if (widget.controller.autoDispose) widget.controller.dispose();
     } catch (e) {/* do nothing */}
     super.dispose();
   }

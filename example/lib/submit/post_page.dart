@@ -8,11 +8,17 @@ import 'package:flutter/material.dart';
 part 'post_model.dart';
 part 'post_controller.dart';
 
-class PostPage extends StatelessWidget {
+class PostPage extends StatefulWidget {
   const PostPage({super.key});
-  SubmitController get controller => CreateUserController();
-  TextEditingController get name => TextEditingController();
-  TextEditingController get job => TextEditingController();
+
+  @override
+  State<PostPage> createState() => _PostPageState();
+}
+
+class _PostPageState extends State<PostPage> {
+  final controller = CreateUserController();
+  final name = TextEditingController();
+  final job = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +28,8 @@ class PostPage extends StatelessWidget {
           log(state.toString());
           if (state is SubmitSuccessState<CreateUserModel>) {
             snackbar(context,
-                message: "Succesfully creating ${state.data!.name}");
+                message:
+                    "Succesfully creating new user with id #${state.data!.id}");
           } else if (state is SubmitFailedState) {
             snackbar(context,
                 message: "Failed because ${state.message}", color: Colors.grey);
@@ -76,5 +83,13 @@ class PostPage extends StatelessWidget {
                             }
                           })
                     ]))));
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    name.dispose();
+    job.dispose();
+    super.dispose();
   }
 }

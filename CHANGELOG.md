@@ -14,4 +14,3 @@
 * Add list of arguments inside request function
 * Update Sample
 * Update Readme
-* Fix widget won't rebuild
