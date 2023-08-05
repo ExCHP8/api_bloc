@@ -14,7 +14,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.3.0
+  api_bloc: ^1.4.0
 ```
 
 ## Usage
@@ -121,6 +121,35 @@ ApiBloc(
 );
 ```
 Unlike the fetch controller, initial state of submit controller is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
+
+## Using Extension
+Now you can easily customize how your `ApiBloc` handles different state scenarios using these new extensions:
+
+- `onIdle`: Handle `SubmitIdleState` and only work with `SubmitController`.
+- `onLoading`: Handle `FetchLoadingState` and only work with `FetchController` or `SubmitLoadingState` that only work with `SubmitController`.
+- `onSuccess`: Handle `FetchSuccessState` and only work with `FetchController` or `SubmitSuccessState` that only work with `SubmitController`.
+- `onFailed`: Handle `SubmitFailedState` and only work with `SubmitController`.
+- `onError`: Handle `FetchErrorState` and only work with `FetchController` or `SubmitErrorState` that only work with `SubmitController`.
+
+```dart
+ApiBloc(
+  controller: controller)
+  .onIdle(
+    listener: /* your code */
+    builder: /* your code */)
+  .onLoading(
+    listener: /* your code */
+    builder: /* your code */)
+  .onSuccess(
+    listener: /* your code */
+    builder: /* your code */)
+  .onFailed(
+    listener: /* your code */
+    builder: /* your code */)
+  .onError(
+    listener: /* your code */
+    builder: /* your code */)
+```
 
 ## Example
 

@@ -24,7 +24,7 @@ class _PostPageState extends State<PostPage> {
   Widget build(BuildContext context) {
     return ApiBloc.listener(
         controller: controller,
-        listener: (context, state) {
+        listener: (context, SubmitStates state) {
           log(state.toString());
           if (state is SubmitSuccessState<CreateUserModel>) {
             snackbar(context,
@@ -53,11 +53,11 @@ class _PostPageState extends State<PostPage> {
                                 decoration: InputDecoration(
                                     labelText: ["Name", "Job"][x],
                                     border: const OutlineInputBorder()))),
-                      ApiBloc.builder(
+                      ApiBloc(
                           controller: controller,
                           child: InkWell(
-                              onTap: () async => await controller
-                                  .run(args: [name.text, job.text]),
+                              onTap: () =>
+                                  controller.run(args: [name.text, job.text]),
                               child: Container(
                                   color: Colors.blue,
                                   padding: const EdgeInsets.all(10.0),
@@ -78,9 +78,8 @@ class _PostPageState extends State<PostPage> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(color: Colors.white),
                                       )));
-                            } else {
-                              return child;
                             }
+                            return child;
                           })
                     ]))));
   }

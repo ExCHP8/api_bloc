@@ -14,3 +14,6 @@
 * Add list of arguments inside request function
 * Update Sample
 * Update Readme
+
+## 1.4.0
+* Add Extension copyWith, onIdle, onLoading, onSuccess, onFailed, onError
