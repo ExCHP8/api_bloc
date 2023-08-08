@@ -132,23 +132,30 @@ Now you can easily customize how your `ApiBloc` handles different state scenario
 - `onError`: Handle `FetchErrorState` and only work with `FetchController` or `SubmitErrorState` that only work with `SubmitController`.
 
 ```dart
+import 'package:api_bloc/api_bloc.dart';
+
+final controller = CreateUserController();
+
 ApiBloc(
-  controller: controller)
-  .onIdle(
-    listener: /* your code */
-    builder: /* your code */)
-  .onLoading(
-    listener: /* your code */
-    builder: /* your code */)
-  .onSuccess(
-    listener: /* your code */
-    builder: /* your code */)
-  .onFailed(
-    listener: /* your code */
-    builder: /* your code */)
-  .onError(
-    listener: /* your code */
-    builder: /* your code */)
+  controller: controller,
+  child: TextButton(text: "Create", onPressed: () => controller.run()),
+)
+.onLoading(
+  builder: (context, state, child) {
+    return TextButton(text: "Loading ...");
+  })
+.onFailed(
+  listener: (context, state, child) {
+    snackbar(context, message: "Failed because ${state.message}", color: Colors.grey);
+  })
+.onSuccess<CreateUserModel>(
+  listener: (context, state, child) {
+    snackbar(context, message: "Succesfully creating new user with id #${state.data!.id}");
+  })
+.onError(
+  listener: (context, state, child) {
+    snackbar(context, message: state.message, color: Colors.red);
+  });
 ```
 
 ## Example
