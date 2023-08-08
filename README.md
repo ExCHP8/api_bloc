@@ -138,8 +138,7 @@ final controller = CreateUserController();
 
 ApiBloc(
   controller: controller,
-  child: TextButton(text: "Create", onPressed: () => controller.run()),
-)
+  child: TextButton(text: "Create", onPressed: () => controller.run()))
 .onLoading(
   builder: (context, state, child) {
     return TextButton(text: "Loading ...");
