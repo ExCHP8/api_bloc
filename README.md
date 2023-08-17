@@ -14,7 +14,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.4.0
+  api_bloc: ^1.5.0
 ```
 
 ## Usage
@@ -154,7 +154,15 @@ ApiBloc(
 .onError(
   listener: (context, state, child) {
     snackbar(context, message: state.message, color: Colors.red);
-  });
+  })
+.onState<BlocStates<Object>>(
+  listener; (context, state) {
+    snackbar(context, message: "You're in this custom state of ${state.runtimeType}");
+  },
+  builder: (context, state, child) {
+    return Text("You're in this custom state of ${state.runtimeType}");
+  }
+);
 ```
 
 ## Example

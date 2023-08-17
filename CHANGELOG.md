@@ -17,3 +17,6 @@
 
 ## 1.4.0
 * Add Extension copyWith, onIdle, onLoading, onSuccess, onFailed, onError
+
+## 1.5.0
+* Add extension of custom state `onState`
