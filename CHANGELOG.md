@@ -20,3 +20,6 @@
 
 ## 1.5.0
 * Add extension of custom state `onState`
+
+## 1.6.0
+* Dart format

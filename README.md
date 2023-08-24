@@ -14,7 +14,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.5.0
+  api_bloc: ^1.6.0
 ```
 
 ## Usage
