@@ -77,7 +77,7 @@ abstract class SubmitController extends BlocController<SubmitStates> {
   ///   }
   /// }
   /// ```
-  Future<void> request({List<Object> args = const []});
+  Future<void> request({required Map<String, dynamic> args});
 
   /// now, when we emitting the [SubmitStates] don't forget to define the object
   /// type to emphasize the data that we're going to use in [ApiBloc].
@@ -101,7 +101,7 @@ abstract class SubmitController extends BlocController<SubmitStates> {
   void emit(SubmitStates<Object?> value) => super.emit(value);
 
   @override
-  Future<void> run({List<Object> args = const []}) async {
+  Future<void> run([Map<String, dynamic> args = const {}]) async {
     emit(const SubmitLoadingState());
     try {
       await request(args: args);

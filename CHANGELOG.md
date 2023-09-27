@@ -23,3 +23,7 @@
 
 ## 1.6.0
 * Dart format
+
+## 1.7.0
+* Add API Bloc CLI
+* Change list of argument into map

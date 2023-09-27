@@ -56,8 +56,10 @@ class _PostPageState extends State<PostPage> {
                       ApiBloc(
                           controller: controller,
                           child: InkWell(
-                              onTap: () =>
-                                  controller.run(args: [name.text, job.text]),
+                              onTap: () => controller.run({
+                                    'name': name.text,
+                                    'job': job.text,
+                                  }),
                               child: Container(
                                   color: Colors.blue,
                                   padding: const EdgeInsets.all(10.0),

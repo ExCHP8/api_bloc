@@ -2,7 +2,7 @@ part of 'get_page.dart';
 
 class GetUserController extends FetchController {
   @override
-  Future<void> request({List<Object> args = const []}) async {
+  Future<void> request({required Map<String, dynamic> args}) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().get('https://reqres.in/api/users/2',
         onReceiveProgress: (received, total) {

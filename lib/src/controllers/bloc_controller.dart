@@ -52,7 +52,7 @@ abstract class BlocController<T extends BlocStates> extends ValueNotifier<T> {
   ///   }
   /// }
   /// ```
-  Future<void> run({List<Object> args = const []});
+  Future<void> run();
 
   /// Whether the controller that we created and associated to certain route
   /// should be automatically dispose or not. By default it's `true`.

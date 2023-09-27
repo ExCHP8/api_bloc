@@ -5,7 +5,7 @@ class CreateUserController extends SubmitController {
   bool get autoDispose => false;
 
   @override
-  Future<void> request({List<Object> args = const []}) async {
+  Future<void> request({required Map<String, dynamic> args}) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().post('https://reqres.in/api/users/2',
         data: FormData.fromMap({"name": args[0], "job": args[1]}));
