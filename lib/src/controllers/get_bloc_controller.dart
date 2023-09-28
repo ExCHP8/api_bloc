@@ -4,18 +4,18 @@ part of 'package:api_bloc/api_bloc.dart';
 /// fetching api request.
 ///
 /// ```dart
-/// class GetUserController extends FetchController {
+/// class GetUserController extends GetController {
 ///
 ///   @override
 ///   Future<void> request() async {
 ///     Response response = await Response.get('https://base.url/api/user',
 ///       onProgress: (double progress) {
-///         emit(FetchLoadingState<double>(data: progress));
+///         emit(GetLoadingState<double>(data: progress));
 ///         }
 ///       );
 ///
 ///     UserModel model = UserModel.fromJson(response.data);
-///     emit(FetchSuccessState<UserModel>(data: model));
+///     emit(GetSuccessState<UserModel>(data: model));
 ///   }
 ///
 ///   @override
@@ -23,19 +23,19 @@ part of 'package:api_bloc/api_bloc.dart';
 /// }
 /// ```
 ///
-/// now, when we emitting the [FetchStates] don't forget to define the object
+/// now, when we emitting the [GetStates] don't forget to define the object
 /// type to emphasize the data that we're going to use in [ApiBloc].
 /// ```dart
 /// // in controller
 /// Future<void> request() async {
-///   emit(FetchSuccessState<UserModel>(data: model));
+///   emit(GetSuccessState<UserModel>(data: model));
 /// }
 ///
 /// // in blocbuilder
 /// ApiBloc.builder(
 ///   controller: controller,
 ///   builder: (context, state, child) {
-///     if (state is FetchSuccessState<UserModel>){
+///     if (state is GetSuccessState<UserModel>){
 ///       return Text(state.data!.userName);
 ///     } else {
 ///       return const CircularProgressIndicator();
@@ -43,11 +43,11 @@ part of 'package:api_bloc/api_bloc.dart';
 ///   }
 /// )
 /// ```
-abstract class FetchController extends BlocController<FetchStates> {
+abstract class GetController extends BlocController<GetStates> {
   /// This is constructor of fetching api request with its initial value
-  /// is [FetchLoadingState] and also automatically calling [run] on init.
-  FetchController({Map<String, dynamic> args = const {}})
-      : super(value: const FetchLoadingState()) {
+  /// is [GetLoadingState] and also automatically calling [run] on init.
+  GetController({Map<String, dynamic> args = const {}})
+      : super(value: const GetLoadingState()) {
     run(args);
   }
 
@@ -58,29 +58,29 @@ abstract class FetchController extends BlocController<FetchStates> {
   /// Future<void> request() async {
   ///   Response response = await Response.get('https://base.url/api/user',
   ///     onProgress: (double progress) {
-  ///       emit(FetchLoadingState<double>(data: progress));
+  ///       emit(GetLoadingState<double>(data: progress));
   ///       }
   ///     );
   ///
   ///   UserModel model = UserModel.fromJson(response.data);
-  ///   emit(FetchSuccessState<UserModel>(data: model));
+  ///   emit(GetSuccessState<UserModel>(data: model));
   /// }
   /// ```
   Future<void> request({required Map<String, dynamic> args});
 
-  /// now, when we emitting the [FetchStates] don't forget to define the object
+  /// now, when we emitting the [GetStates] don't forget to define the object
   /// type to emphasize the data that we're going to use in [ApiBloc].
   /// ```dart
   /// // in controller
   /// Future<void> request() async {
-  ///   emit(FetchSuccessState<UserModel>(data: model));
+  ///   emit(GetSuccessState<UserModel>(data: model));
   /// }
   ///
   /// // in blocbuilder
   /// ApiBloc(
   ///   controller: controller,
   ///   builder: (context, state, child) {
-  ///     if (state is FetchSuccessState<UserModel>){
+  ///     if (state is GetSuccessState<UserModel>){
   ///       return Text(state.data!.userName);
   ///     } else {
   ///       return const CircularProgressIndicator();
@@ -89,15 +89,15 @@ abstract class FetchController extends BlocController<FetchStates> {
   /// )
   /// ```
   @override
-  void emit(FetchStates<Object?> value) => super.emit(value);
+  void emit(GetStates<Object?> value) => super.emit(value);
 
   @override
   Future<void> run([Map<String, dynamic> args = const {}]) async {
-    emit(const FetchLoadingState());
+    emit(const GetLoadingState());
     try {
       await request(args: args);
     } catch (e) {
-      emit(FetchErrorState(message: '$e'));
+      emit(GetErrorState(message: '$e'));
     }
   }
 

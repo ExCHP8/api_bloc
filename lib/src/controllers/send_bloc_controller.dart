@@ -4,7 +4,7 @@ part of 'package:api_bloc/api_bloc.dart';
 /// submitting api request.
 ///
 /// ```dart
-/// class UpdateUserController extends SubmitController {
+/// class UpdateUserController extends SendController {
 ///
 ///   @override
 ///   Future<void> request() async {
@@ -12,15 +12,15 @@ part of 'package:api_bloc/api_bloc.dart';
 ///     Response response = await Response.put('https://base.url/api/user',
 ///       formdata: Formdata.fromJson(user),
 ///       onProgress: (double progress) {
-///         emit(SubmitLoadingState<double>(data: progress));
+///         emit(SendLoadingState<double>(data: progress));
 ///         }
 ///       );
 ///
 ///     StatusModel model = StatusModel.fromJson(response.data);
 ///     if (model.status == Status.success){
-///       emit(SubmitSuccessState<StatusModel>(message: model.message));
+///       emit(SendSuccessState<StatusModel>(message: model.message));
 ///     } else {
-///       emit(SubmitFailedState<StatusModel>(message: model.message));
+///       emit(SendFailedState<StatusModel>(message: model.message));
 ///     }
 ///   }
 ///
@@ -29,34 +29,34 @@ part of 'package:api_bloc/api_bloc.dart';
 /// }
 /// ```
 ///
-/// now, when we emitting the [SubmitStates] don't forget to define the object
+/// now, when we emitting the [SendStates] don't forget to define the object
 /// type to emphasize the data that we're going to use in [ApiBloc].
 /// ```dart
 /// // in controller
 /// Future<void> request() async {
-///   emit(SubmitSuccessState<StatusModel>(message: model.message));
+///   emit(SendSuccessState<StatusModel>(message: model.message));
 /// }
 ///
 /// // in blocbuilder
 /// ApiBloc(
 ///   controller: controller,
 ///   listener: (context, state) {
-///     if (state is SubmitSuccessState<StatusModel>){
+///     if (state is SendSuccessState<StatusModel>){
 ///       Snackbar(message: state.message);
 ///     }
 ///   }
 /// )
 /// ```
-abstract class SubmitController extends BlocController<SubmitStates> {
+abstract class SendController extends BlocController<SendStates> {
   /// This is constructor of fetching api request with its initial value
-  /// is [SubmitIdleState] and different compare to [FetchController]
+  /// is [SendIdleState] and different compare to [FetchController]
   /// it's not calling [run] on init.
-  SubmitController() : super(value: const SubmitIdleState());
+  SendController() : super(value: const SendIdleState());
 
   /// A neccessary function to override when we extends this controller.
   ///
   /// ```dart
-  /// class UpdateUserController extends SubmitController {
+  /// class UpdateUserController extends SendController {
   ///
   ///   @override
   ///   Future<void> request() async {
@@ -64,49 +64,49 @@ abstract class SubmitController extends BlocController<SubmitStates> {
   ///     Response response = await Response.put('https://base.url/api/user',
   ///       formdata: Formdata.fromJson(user),
   ///       onProgress: (double progress) {
-  ///         emit(SubmitLoadingState<double>(data: progress));
+  ///         emit(SendLoadingState<double>(data: progress));
   ///         }
   ///       );
   ///
   ///     StatusModel model = StatusModel.fromJson(response.data);
   ///     if (model.status == Status.success){
-  ///       emit(SubmitSuccessState<StatusModel>(message: model.message));
+  ///       emit(SendSuccessState<StatusModel>(message: model.message));
   ///     } else {
-  ///       emit(SubmitFailedState<StatusModel>(message: model.message));
+  ///       emit(SendFailedState<StatusModel>(message: model.message));
   ///     }
   ///   }
   /// }
   /// ```
   Future<void> request({required Map<String, dynamic> args});
 
-  /// now, when we emitting the [SubmitStates] don't forget to define the object
+  /// now, when we emitting the [SendStates] don't forget to define the object
   /// type to emphasize the data that we're going to use in [ApiBloc].
   /// ```dart
   /// // in controller
   /// Future<void> request() async {
-  ///   emit(SubmitSuccessState<StatusModel>(message: model.message));
+  ///   emit(SendSuccessState<StatusModel>(message: model.message));
   /// }
   ///
   /// // in bloclistener
   /// ApiBloc.listener(
   ///   controller: controller,
   ///   listener: (context, state) {
-  ///     if (state is SubmitSuccessState<StatusModel>){
+  ///     if (state is SendSuccessState<StatusModel>){
   ///       Snackbar(message: state.message);
   ///     }
   ///   }
   /// )
   /// ```
   @override
-  void emit(SubmitStates<Object?> value) => super.emit(value);
+  void emit(SendStates<Object?> value) => super.emit(value);
 
   @override
   Future<void> run([Map<String, dynamic> args = const {}]) async {
-    emit(const SubmitLoadingState());
+    emit(const SendLoadingState());
     try {
       await request(args: args);
     } catch (e) {
-      emit(SubmitErrorState(message: '$e'));
+      emit(SendErrorState(message: '$e'));
     }
   }
 

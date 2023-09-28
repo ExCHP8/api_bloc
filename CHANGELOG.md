@@ -27,3 +27,5 @@
 ## 1.7.0
 * Add API Bloc CLI
 * Change list of argument into map
+* Change submit to send
+* Change fetch to get

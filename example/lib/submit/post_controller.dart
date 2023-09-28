@@ -1,6 +1,6 @@
 part of 'post_page.dart';
 
-class CreateUserController extends SubmitController {
+class CreateUserController extends SendController {
   @override
   bool get autoDispose => false;
 
@@ -12,9 +12,9 @@ class CreateUserController extends SubmitController {
 
     if (response.statusCode == 201) {
       final model = CreateUserModel.fromJson(response.data);
-      emit(SubmitSuccessState<CreateUserModel>(data: model));
+      emit(SendSuccessState<CreateUserModel>(data: model));
     } else {
-      emit(SubmitFailedState<Map<String, dynamic>>(
+      emit(SendFailedState<Map<String, dynamic>>(
           data: response.data,
           message: "Expected response code output is 201"));
     }
