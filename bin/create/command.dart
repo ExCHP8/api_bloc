@@ -1,51 +1,37 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, avoid_print
 
 part of '../api_bloc.dart';
 
-Future<void> create(ArgResults from) async {
-  final buffer = StringBuffer()
-    ..write('\n[...] Succesfully generating bloc structure 🚀 [...]\n\n')
-    ..write('\x1B[33m');
-  final output_path = from['output']!.toString();
-  Directory output = Directory(
-    output_path.endsWith('/') ? output_path : '$output_path/',
-  );
+class ApiBloc {
+  static void create(ArgResults data) {
+    List<String> result = [];
+    String output = data['output']!.toString();
+    String name = data['create']!.toString();
+    StringBuffer buffer = StringBuffer()
+      ..write('\n[...] Succesfully generating bloc structure 🚀 [...]\n\n')
+      ..write('\x1B[32m');
 
-  // Create module directory
-  final module_path = from['create'].toString();
-  Directory module = Directory(
-    output.path + (module_path.endsWith('/') ? module_path : '$module_path/'),
-  )..createSync(recursive: true);
-  File file = File('${module.path}$module_path.dart')
-    ..writeAsStringSync('')
-    ..createSync();
-  buffer
-    ..write('📂 ${module.path}\n')
-    ..write('📄 ${file.path}\n');
-
-  // Create controller items
-  Directory controller = Directory('${module.path}controllers')
-    ..createSync(recursive: true);
-  buffer.write('📂 ${controller.path}\n');
-
-  final controller_files = from['get'];
-  for (var path in controller_files) {
-    File controller_path = File(
-        '${(controller.path.endsWith('/') ? controller.path : '${controller.path}/') + path}.dart')
+    // [1] Create module directory
+    Directory directory = Directory(output.directoryPath + name.directoryPath)
       ..createSync(recursive: true);
-    buffer.write('   📄 ${controller_path.path}\n');
+    Directory('${directory.path}pages').createSync();
+
+    // [2] Create controller items
+    result.addAll(
+        Controller.create(from: data, buffer, root: directory, module: name));
+
+    // [3] Create model items
+    result.addAll(
+        Model.create(from: data, buffer, root: directory, module: name));
+
+    // [4] Create widget items
+    result.addAll(
+        Widget.create(from: data, buffer, root: directory, module: name));
+
+    // [5] Create page items
+    Page.create(result, buffer, root: directory, module: name, from: data);
+
+    // Send message
+    print(buffer);
   }
-
-  // Create model items
-  Directory models = Directory('${module.path}models')
-    ..createSync(recursive: true);
-  buffer.write('📂 ${models.path}\n');
-
-  // Create widget items
-  Directory widgets = Directory('${module.path}widgets')
-    ..createSync(recursive: true);
-  buffer.write('📂 ${widgets.path}\n');
-
-  buffer.write('\x1B[0m');
-  print(buffer);
 }

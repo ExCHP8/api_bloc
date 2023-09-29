@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_print
-
 import 'dart:io';
-
 import 'package:args/args.dart';
 
+part 'misc/extension.dart';
 part 'create/command.dart';
 part 'create/controller.dart';
+part 'create/model.dart';
+part 'create/widget.dart';
+part 'create/page.dart';
 
 Future<void> main(List<String> arguments) async {
   ArgParser creator = ArgParser()
@@ -27,7 +29,7 @@ Future<void> main(List<String> arguments) async {
     if (argument["help"]) {
       throw '\x1B[0mAvailable commands:';
     } else {
-      await create(argument);
+      ApiBloc.create(argument);
     }
   } catch (e) {
     print('\n\x1B[31m$e\x1B[0m\n\n${creator.usage}');
