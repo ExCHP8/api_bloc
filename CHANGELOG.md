@@ -29,3 +29,4 @@
 * Change list of argument into map
 * Change submit to send
 * Change fetch to get
+* Update documentation

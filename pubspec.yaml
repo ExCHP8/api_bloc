@@ -1,12 +1,13 @@
 name: api_bloc
-description: A Flutter library for managing API calls using the BLoC pattern.
-  This library provides a set of classes and utilities to simplify API calls and
-  manage state changes.
+description: Significantly reducing boilerplate code of BLoC pattern to efficiently handle API interactions.
 version: 1.7.0
 homepage: https://github.com/Nialixus/api_bloc.git
 repository: https://github.com/Nialixus/api_bloc.git
 issue_tracker: https://github.com/Nialixus/api_bloc/issues
 funding: https://www.buymeacoffee.com/nialixus
+screenshots:
+  - description: 'API Bloc Logo'
+    url: https://user-images.githubusercontent.com/45191605/271759061-4a6cd99b-a745-4c9d-8989-1dcf6566aae2.png
 topics:
   - bloc
   - api

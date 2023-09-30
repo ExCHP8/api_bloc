@@ -1,7 +1,6 @@
 part of '../example.dart';
 
 class GetExampleDetailController extends GetController {
-
   @override
   Future<void> request({required Map<String, dynamic> args}) async {
     // Delay to make the loading state more noticable.
@@ -13,4 +12,3 @@ class GetExampleDetailController extends GetController {
   @override
   bool get autoDispose => false;
 }
-
