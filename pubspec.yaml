@@ -4,7 +4,8 @@ version: 1.7.0
 homepage: https://github.com/Nialixus/api_bloc.git
 repository: https://github.com/Nialixus/api_bloc.git
 issue_tracker: https://github.com/Nialixus/api_bloc/issues
-funding: https://www.buymeacoffee.com/nialixus
+funding: 
+  - https://www.buymeacoffee.com/nialixus
 screenshots:
   - description: 'API Bloc Logo'
     url: https://user-images.githubusercontent.com/45191605/271759061-4a6cd99b-a745-4c9d-8989-1dcf6566aae2.png
