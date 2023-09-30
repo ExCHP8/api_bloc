@@ -1,3 +1,7 @@
+<p align="center">
+  <img src='https://user-images.githubusercontent.com/45191605/271758692-6528e25f-c4d4-43b1-8f7c-cde583976248.png' width=200 height=200/>
+</p>
+
 # Api BLoC
 <a href='https://pub.dev/packages/api_bloc'><img src='https://img.shields.io/pub/v/api_bloc.svg?logo=flutter&color=blue&style=flat-square'/></a>
 
@@ -8,6 +12,7 @@ A Flutter library for managing API calls using the BLoC pattern. This library pr
 - Generic classes for handling various API states such as loading, success, and error.
 - Customizable builder and listener functions to respond to state changes.
 - Automatic disposal of the controller to prevent memory leaks.
+- Generate api bloc pattern on command.
 
 ## Getting Started
 To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
@@ -17,24 +22,61 @@ dependencies:
   api_bloc: ^1.7.0
 ```
 
+and to use `api_bloc_cli` run this command in terminal.
+```bash
+dart pub global activate api_bloc
+```
+
 ## Usage
-- Create a subclass of [BlocController] with [BlocStates].
-  This library already provide you with FetchStates [`loading`, `success`, `error`] and SubmitStates [`idle`, `loading`, `success`, `failed`, `error`],
-  But you can create custom state by extending [BlocStates].
+<p align="center">
+  <img src='https://github-production-user-asset-6210df.s3.amazonaws.com/45191605/271756762-28d5f336-da89-4c0f-99a9-9b14a7be6304.png'/>
+</p>
+
+## Generating Api Bloc Structure (Optional)
+To make things faster on, let's say making `GET` detail and `GET` list also `PUT` update, `POST` create and `DELETE` using this library, we just need to run this command in terminal.
+```bash
+dart run api_bloc --output lib/src --create user --get detail,list --send update,create,delete
+```
+
+It will generating this structure in your project
+```
+lib/src/user/
+   - user.dart
+   - pages/
+   - controllers/
+     - get_user_detail_controller.dart
+     - get_user_list_controller.dart
+     - send_user_update_controller.dart
+     - send_user_create_controller.dart
+     - send_user_delete_controller.dart
+   - models/
+     - get_user_detail_model.dart
+     - get_user_list_model.dart
+     - send_user_update_model.dart
+     - send_user_create_model.dart
+     - send_user_delete_model.dart
+   - widgets/
+     - get_user_detail_widget.dart
+     - get_user_list_widget.dart
+     - send_user_update_widget.dart
+     - send_user_create_widget.dart
+     - send_user_delete_widget.dart
+```
+Now the things that left to do is writing the content of the controllers, widgets and models.
 
 ### Fetching Scenario
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class GetUserController extends FetchController {
+class GetUserController extends GetController {
   @override
-  Future<void> request({List<Object> args = const []}) async {
+  Future<void> request({required Map<String, dynamic> args}) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().get('https://reqres.in/api/users/2');
 
     final model = GetUserModel.fromJson(response.data);
-    emit(FetchSuccessState<GetUserModel>(data: model));
+    emit(GetSuccessState<GetUserModel>(data: model));
   }
 }
 ```
@@ -49,9 +91,9 @@ final controller = GetUserController();
 ApiBloc.builder(
   controller: controller,
   builder: (context, state, child) {
-    if (state is FetchSuccessState<UserModel>) {
+    if (state is GetSuccessState<UserModel>) {
       return Text('Username: ${state.data!.username}');
-    } else if (state is FetchErrorState){
+    } else if (state is GetErrorState){
       return Text('Error occurred: ${state.message}');
     } else {
       return CircularProgressIndicator();
@@ -59,33 +101,33 @@ ApiBloc.builder(
   },
 );
 ```
-When the first time it initiate the controller, on fetching controller it's auto running the request function. But if you want to re run it, you can do it by calling
+When the first time it initiate the controller, on GetController it's auto running the request function. But if you want to re run it, you can do it by calling
 
 ```dart
 controller.run();
 ```
 
-### Submitting Scenario
+### Sending Scenario
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class CreateUserController extends SubmitController {
+class CreateUserController extends SendController {
   @override
   // We're going to dispose it manually if we set it as false.
   bool get autoDispose => false;
 
   @override
-  Future<void> request({List<Object> args = const []}) async {
+  Future<void> request({required Map<String, dynamic> args}) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().post('https://reqres.in/api/users/2',
-        data: FormData.fromMap({"name": args[0], "job": args[1]}));
+        data: FormData.fromMap({"name": args['name'], "job": args['job']}));
 
     if (response.statusCode == 201) {
       final model = CreateUserModel.fromJson(response.data);
-      emit(SubmitSuccessState<CreateUserModel>(data: model));
+      emit(SendSuccessState<CreateUserModel>(data: model));
     } else {
-      emit(SubmitFailedState<Map<String, dynamic>>(
+      emit(SendFailedState<Map<String, dynamic>>(
           data: response.data,
           message: "Expected response code output is 201"));
     }
@@ -103,16 +145,16 @@ final controller = CreateUserController();
 ApiBloc(
   controller: controller,
   listener: (context, state) {
-    if (state is SubmitSuccessState<CreateUserModel>) {
+    if (state is SendSuccessState<CreateUserModel>) {
       snackbar(context, message: "Succesfully creating new user with id #${state.data!.id}");
-    } else if (state is SubmitFailedState) {
+    } else if (state is SendFailedState) {
       snackbar(context, message: "Failed because ${state.message}", color: Colors.grey);
-    } else if (state is SubmitErrorState) {
+    } else if (state is SendErrorState) {
       snackbar(context, message: state.message, color: Colors.red);
     }
   },
   builder: (context, state, child) {
-    if (state is SubmitLoadingState) {
+    if (state is SendLoadingState) {
       return TextButton(text: "Loading ...");
     }  else {
       return TextButton(text: "Create", onPressed: () => controller.run());
@@ -120,16 +162,16 @@ ApiBloc(
   },
 );
 ```
-Unlike the fetch controller, initial state of submit controller is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
+Unlike the GetController, initial state of SendController is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
 
 ## Using Extension
 Now you can easily customize how your `ApiBloc` handles different state scenarios using these new extensions:
 
-- `onIdle`: Handle `SubmitIdleState` and only work with `SubmitController`.
-- `onLoading`: Handle `FetchLoadingState` and only work with `FetchController` or `SubmitLoadingState` that only work with `SubmitController`.
-- `onSuccess`: Handle `FetchSuccessState` and only work with `FetchController` or `SubmitSuccessState` that only work with `SubmitController`.
-- `onFailed`: Handle `SubmitFailedState` and only work with `SubmitController`.
-- `onError`: Handle `FetchErrorState` and only work with `FetchController` or `SubmitErrorState` that only work with `SubmitController`.
+- `onIdle`: Handle `SendIdleState` and only work with `SendController`.
+- `onLoading`: Handle `GetLoadingState` and only work with `GetController` or `SendLoadingState` that only work with `SendController`.
+- `onSuccess`: Handle `GetSuccessState` and only work with `GetController` or `SendSuccessState` that only work with `SendController`.
+- `onFailed`: Handle `SendFailedState` and only work with `SendController`.
+- `onError`: Handle `GetErrorState` and only work with `GetController` or `SendErrorState` that only work with `SendController`.
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
