@@ -27,11 +27,6 @@ and to use `api_bloc_cli` run this command in terminal.
 dart pub global activate api_bloc
 ```
 
-## Usage
-<p align="center">
-  <img src='https://github-production-user-asset-6210df.s3.amazonaws.com/45191605/271756762-28d5f336-da89-4c0f-99a9-9b14a7be6304.png'/>
-</p>
-
 ## Generating Api Bloc Structure (Optional)
 To make things faster on, let's say making `GET` detail and `GET` list also `PUT` update, `POST` create and `DELETE` using this library, we just need to run this command in terminal.
 ```bash
@@ -64,7 +59,7 @@ lib/src/user/
 ```
 Now the things that left to do is writing the content of the controllers, widgets and models.
 
-### Fetching Scenario
+## Fetching Scenario
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
@@ -107,7 +102,7 @@ When the first time it initiate the controller, on GetController it's auto runni
 controller.run();
 ```
 
-### Sending Scenario
+## Sending Scenario
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
