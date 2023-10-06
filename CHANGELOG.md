@@ -30,3 +30,6 @@
 * Change submit to send
 * Change fetch to get
 * Update documentation
+
+## 1.8.0
+* Update module.dart generator

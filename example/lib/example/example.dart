@@ -1,16 +1,16 @@
 // Auto-Generated API Bloc structure
-// Created at 2023-09-29 19:42:46.175385
+// Created at 2023-10-06 11:56:20.682300
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
 
 import 'package:api_bloc/api_bloc.dart';
 import 'package:flutter/material.dart';
-
+part 'widgets/send_example_update_widget.dart';
+part 'models/send_example_update_model.dart';
+part 'controllers/send_example_update_controller.dart';
 part 'controllers/get_example_detail_controller.dart';
 part 'models/get_example_detail_model.dart';
 part 'widgets/get_example_detail_widget.dart';
 
-// // This is just a sample, copy and paste it in different file to use it.
-// // DO NOT EDIT IN HERE !!!
 // class Example extends StatefulWidget {
 //  const Example({super.key});
 //
@@ -20,6 +20,7 @@ part 'widgets/get_example_detail_widget.dart';
 //
 // class _Example extends State<Example> {
 // final _exampleDetailGetter = GetExampleDetailController();
+// final _exampleUpdateSender = SendExampleUpdateController();
 //
 // @override
 // Widget build(BuildContext context) {
@@ -28,7 +29,8 @@ part 'widgets/get_example_detail_widget.dart';
 
 // @override
 // void dispose() {
-//		_exampleDetailGetter.dispose();//
+//		_exampleDetailGetter.dispose();
+//		_exampleUpdateSender.dispose();//
 //     super.dispose();
 //   }
 // }

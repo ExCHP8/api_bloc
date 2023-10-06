@@ -29,7 +29,7 @@ class ApiBloc {
         Widget.create(from: data, buffer, root: directory, module: name));
 
     // [5] Create page items
-    Page.create(result, buffer, root: directory, module: name, from: data);
+    Page.add(buffer, root: directory, module: name, from: data);
 
     // Send message
     print(buffer);

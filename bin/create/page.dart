@@ -1,7 +1,7 @@
 part of '../api_bloc.dart';
 
 class Page {
-  static void create(List<String> list, StringBuffer buffer,
+  static void add(StringBuffer buffer,
       {required ArgResults from,
       required Directory root,
       required String module}) {
@@ -9,35 +9,75 @@ class Page {
     bool existed = file.existsSync();
     List<String> getlist = from['get'];
     List<String> sendlist = from['send'];
-    List<String> read = existed
-        ? file
-            .readAsLinesSync()
-            .where((element) => element.contains(RegExp(r'part.*?;')))
-            .toList()
-        : [];
-    file
-      ..writeAsStringSync(writeAsStringSync(
-          read: read,
+    if (existed) {
+      file
+        ..writeAsStringSync(Page.update(
+          file.readAsLinesSync(),
           getlist: getlist,
           sendlist: sendlist,
-          list: list.map((e) => e.replaceAll(root.path, '')).toList(),
-          module: module))
-      ..createSync(recursive: true);
+          module: module,
+        ))
+        ..createSync(recursive: true);
+    } else {
+      file
+        ..writeAsStringSync(Page.create(
+          getlist: getlist,
+          sendlist: sendlist,
+          module: module,
+        ))
+        ..createSync(recursive: true);
+    }
+
     buffer
       ..write('📂 ${root.path}\n')
       ..write('📄 ${file.path} ${existed ? '\x1B[34m[RENEWED]' : ''}');
   }
 
-  static String writeAsStringSync({
+  static String update(
+    List<String> input, {
     required String module,
-    required List<String> read,
-    required List<String> list,
     required List<String> getlist,
     required List<String> sendlist,
   }) {
-    List<String> newlist = list
-        .map((e) => e.replaceAll(RegExp(r"""(part\s?('|"))|(('|");)"""), ""))
-        .toList();
+    int import = input.lastIndexWhere((e) {
+      String result = e.trim();
+      return result.startsWith('import') && result.endsWith(';');
+    });
+    int part = input.lastIndexWhere((e) {
+      String result = e.trim();
+      return result.startsWith('part') && result.endsWith(';');
+    });
+    int index = import == -1
+        ? part == 1
+            ? 0
+            : part + 1
+        : import + 1;
+    for (var item in getlist) {
+      String controller =
+          "part 'controllers/get_${module}_${item}_controller.dart';";
+      String model = "part 'models/get_${module}_${item}_model.dart';";
+      String widget = "part 'widgets/get_${module}_${item}_widget.dart';";
+      if (!input.contains(controller)) input.insert(index, controller);
+      if (!input.contains(model)) input.insert(index, model);
+      if (!input.contains(widget)) input.insert(index, widget);
+    }
+    for (var item in sendlist) {
+      String controller =
+          "part 'controllers/send_${module}_${item}_controller.dart';";
+      String model = "part 'models/send_${module}_${item}_model.dart';";
+      String widget = "part 'widgets/send_${module}_${item}_widget.dart';";
+      if (!input.contains(controller)) input.insert(index, controller);
+      if (!input.contains(model)) input.insert(index, model);
+      if (!input.contains(widget)) input.insert(index, widget);
+    }
+    return input.join('\n');
+  }
+
+  static String create({
+    required String module,
+    required List<String> getlist,
+    required List<String> sendlist,
+  }) {
     StringBuffer buffer = StringBuffer();
     buffer.write('''
 // Auto-Generated API Bloc structure
@@ -49,20 +89,22 @@ import 'package:flutter/material.dart';
 
 ''');
 
-    for (var item in list) {
-      buffer.writeln("part '$item';");
+    for (var item in getlist) {
+      buffer
+        ..writeln("part 'controllers/get_${module}_${item}_controller.dart';")
+        ..writeln("part 'models/get_${module}_${item}_model.dart';")
+        ..writeln("part 'widgets/get_${module}_${item}_widget.dart';");
     }
-    for (var item in read) {
-      if (!newlist.contains(
-          item.replaceAll(RegExp(r"""(part\s?('|"))|(('|");)"""), ""))) {
-        buffer.writeln(item);
-      }
+
+    for (var item in sendlist) {
+      buffer
+        ..writeln("part 'controllers/send_${module}_${item}_controller.dart';")
+        ..writeln("part 'models/send_${module}_${item}_model.dart';")
+        ..writeln("part 'widgets/send_${module}_${item}_widget.dart';");
     }
 
     buffer.write('''
 
-// // This is just a sample, copy and paste it in different file to use it.
-// // DO NOT EDIT IN HERE !!!
 // class ${module.capitalize} extends StatefulWidget {
 //  const ${module.capitalize}({super.key});
 //
