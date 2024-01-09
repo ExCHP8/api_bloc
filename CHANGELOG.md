@@ -33,3 +33,7 @@
 
 ## 1.8.0
 * Update module.dart generator
+
+## 1.9.0
+* Add toJSON and fromJSON to each of class
+* update Future request format

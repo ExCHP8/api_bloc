@@ -15,7 +15,20 @@ enum SendStateType {
   failed,
 
   /// Represents the error state when an error occurs during request submission.
-  error
+  error;
+
+  /// Decode json to [SendStateType].
+  static SendStateType fromJSON(Map<String, dynamic> json) {
+    return SendStateType.values[json['index']];
+  }
+
+  /// Encode [SendStateType] to json.
+  Map<String, dynamic> get toJSON {
+    return {
+      'name': name,
+      'index': index,
+    };
+  }
 }
 
 /// The base state class used in [SendController].
@@ -36,8 +49,19 @@ class SendStates<T extends Object?> extends BlocStates<T> {
   final SendStateType type;
 
   @override
-  Map<String, dynamic> get asMap {
-    return {...super.asMap, 'type': type};
+  Map<String, dynamic> get toJSON {
+    return {
+      ...super.toJSON,
+      'type': type.toJSON,
+    };
+  }
+
+  static SendStates fromJSON(Map<String, dynamic> json) {
+    return SendStates(
+      type: SendStateType.fromJSON(json['type']),
+      data: json['data'],
+      message: json['message'],
+    );
   }
 }
 

@@ -19,7 +19,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.8.0
+  api_bloc: ^1.9.0
 ```
 
 and to use `api_bloc_cli` run this command in terminal.
@@ -66,7 +66,7 @@ import 'package:api_bloc/api_bloc.dart';
 
 class GetUserController extends GetController {
   @override
-  Future<void> request({required Map<String, dynamic> args}) async {
+  Future<void> request(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().get('https://reqres.in/api/users/2');
 
@@ -113,7 +113,7 @@ class CreateUserController extends SendController {
   bool get autoDispose => false;
 
   @override
-  Future<void> request({required Map<String, dynamic> args}) async {
+  Future<void> request(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().post('https://reqres.in/api/users/2',
         data: FormData.fromMap({"name": args['name'], "job": args['job']}));

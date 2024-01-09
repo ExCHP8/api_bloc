@@ -2,7 +2,7 @@ part of '../example.dart';
 
 class GetExampleDetailController extends GetController {
   @override
-  Future<void> request({required Map<String, dynamic> args}) async {
+  Future<void> request(Map<String, dynamic> args) async {
     // Delay to make the loading state more noticable.
     await Future.delayed(const Duration(milliseconds: 300));
 

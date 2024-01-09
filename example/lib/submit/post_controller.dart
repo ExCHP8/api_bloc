@@ -5,10 +5,17 @@ class CreateUserController extends SendController {
   bool get autoDispose => false;
 
   @override
-  Future<void> request({required Map<String, dynamic> args}) async {
+  Future<void> request(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
-    final response = await Dio().post('https://reqres.in/api/users/2',
-        data: FormData.fromMap({"name": args[0], "job": args[1]}));
+    final response = await Dio().post(
+      'https://reqres.in/api/users/2',
+      data: FormData.fromMap(
+        {
+          "name": args['name'],
+          "job": args['job'],
+        },
+      ),
+    );
 
     if (response.statusCode == 201) {
       final model = CreateUserModel.fromJson(response.data);

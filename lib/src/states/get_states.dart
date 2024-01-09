@@ -14,7 +14,20 @@ enum GetStateType {
   success,
 
   /// Represents the error state when an error occurs during data fetching.
-  error
+  error;
+
+  /// Decode json to [GetStateType].
+  static GetStateType fromJSON(Map<String, dynamic> json) {
+    return GetStateType.values[json['index']];
+  }
+
+  /// Encode [GetStateType] to json.
+  Map<String, dynamic> get toJSON {
+    return {
+      'name': name,
+      'index': index,
+    };
+  }
 }
 
 /// The base state class used in [GetController].
@@ -33,8 +46,19 @@ class GetStates<T extends Object?> extends BlocStates<T> {
   final GetStateType type;
 
   @override
-  Map<String, dynamic> get asMap {
-    return {...super.asMap, 'type': type};
+  Map<String, dynamic> get toJSON {
+    return {
+      ...super.toJSON,
+      'type': type.toJSON,
+    };
+  }
+
+  static GetStates fromJSON(Map<String, dynamic> json) {
+    return GetStates(
+      type: GetStateType.fromJSON(json['type']),
+      data: json['data'],
+      message: json['message'],
+    );
   }
 }
 

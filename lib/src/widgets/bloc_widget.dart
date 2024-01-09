@@ -2,7 +2,10 @@ part of 'package:api_bloc/api_bloc.dart';
 
 /// Signature for a function that builds a widget tree based on the current [BlocStates].
 typedef BlocBuilder<T extends BlocStates> = Widget Function(
-    BuildContext context, T state, Widget child);
+  BuildContext context,
+  T state,
+  Widget child,
+);
 
 /// Signature for a function that builds a widget tree based on the current [BlocStates].
 ///
@@ -13,18 +16,25 @@ typedef BlocBuilder<T extends BlocStates> = Widget Function(
 /// The [state] parameter is the current state of the [BlocStates].
 /// The [child] parameter is the child widget that should be included in the widget tree.
 typedef OnBlocBuilder<S extends Object?> = Widget Function(
-    BuildContext context, BlocStates<S> state, Widget child);
+  BuildContext context,
+  BlocStates<S> state,
+  Widget child,
+);
 
 /// Signature for a function that listens to changes in the [BlocStates].
 typedef BlocListener<T extends BlocStates> = void Function(
-    BuildContext context, T state);
+  BuildContext context,
+  T state,
+);
 
 /// Signature for a function that listens to changes in the [BlocStates].
 ///
 /// The [S] type parameter represents an optional generic type that can be used
 /// to provide additional data or constraints to the listener.
 typedef OnBlocListener<S extends Object?> = void Function(
-    BuildContext context, BlocStates<S> state);
+  BuildContext context,
+  BlocStates<S> state,
+);
 
 /// Main widget on dealing [BlocStates] changes in [controller].
 class ApiBloc<T extends BlocStates> extends StatefulWidget {

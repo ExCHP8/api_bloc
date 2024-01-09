@@ -66,7 +66,7 @@ abstract class GetController extends BlocController<GetStates> {
   ///   emit(GetSuccessState<UserModel>(data: model));
   /// }
   /// ```
-  Future<void> request({required Map<String, dynamic> args});
+  Future<void> request(Map<String, dynamic> args);
 
   /// now, when we emitting the [GetStates] don't forget to define the object
   /// type to emphasize the data that we're going to use in [ApiBloc].
@@ -95,7 +95,7 @@ abstract class GetController extends BlocController<GetStates> {
   Future<void> run([Map<String, dynamic> args = const {}]) async {
     emit(const GetLoadingState());
     try {
-      await request(args: args);
+      await request(args);
     } catch (e) {
       emit(GetErrorState(message: '$e'));
     }

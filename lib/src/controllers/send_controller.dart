@@ -49,7 +49,7 @@ part of 'package:api_bloc/api_bloc.dart';
 /// ```
 abstract class SendController extends BlocController<SendStates> {
   /// This is constructor of fetching api request with its initial value
-  /// is [SendIdleState] and different compare to [FetchController]
+  /// is [SendIdleState] and different compare to [GetController]
   /// it's not calling [run] on init.
   SendController() : super(value: const SendIdleState());
 
@@ -77,7 +77,7 @@ abstract class SendController extends BlocController<SendStates> {
   ///   }
   /// }
   /// ```
-  Future<void> request({required Map<String, dynamic> args});
+  Future<void> request(Map<String, dynamic> args);
 
   /// now, when we emitting the [SendStates] don't forget to define the object
   /// type to emphasize the data that we're going to use in [ApiBloc].
@@ -104,7 +104,7 @@ abstract class SendController extends BlocController<SendStates> {
   Future<void> run([Map<String, dynamic> args = const {}]) async {
     emit(const SendLoadingState());
     try {
-      await request(args: args);
+      await request(args);
     } catch (e) {
       emit(SendErrorState(message: '$e'));
     }

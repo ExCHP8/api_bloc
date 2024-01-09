@@ -12,13 +12,24 @@ class BlocStates<T extends Object?> {
   /// An optional object in state.
   final T? data;
 
-  /// Make class easier to read.
-  Map<String, dynamic> get asMap => {
-        if (message.isNotEmpty) 'message': message,
-        if (data != null) 'data': data
-      };
+  /// Encode [BlocStates] to json.
+  Map<String, dynamic> get toJSON {
+    return {
+      'message': message,
+      'data': data,
+    };
+  }
+
+  /// Decode json to [BlocStates].
+  static BlocStates fromJSON(Map<String, dynamic> json) {
+    return BlocStates(
+      message: json['message'],
+      data: json['data'],
+    );
+  }
 
   @override
-  String toString() =>
-      '$runtimeType${asMap.entries.map((e) => '${e.key}: ${e.value}')}';
+  String toString() {
+    return '$runtimeType${toJSON.entries.map((e) => '${e.key}: ${e.value}')}';
+  }
 }

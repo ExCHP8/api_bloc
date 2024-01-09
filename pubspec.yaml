@@ -1,7 +1,7 @@
 name: api_bloc
 description: Significantly reducing boilerplate code of BLoC pattern to efficiently handle API interactions.
-version: 1.8.0
-homepage: https://github.com/Nialixus/api_bloc.git
+version: 1.9.0
+homepage: https://inidia.app
 repository: https://github.com/Nialixus/api_bloc.git
 issue_tracker: https://github.com/Nialixus/api_bloc/issues
 funding: 
@@ -23,7 +23,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 flutter: null

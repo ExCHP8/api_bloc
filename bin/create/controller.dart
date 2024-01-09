@@ -53,7 +53,7 @@ part of '../$module.dart';
 class Get${module.capitalize}${name.capitalize}Controller extends GetController {
 
   @override
-  Future<void> request({required Map<String, dynamic> args}) async {
+  Future<void> request(Map<String, dynamic> args) async {
     // Delay to make the loading state more noticable.
     await Future.delayed(const Duration(milliseconds: 300));
 
@@ -77,7 +77,7 @@ part of '../$module.dart';
 class Send${module.capitalize}${name.capitalize}Controller extends SendController {
 
   @override
-  Future<void> request({required Map<String, dynamic> args}) async {
+  Future<void> request(Map<String, dynamic> args) async {
     // Delay to make the loading state more noticable.
     await Future.delayed(const Duration(milliseconds: 300));
 
