@@ -46,9 +46,11 @@ part of 'package:api_bloc/api_bloc.dart';
 abstract class GetController extends BlocController<GetStates> {
   /// This is constructor of fetching api request with its initial value
   /// is [GetLoadingState] and also automatically calling [run] on init.
-  GetController({Map<String, dynamic> args = const {}})
-      : super(value: const GetLoadingState()) {
-    run(args);
+  GetController({
+    Map<String, dynamic> args = const {},
+    this.autoRun = true,
+  }) : super(value: const GetLoadingState()) {
+    if (autoRun) run(args);
   }
 
   /// A neccessary function to override when we extends this controller.
@@ -105,4 +107,7 @@ abstract class GetController extends BlocController<GetStates> {
   /// should be automatically dispose or not. By default it's `true`.
   @override
   bool get autoDispose => super.autoDispose;
+
+  /// Wether the controller should trigger run on initialization or not.
+  final bool autoRun;
 }

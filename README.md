@@ -19,7 +19,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.9.0
+  api_bloc: ^1.9.1
 ```
 
 and to use `api_bloc_cli` run this command in terminal.

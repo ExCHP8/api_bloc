@@ -37,3 +37,6 @@
 ## 1.9.0
 * Add toJSON and fromJSON to each of class
 * update Future request format
+
+## 1.9.1
+* Add `Autorun` option in `GetController`
