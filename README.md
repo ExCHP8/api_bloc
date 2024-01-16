@@ -19,7 +19,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.9.1
+  api_bloc: ^1.9.2
 ```
 
 and to use `api_bloc_cli` run this command in terminal.
@@ -200,6 +200,71 @@ ApiBloc(
     return Text("You're in this custom state of ${state.runtimeType}");
   }
 );
+```
+
+## Sentry Integration
+You can integrate this library with sentry by making custom controller like this.
+
+```dart
+abstract class GetSentryController extends BlocController<GetStates> {
+  GetSentryController({
+    this.autoRun = true,
+    JSON args = const {},
+  }) : super(value: const GetLoadingState()) {
+    if (autoRun) run(args: args);
+  }
+
+  @override
+  Future<void> run({JSON args = const {}}) async {
+    emit(const GetLoadingState());
+    final http = SentryHttpClient();
+    try {
+      await request(http, args);
+    } catch (e, s) {
+      emit(GetErrorState(message: e.toString(), data: s));
+      await Sentry.captureException(e, stackTrace: s);
+    } finally {
+      http.close();
+    }
+  }
+
+  Future<void> request(SentryHttpClient http, JSON args);
+
+  final bool autoRun;
+}
+
+abstract class SendSentryController extends BlocController<SendStates> {
+  SendSentryController() : super(value: const SendIdleState());
+
+  @override
+  Future<void> run({JSON args = const {}}) async {
+    emit(const SendLoadingState());
+    final http = SentryHttpClient();
+    try {
+      await request(http, args);
+    } catch (e, s) {
+      emit(SendErrorState(message: e.toString(), data: s));
+      await Sentry.captureException(e, stackTrace: s);
+    } finally {
+      http.close();
+    }
+  }
+
+  Future<void> request(SentryHttpClient http, JSON args);
+}
+```
+
+and then whenever you want to interact with the api, you just need to make this controller:
+
+```dart
+class GetUserRequest extends GetSentryController {
+
+  Future<void> request(http, args) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    final response = await http.get(Uri('http://baseUrl/api/user/123'));
+    emit(GetSuccessState<UserModel>(data: UserModel.fromJSON(jsonDecode(response.body))));
+  }
+}
 ```
 
 ## Example

@@ -40,3 +40,6 @@
 
 ## 1.9.1
 * Add `Autorun` option in `GetController`
+
+## 1.9.2
+* Add an example to integrate with sentry
