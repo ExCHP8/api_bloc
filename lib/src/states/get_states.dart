@@ -85,9 +85,8 @@ class GetSuccessState<T extends Object> extends GetStates<T> {
   /// ```dart
   /// GetSuccessState<Model>(data: Model()));
   /// ```
-  const GetSuccessState({super.message, required super.data})
-      : assert(data != null, 'data is required in GetSuccessState'),
-        super(type: GetStateType.success);
+  const GetSuccessState({super.message, required T data})
+      : super(data: data, type: GetStateType.success);
 }
 
 /// Represents the error state when an error occurs during data fetching in

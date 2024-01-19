@@ -95,9 +95,8 @@ class SendSuccessState<T extends Object> extends SendStates<T> {
   /// ```dart
   /// SendSuccessState<Model>(data: Model()));
   /// ```
-  const SendSuccessState({super.message, required super.data})
-      : assert(data != null, 'data is required in SendSuccessState'),
-        super(type: SendStateType.success);
+  const SendSuccessState({super.message, required T data})
+      : super(data: data, type: SendStateType.success);
 }
 
 /// Represents the failed state when a request submission fails in
@@ -111,9 +110,8 @@ class SendFailedState<T extends Object> extends SendStates<T> {
   /// ```dart
   /// SendFailedState<Model>(data: Model()));
   /// ```
-  const SendFailedState({super.message, required super.data})
-      : assert(data != null, 'data is required in SendFailedState'),
-        super(type: SendStateType.failed);
+  const SendFailedState({super.message, required T data})
+      : super(data: data, type: SendStateType.failed);
 }
 
 /// Represents the error state when an error occurs during request submission in

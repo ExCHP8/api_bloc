@@ -1,6 +1,6 @@
 name: api_bloc
 description: Significantly reducing boilerplate code of BLoC pattern to efficiently handle API interactions.
-version: 1.9.2
+version: 1.9.3
 homepage: https://inidia.app
 repository: https://github.com/Nialixus/api_bloc.git
 issue_tracker: https://github.com/Nialixus/api_bloc/issues

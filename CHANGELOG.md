@@ -43,3 +43,6 @@
 
 ## 1.9.2
 * Add an example to integrate with sentry
+
+## 1.9.3
+* Add requirement on `SuccessState` and `FailedState`
