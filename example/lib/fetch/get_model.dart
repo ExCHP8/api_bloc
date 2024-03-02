@@ -9,14 +9,16 @@ class GetUserModel {
   final int id;
   final String firstName, lastName, avatar;
 
-  GetUserModel.fromJson(Map<String, dynamic> value)
-      : this(
-            id: value['data']['id'] as int,
-            firstName: value['data']['first_name'] as String,
-            lastName: value['data']['last_name'] as String,
-            avatar: value['data']['avatar'] as String);
+  static GetUserModel fromJSON(Map<String, dynamic> value) {
+    return GetUserModel(
+      id: value['data']['id'] as int,
+      firstName: value['data']['first_name'] as String,
+      lastName: value['data']['last_name'] as String,
+      avatar: value['data']['avatar'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> get toJSON {
     return {
       'id': id,
       'first_name': firstName,
@@ -27,5 +29,5 @@ class GetUserModel {
 
   @override
   String toString() =>
-      '$runtimeType${toJson().entries.map((e) => '${e.key}: ${e.value}')}';
+      '$runtimeType${toJSON.entries.map((e) => '${e.key}: ${e.value}')}';
 }

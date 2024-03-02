@@ -2,7 +2,7 @@
 
 part of '../api_bloc.dart';
 
-class ApiBloc {
+final class ApiBloc {
   static void create(ArgResults data) {
     List<String> result = [];
     String output = data['output']!.toString();
@@ -14,7 +14,6 @@ class ApiBloc {
     // [1] Create module directory
     Directory directory = Directory(output.directoryPath + name.directoryPath)
       ..createSync(recursive: true);
-    Directory('${directory.path}pages').createSync();
 
     // [2] Create controller items
     result.addAll(
@@ -25,8 +24,8 @@ class ApiBloc {
         Model.create(from: data, buffer, root: directory, module: name));
 
     // [4] Create widget items
-    result.addAll(
-        Widget.create(from: data, buffer, root: directory, module: name));
+    result
+        .addAll(View.create(from: data, buffer, root: directory, module: name));
 
     // [5] Create page items
     Page.add(buffer, root: directory, module: name, from: data);

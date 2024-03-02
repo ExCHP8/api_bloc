@@ -1,6 +1,6 @@
 part of '../api_bloc.dart';
 
-class Model {
+final class Model {
   static List<String> create(StringBuffer buffer,
       {required ArgResults from,
       required Directory root,

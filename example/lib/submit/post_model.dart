@@ -5,17 +5,17 @@ class CreateUserModel {
   final String id;
   final DateTime createdAt;
 
-  factory CreateUserModel.fromJson(Map<String, dynamic> value) {
+  static CreateUserModel fromJSON(Map<String, dynamic> value) {
     return CreateUserModel(
         id: value["id"] as String,
         createdAt: DateTime.parse(value["createdAt"] as String));
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> get toJSON {
     return {'id': id, 'created_at': createdAt};
   }
 
   @override
   String toString() =>
-      '$runtimeType${toJson().entries.map((e) => '${e.key}: ${e.value}')}';
+      '$runtimeType${toJSON.entries.map((e) => '${e.key}: ${e.value}')}';
 }

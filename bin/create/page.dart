@@ -1,6 +1,6 @@
 part of '../api_bloc.dart';
 
-class Page {
+final class Page {
   static void add(StringBuffer buffer,
       {required ArgResults from,
       required Directory root,
@@ -30,7 +30,7 @@ class Page {
 
     buffer
       ..write('📂 ${root.path}\n')
-      ..write('📄 ${file.path} ${existed ? '\x1B[34m[RENEWED]' : ''}');
+      ..write('   📄 ${file.path} ${existed ? '\x1B[34m[RENEWED]' : ''}');
   }
 
   static String update(
@@ -56,7 +56,7 @@ class Page {
       String controller =
           "part 'controllers/get_${module}_${item}_controller.dart';";
       String model = "part 'models/get_${module}_${item}_model.dart';";
-      String widget = "part 'widgets/get_${module}_${item}_widget.dart';";
+      String widget = "part 'views/get_${module}_${item}_widget.dart';";
       if (!input.contains(controller)) input.insert(index, controller);
       if (!input.contains(model)) input.insert(index, model);
       if (!input.contains(widget)) input.insert(index, widget);
@@ -65,7 +65,7 @@ class Page {
       String controller =
           "part 'controllers/send_${module}_${item}_controller.dart';";
       String model = "part 'models/send_${module}_${item}_model.dart';";
-      String widget = "part 'widgets/send_${module}_${item}_widget.dart';";
+      String widget = "part 'views/send_${module}_${item}_widget.dart';";
       if (!input.contains(controller)) input.insert(index, controller);
       if (!input.contains(model)) input.insert(index, model);
       if (!input.contains(widget)) input.insert(index, widget);
@@ -93,14 +93,14 @@ import 'package:flutter/material.dart';
       buffer
         ..writeln("part 'controllers/get_${module}_${item}_controller.dart';")
         ..writeln("part 'models/get_${module}_${item}_model.dart';")
-        ..writeln("part 'widgets/get_${module}_${item}_widget.dart';");
+        ..writeln("part 'views/get_${module}_${item}_widget.dart';");
     }
 
     for (var item in sendlist) {
       buffer
         ..writeln("part 'controllers/send_${module}_${item}_controller.dart';")
         ..writeln("part 'models/send_${module}_${item}_model.dart';")
-        ..writeln("part 'widgets/send_${module}_${item}_widget.dart';");
+        ..writeln("part 'views/send_${module}_${item}_widget.dart';");
     }
 
     buffer.write('''

@@ -1,6 +1,6 @@
 part of '../api_bloc.dart';
 
-class Controller {
+final class Controller {
   static List<String> create(StringBuffer buffer,
       {required ArgResults from,
       required Directory root,
@@ -53,7 +53,7 @@ part of '../$module.dart';
 class Get${module.capitalize}${name.capitalize}Controller extends GetController {
 
   @override
-  Future<void> request(Map<String, dynamic> args) async {
+  Future<void> onRequest(Map<String, dynamic> args) async {
     // Delay to make the loading state more noticable.
     await Future.delayed(const Duration(milliseconds: 300));
 
@@ -77,7 +77,7 @@ part of '../$module.dart';
 class Send${module.capitalize}${name.capitalize}Controller extends SendController {
 
   @override
-  Future<void> request(Map<String, dynamic> args) async {
+  Future<void> onRequest(Map<String, dynamic> args) async {
     // Delay to make the loading state more noticable.
     await Future.delayed(const Duration(milliseconds: 300));
 

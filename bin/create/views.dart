@@ -1,6 +1,6 @@
 part of '../api_bloc.dart';
 
-class Widget {
+final class View {
   static List<String> create(StringBuffer buffer,
       {required ArgResults from,
       required Directory root,
@@ -8,7 +8,7 @@ class Widget {
     List<String> result = [];
     List<String> getlist = from['get'];
     List<String> sendlist = from['send'];
-    Directory directory = Directory('${root.path}widgets')
+    Directory directory = Directory('${root.path}views')
       ..createSync(recursive: true);
     buffer.write('📂 ${directory.safePath}\n');
 

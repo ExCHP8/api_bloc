@@ -7,7 +7,7 @@ part of 'package:api_bloc/api_bloc.dart';
 /// class UpdateUserController extends SendController {
 ///
 ///   @override
-///   Future<void> request() async {
+///   Future<void> onRequest() async {
 ///     Map<String, dynamic> user = UserModel().toJson();
 ///     Response response = await Response.put('https://base.url/api/user',
 ///       formdata: Formdata.fromJson(user),
@@ -33,7 +33,7 @@ part of 'package:api_bloc/api_bloc.dart';
 /// type to emphasize the data that we're going to use in [ApiBloc].
 /// ```dart
 /// // in controller
-/// Future<void> request() async {
+/// Future<void> onRequest() async {
 ///   emit(SendSuccessState<StatusModel>(message: model.message));
 /// }
 ///
@@ -59,7 +59,7 @@ abstract class SendController extends BlocController<SendStates> {
   /// class UpdateUserController extends SendController {
   ///
   ///   @override
-  ///   Future<void> request() async {
+  ///   Future<void> onRequest() async {
   ///     Map<String, dynamic> user = UserModel().toJson();
   ///     Response response = await Response.put('https://base.url/api/user',
   ///       formdata: Formdata.fromJson(user),
@@ -77,13 +77,25 @@ abstract class SendController extends BlocController<SendStates> {
   ///   }
   /// }
   /// ```
-  Future<void> request(Map<String, dynamic> args);
+  Future<void> onRequest(Map<String, dynamic> args);
+
+  /// A function that will be called when [onRequest] throws an error.
+  ///
+  /// ```dart
+  /// @override
+  /// Future<void> onError(e, s) async {
+  ///   emit(SendFailedState<StatusModel>(message: e.toString()));
+  /// }
+  /// ```
+  Future<void> onError(Object e, StackTrace s) async {
+    emit(SendErrorState(message: '$e', data: s));
+  }
 
   /// now, when we emitting the [SendStates] don't forget to define the object
   /// type to emphasize the data that we're going to use in [ApiBloc].
   /// ```dart
   /// // in controller
-  /// Future<void> request() async {
+  /// Future<void> onRequest() async {
   ///   emit(SendSuccessState<StatusModel>(message: model.message));
   /// }
   ///
@@ -101,12 +113,14 @@ abstract class SendController extends BlocController<SendStates> {
   void emit(SendStates<Object?> value) => super.emit(value);
 
   @override
-  Future<void> run([Map<String, dynamic> args = const {}]) async {
+  Future<void> run([
+    Map<String, dynamic> args = const {},
+  ]) async {
     emit(const SendLoadingState());
     try {
-      await request(args);
-    } catch (e) {
-      emit(SendErrorState(message: '$e'));
+      await onRequest(args);
+    } catch (e, s) {
+      await onError(e, s);
     }
   }
 

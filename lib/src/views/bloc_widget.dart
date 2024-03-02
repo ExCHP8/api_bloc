@@ -462,10 +462,11 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
         valueListenable: widget.controller,
         builder: (context, value, child) {
           if (widget.listener != null) {
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               widget.listener!(context, value);
             });
           }
+
           return widget.builder != null
               ? widget.builder!(context, value, child!)
               : child!;
@@ -476,6 +477,7 @@ class _ApiBlocState<T extends BlocStates> extends State<ApiBloc<T>> {
   @override
   void dispose() {
     try {
+      widget.controller.removeListener(() {});
       if (widget.controller.autoDispose) widget.controller.dispose();
     } catch (e) {
       /* do nothing */

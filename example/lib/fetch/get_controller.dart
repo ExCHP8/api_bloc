@@ -2,7 +2,7 @@ part of 'get_page.dart';
 
 class GetUserController extends GetController {
   @override
-  Future<void> request(Map<String, dynamic> args) async {
+  Future<void> onRequest(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().get(
       'https://reqres.in/api/users/2',
@@ -11,7 +11,7 @@ class GetUserController extends GetController {
       },
     );
 
-    final model = GetUserModel.fromJson(response.data);
+    final model = GetUserModel.fromJSON(response.data);
     emit(GetSuccessState<GetUserModel>(data: model));
   }
 }

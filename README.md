@@ -19,7 +19,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^1.9.3
+  api_bloc: ^2.0.0
 ```
 
 and to use `api_bloc_cli` run this command in terminal.
@@ -37,7 +37,6 @@ It will generating this structure in your project
 ```
 lib/src/user/
    - user.dart
-   - pages/
    - controllers/
      - get_user_detail_controller.dart
      - get_user_list_controller.dart
@@ -50,7 +49,7 @@ lib/src/user/
      - send_user_update_model.dart
      - send_user_create_model.dart
      - send_user_delete_model.dart
-   - widgets/
+   - views/
      - get_user_detail_widget.dart
      - get_user_list_widget.dart
      - send_user_update_widget.dart
@@ -66,7 +65,7 @@ import 'package:api_bloc/api_bloc.dart';
 
 class GetUserController extends GetController {
   @override
-  Future<void> request(Map<String, dynamic> args) async {
+  Future<void> onRequest(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().get('https://reqres.in/api/users/2');
 
@@ -113,10 +112,10 @@ class CreateUserController extends SendController {
   bool get autoDispose => false;
 
   @override
-  Future<void> request(Map<String, dynamic> args) async {
+  Future<void> onRequest(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().post('https://reqres.in/api/users/2',
-        data: FormData.fromMap({"name": args['name'], "job": args['job']}));
+        data: FormData.fromMap(args));
 
     if (response.statusCode == 201) {
       final model = CreateUserModel.fromJson(response.data);
@@ -211,24 +210,28 @@ abstract class GetSentryController extends BlocController<GetStates> {
     this.autoRun = true,
     JSON args = const {},
   }) : super(value: const GetLoadingState()) {
-    if (autoRun) run(args: args);
+    if (autoRun) run(args);
   }
 
   @override
-  Future<void> run({JSON args = const {}}) async {
+  Future<void> run([JSON args = const {}]) async {
     emit(const GetLoadingState());
     final http = SentryHttpClient();
     try {
-      await request(http, args);
+      await onRequest(http, args);
     } catch (e, s) {
-      emit(GetErrorState(message: e.toString(), data: s));
-      await Sentry.captureException(e, stackTrace: s);
+      await onError(e, s);
     } finally {
       http.close();
     }
   }
 
-  Future<void> request(SentryHttpClient http, JSON args);
+  Future<void> onRequest(SentryHttpClient http, JSON args);
+
+  Future<void> onError(dynamic e, StackTrace s) async {
+    await Sentry.captureException(e, stackTrace: s);
+    emit(GetErrorState(message: e.toString(), data: s));
+  }
 
   final bool autoRun;
 }
@@ -237,20 +240,24 @@ abstract class SendSentryController extends BlocController<SendStates> {
   SendSentryController() : super(value: const SendIdleState());
 
   @override
-  Future<void> run({JSON args = const {}}) async {
+  Future<void> run([JSON args = const {}]) async {
     emit(const SendLoadingState());
     final http = SentryHttpClient();
     try {
-      await request(http, args);
+      await onRequest(http, args);
     } catch (e, s) {
-      emit(SendErrorState(message: e.toString(), data: s));
-      await Sentry.captureException(e, stackTrace: s);
+      await onError(e, s);
     } finally {
       http.close();
     }
   }
 
-  Future<void> request(SentryHttpClient http, JSON args);
+  Future<void> onRequest(SentryHttpClient http, JSON args);
+
+  Future<void> onError(dynamic e, StrackTrace s) async {
+    await Sentry.captureException(e, stackTrace: s);
+    emit(SendErrorState(message: e.toString(), data: s));
+  }
 }
 ```
 
@@ -259,7 +266,7 @@ and then whenever you want to interact with the api, you just need to make this 
 ```dart
 class GetUserRequest extends GetSentryController {
 
-  Future<void> request(http, args) async {
+  Future<void> onRequest(http, args) async {
     await Future.delayed(const Duration(milliseconds: 300));
     final response = await http.get(Uri('http://baseUrl/api/user/123'));
     emit(GetSuccessState<UserModel>(data: UserModel.fromJSON(jsonDecode(response.body))));

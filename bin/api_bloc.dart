@@ -1,12 +1,12 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, depend_on_referenced_packages
 import 'dart:io';
 import 'package:args/args.dart';
 
 part 'misc/extension.dart';
-part 'create/command.dart';
+part 'create/runner.dart';
 part 'create/controller.dart';
 part 'create/model.dart';
-part 'create/widget.dart';
+part 'create/views.dart';
 part 'create/page.dart';
 
 Future<void> main(List<String> arguments) async {

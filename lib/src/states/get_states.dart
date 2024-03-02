@@ -53,12 +53,24 @@ class GetStates<T extends Object?> extends BlocStates<T> {
     };
   }
 
-  static GetStates fromJSON(Map<String, dynamic> json) {
-    return GetStates(
-      type: GetStateType.fromJSON(json['type']),
-      data: json['data'],
-      message: json['message'],
-    );
+  static GetStates<T> fromJSON<T extends Object>(Map<String, dynamic> json) {
+    switch (GetStateType.fromJSON(json['type'])) {
+      case GetStateType.loading:
+        return GetLoadingState<T>(
+          data: json['data'],
+          message: json['message'],
+        );
+      case GetStateType.success:
+        return GetSuccessState<T>(
+          data: json['data'],
+          message: json['message'],
+        );
+      case GetStateType.error:
+        return GetErrorState<T>(
+          data: json['data'],
+          message: json['message'],
+        );
+    }
   }
 }
 

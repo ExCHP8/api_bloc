@@ -56,12 +56,32 @@ class SendStates<T extends Object?> extends BlocStates<T> {
     };
   }
 
-  static SendStates fromJSON(Map<String, dynamic> json) {
-    return SendStates(
-      type: SendStateType.fromJSON(json['type']),
-      data: json['data'],
-      message: json['message'],
-    );
+  static SendStates<T> fromJSON<T extends Object>(Map<String, dynamic> json) {
+    switch (SendStateType.fromJSON(json['type'])) {
+      case SendStateType.loading:
+        return SendLoadingState<T>(
+            message: json['message'], data: json['data']);
+      case SendStateType.success:
+        return SendSuccessState<T>(
+          message: json['message'],
+          data: json['data'],
+        );
+      case SendStateType.failed:
+        return SendFailedState<T>(
+          message: json['message'],
+          data: json['data'],
+        );
+      case SendStateType.error:
+        return SendErrorState<T>(
+          message: json['message'],
+          data: json['data'],
+        );
+      case SendStateType.idle:
+        return SendIdleState<T>(
+          message: json['message'],
+          data: json['data'],
+        );
+    }
   }
 }
 

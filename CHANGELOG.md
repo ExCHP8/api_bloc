@@ -46,3 +46,9 @@
 
 ## 1.9.3
 * Add requirement on `SuccessState` and `FailedState`
+
+## 2.0.0
+* Add tests
+* Update syntax `request` to `onRequest`
+* Add `onError` function
+* Update generator
