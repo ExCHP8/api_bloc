@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, depend_on_referenced_packages
+// ignore_for_file: avoid_print
 import 'dart:io';
 import 'package:args/args.dart';
 
@@ -13,8 +13,8 @@ Future<void> main(List<String> arguments) async {
   ArgParser creator = ArgParser()
     ..addOption('create',
         help: 'Name of the desired generated module', mandatory: true)
-    ..addMultiOption('get', help: 'List of generated getter item in module')
-    ..addMultiOption('send', help: 'List of generated sender item in module')
+    ..addMultiOption('read', help: 'List of generated reader method in module')
+    ..addMultiOption('write', help: 'List of generated writer method in module')
     ..addOption('output',
         abbr: 'o',
         defaultsTo: 'lib/src/',
