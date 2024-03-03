@@ -17,7 +17,7 @@ class UserModel {
   }
 }
 
-class MockGetController extends GetController {
+class MockReadController extends ReadController {
   bool success = true;
 
   @override
@@ -25,7 +25,8 @@ class MockGetController extends GetController {
     await Future.delayed(const Duration(seconds: 1));
     if (success) {
       final response = MockResponse({'userName': 'John Doe'});
-      emit(GetSuccessState<UserModel>(data: UserModel.fromJson(response.data)));
+      emit(
+          ReadSuccessState<UserModel>(data: UserModel.fromJson(response.data)));
     } else {
       throw 'Mocked error';
     }
@@ -33,48 +34,48 @@ class MockGetController extends GetController {
 }
 
 void main() {
-  group('GetController', () {
-    late MockGetController mockGetController;
+  group('ReadController', () {
+    late MockReadController mockReadController;
 
     setUp(() {
-      mockGetController = MockGetController();
+      mockReadController = MockReadController();
     });
 
     test('Validate Initial State', () {
-      expect(mockGetController.value, isA<GetLoadingState>());
+      expect(mockReadController.value, isA<ReadLoadingState>());
     });
 
     test('Validate Success State', () async {
-      await mockGetController.run();
-      expect(mockGetController.value, isA<GetSuccessState<UserModel>>());
-      expect(mockGetController.value.data, isA<UserModel>());
+      await mockReadController.run();
+      expect(mockReadController.value, isA<ReadSuccessState<UserModel>>());
+      expect(mockReadController.value.data, isA<UserModel>());
       expect(
-          (mockGetController.value as GetSuccessState<UserModel>)
+          (mockReadController.value as ReadSuccessState<UserModel>)
               .data!
               .userName,
           isNotEmpty);
       expect(
-          (mockGetController.value as GetSuccessState<UserModel>)
+          (mockReadController.value as ReadSuccessState<UserModel>)
               .data!
               .userName,
           equals('John Doe'));
     });
 
     test('Validate Error State', () async {
-      mockGetController.success = false;
-      await mockGetController.run();
-      expect(mockGetController.value, isA<GetErrorState>());
-      expect(mockGetController.value.message, isNotEmpty);
-      expect(mockGetController.value.message, equals('Mocked error'));
-      expect(mockGetController.value.data, isA<StackTrace>());
+      mockReadController.success = false;
+      await mockReadController.run();
+      expect(mockReadController.value, isA<ReadErrorState>());
+      expect(mockReadController.value.message, isNotEmpty);
+      expect(mockReadController.value.message, equals('Mocked error'));
+      expect(mockReadController.value.data, isA<StackTrace>());
     });
 
     test('Validate AutoDispose Value', () {
-      expect(mockGetController.autoDispose, isTrue);
+      expect(mockReadController.autoDispose, isTrue);
     });
 
     test('Validate AutoRun Value', () {
-      expect(mockGetController.autoRun, isTrue);
+      expect(mockReadController.autoRun, isTrue);
     });
   });
 }

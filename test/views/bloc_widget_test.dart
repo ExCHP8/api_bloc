@@ -10,7 +10,6 @@ class MockResponse {
 
 class UserModel {
   final String userName;
-
   UserModel(this.userName);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -18,7 +17,7 @@ class UserModel {
   }
 }
 
-class MockGetController extends GetController {
+class MockReadController extends ReadController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {}
 
@@ -26,7 +25,7 @@ class MockGetController extends GetController {
   bool get autoDispose => false;
 }
 
-class MockSendController extends SendController {
+class MockWriteController extends WriteController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {}
 
@@ -36,14 +35,14 @@ class MockSendController extends SendController {
 
 void main() {
   group('ApiBloc: Fetch Scenario', () {
-    final controller = MockGetController();
+    final controller = MockReadController();
     final widget = MaterialApp(
       home: ApiBloc(
         controller: controller,
         builder: (context, state, child) {
-          if (state is GetSuccessState<UserModel>) {
+          if (state is ReadSuccessState<UserModel>) {
             return Text(state.data!.userName);
-          } else if (state is GetErrorState) {
+          } else if (state is ReadErrorState) {
             return Text(state.message);
           } else {
             return const CircularProgressIndicator();
@@ -53,27 +52,26 @@ void main() {
     );
     testWidgets('Validate Loading State', (WidgetTester tester) async {
       await tester.pumpWidget(widget);
-
-      expect(controller.value, isA<GetLoadingState>());
+      expect(controller.value, isA<ReadLoadingState>());
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       expect(find.text('John Doe'), findsNothing);
     });
 
     testWidgets('Validate Success State', (WidgetTester tester) async {
       controller.emit(
-        GetSuccessState<UserModel>(
+        ReadSuccessState<UserModel>(
             data: UserModel.fromJson({'userName': 'John Doe'})),
       );
       await tester.pumpWidget(widget);
-      expect(controller.value, isA<GetSuccessState<UserModel>>());
+      expect(controller.value, isA<ReadSuccessState<UserModel>>());
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.text('John Doe'), findsOneWidget);
     });
 
     testWidgets('Validate Error State', (WidgetTester tester) async {
-      controller.emit(const GetErrorState(message: 'Mocked Error'));
+      controller.emit(const ReadErrorState(message: 'Mocked Error'));
       await tester.pumpWidget(widget);
-      expect(controller.value, isA<GetErrorState>());
+      expect(controller.value, isA<ReadErrorState>());
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.text('Mocked Error'), findsOneWidget);
       controller.dispose();
@@ -88,7 +86,7 @@ void main() {
       ));
     }
 
-    final controller = MockSendController();
+    final controller = MockWriteController();
     final widget = MaterialApp(
       home: Scaffold(
           body: ApiBloc(
@@ -107,16 +105,16 @@ void main() {
 
     testWidgets('Validate Idle State', (WidgetTester tester) async {
       await tester.pumpWidget(widget);
-      expect(controller.value, isA<SendIdleState>());
+      expect(controller.value, isA<WriteIdleState>());
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.byType(SnackBar), findsNothing);
       expect(find.text('Submit'), findsOneWidget);
     });
 
     testWidgets('Validate Loading State', (WidgetTester tester) async {
-      controller.emit(const SendLoadingState());
+      controller.emit(const WriteLoadingState());
       await tester.pumpWidget(widget);
-      expect(controller.value, isA<SendLoadingState>());
+      expect(controller.value, isA<WriteLoadingState>());
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       expect(find.byType(SnackBar), findsNothing);
       expect(find.text('Submit'), findsNothing);
@@ -124,12 +122,12 @@ void main() {
 
     testWidgets('Validate Success State', (WidgetTester tester) async {
       controller.emit(
-        SendSuccessState<UserModel>(
+        WriteSuccessState<UserModel>(
             data: UserModel.fromJson({'userName': 'John Doe'})),
       );
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
-      expect(controller.value, isA<SendSuccessState<UserModel>>());
+      expect(controller.value, isA<WriteSuccessState<UserModel>>());
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.byType(SnackBar), findsOne);
       expect(find.text('Succesfully creating new user'), findsOne);
@@ -137,10 +135,10 @@ void main() {
     });
 
     testWidgets('Validate Failed State', (WidgetTester tester) async {
-      controller.emit(const SendFailedState(data: 'Mocked Error'));
+      controller.emit(const WriteFailedState(data: 'Mocked Error'));
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
-      expect(controller.value, isA<SendFailedState>());
+      expect(controller.value, isA<WriteFailedState>());
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.byType(SnackBar), findsOne);
       expect(find.text('Failed because Mocked Error'), findsOne);
@@ -148,10 +146,10 @@ void main() {
     });
 
     testWidgets('Validate Error State', (WidgetTester tester) async {
-      controller.emit(const SendErrorState(message: 'Mocked Error'));
+      controller.emit(const WriteErrorState(message: 'Mocked Error'));
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
-      expect(controller.value, isA<SendErrorState>());
+      expect(controller.value, isA<WriteErrorState>());
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.byType(SnackBar), findsOne);
       expect(find.text('Mocked Error'), findsOne);

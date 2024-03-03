@@ -52,3 +52,4 @@
 * Update syntax `request` to `onRequest`
 * Add `onError` function
 * Update generator
+* Refactor `get` to `read` and `send` to `write`

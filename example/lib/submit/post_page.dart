@@ -24,21 +24,21 @@ class _PostPageState extends State<PostPage> {
   Widget build(BuildContext context) {
     return ApiBloc.listener(
         controller: controller,
-        listener: (context, SendStates state) {
+        listener: (context, WriteStates state) {
           log(state.toString());
-          if (state is SendSuccessState<CreateUserModel>) {
+          if (state is WriteSuccessState<CreateUserModel>) {
             snackbar(context,
                 message:
                     "Succesfully creating new user with id #${state.data!.id}");
-          } else if (state is SendFailedState) {
+          } else if (state is WriteFailedState) {
             snackbar(context,
                 message: "Failed because ${state.message}", color: Colors.grey);
-          } else if (state is SendErrorState) {
+          } else if (state is WriteErrorState) {
             snackbar(context, message: state.message, color: Colors.red);
           }
         },
         child: Scaffold(
-            appBar: AppBar(title: const Text("Send Test")),
+            appBar: AppBar(title: const Text("Post Test")),
             body: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -69,7 +69,7 @@ class _PostPageState extends State<PostPage> {
                                     style: TextStyle(color: Colors.white),
                                   ))),
                           builder: (context, state, child) {
-                            if (state is SendLoadingState) {
+                            if (state is WriteLoadingState) {
                               return TextButton(
                                   onPressed: () {},
                                   child: Container(

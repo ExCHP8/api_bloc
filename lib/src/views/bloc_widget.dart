@@ -54,12 +54,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
   ///
   /// ```dart
   /// ApiBloc(
-  ///   controller: GetController(),
+  ///   controller: ReadController(),
   ///   listener: (context, state) => log(state.toString());
   ///   builder: (context, state, child) {
-  ///     if (state is GetSuccessState<Model>){
+  ///     if (state is ReadSuccessState<Model>){
   ///       return Text(state.model!.userName);
-  ///     } else if (state is GetErrorState){
+  ///     } else if (state is ReadErrorState){
   ///       return Text('Oops something is wrong\nReason: ${state.message}');
   ///     } else {
   ///       return const CircularProgressIndicator();
@@ -140,12 +140,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
     );
   }
 
-  /// Creates a new instance of [ApiBloc] with listeners and builders for the SendIdleState.
+  /// Creates a new instance of [ApiBloc] with listeners and builders for the WriteIdleState.
   ///
-  /// The [listener] parameter is an optional [OnBlocListener] that listens to the [SendIdleState].
-  /// The [builder] parameter is an optional [OnBlocBuilder] that rebuilds its widget tree based on the [SendIdleState].
+  /// The [listener] parameter is an optional [OnBlocListener] that listens to the [WriteIdleState].
+  /// The [builder] parameter is an optional [OnBlocBuilder] that rebuilds its widget tree based on the [WriteIdleState].
   ///
-  /// Returns a new [ApiBloc] instance with the specified listeners and builders for the SendIdleState.
+  /// Returns a new [ApiBloc] instance with the specified listeners and builders for the WriteIdleState.
   ///
   /// ```dart
   /// ApiBloc(
@@ -165,9 +165,9 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
     return this.copyWith(
       listener: (context, state) {
         if (listener != null) {
-          assert(controller is SendController,
-              "In onIdle listener, The provided controller must be a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is SendController && state is SendIdleState<S>) {
+          assert(controller is WriteController,
+              "In onIdle listener, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is WriteController && state is WriteIdleState<S>) {
             listener(context, state);
           }
         }
@@ -175,9 +175,9 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
       },
       builder: (context, state, child) {
         if (builder != null) {
-          assert(controller is SendController,
-              "In onIdle builder, The provided controller must be a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is SendController && state is SendIdleState<S>) {
+          assert(controller is WriteController,
+              "In onIdle builder, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is WriteController && state is WriteIdleState<S>) {
             return builder(context, state, child);
           }
         }
@@ -192,10 +192,10 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
   /// The `onLoading` method allows you to specify custom listener and builder functions
   /// to handle loading states based on the provided [BlocController].
   ///
-  /// If [listener] is specified and the controller is of type [GetController] or [SendController],
+  /// If [listener] is specified and the controller is of type [ReadController] or [WriteController],
   /// it will be called when the state is a loading state.
   ///
-  /// If [builder] is specified and the controller is of type [GetController] or [SendController],
+  /// If [builder] is specified and the controller is of type [ReadController] or [WriteController],
   /// it will be used to build the widget tree when the state is a loading state.
   ///
   /// When neither [listener] nor [builder] is specified, the default listener and builder
@@ -219,12 +219,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
     return this.copyWith(
       listener: (context, state) {
         if (listener != null) {
-          assert(controller is GetController || controller is SendController,
-              "In onLoading listener, The provided controller must be either a GetController or a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is GetController && state is GetLoadingState<S>) {
+          assert(controller is ReadController || controller is WriteController,
+              "In onLoading listener, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is ReadController && state is ReadLoadingState<S>) {
             listener(context, state);
-          } else if (controller is SendController &&
-              state is SendLoadingState<S>) {
+          } else if (controller is WriteController &&
+              state is WriteLoadingState<S>) {
             listener(context, state);
           }
         }
@@ -232,12 +232,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
       },
       builder: (context, state, child) {
         if (builder != null) {
-          assert(controller is GetController || controller is SendController,
-              "In onLoading builder, The provided controller must be either a GetController or a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is GetController && state is GetLoadingState<S>) {
+          assert(controller is ReadController || controller is WriteController,
+              "In onLoading builder, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is ReadController && state is ReadLoadingState<S>) {
             return builder(context, state, child);
-          } else if (controller is SendController &&
-              state is SendLoadingState<S>) {
+          } else if (controller is WriteController &&
+              state is WriteLoadingState<S>) {
             return builder(context, state, child);
           }
         }
@@ -252,10 +252,10 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
   /// The `onSuccess` method allows you to specify custom listener and builder functions
   /// to handle success states based on the provided [BlocController].
   ///
-  /// If [listener] is specified and the controller is of type [GetController] or [SendController],
+  /// If [listener] is specified and the controller is of type [ReadController] or [WriteController],
   /// it will be called when the state is a success state.
   ///
-  /// If [builder] is specified and the controller is of type [GetController] or [SendController],
+  /// If [builder] is specified and the controller is of type [ReadController] or [WriteController],
   /// it will be used to build the widget tree when the state is a success state.
   ///
   /// When neither [listener] nor [builder] is specified, the default listener and builder
@@ -279,12 +279,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
     return this.copyWith(
       listener: (context, state) {
         if (listener != null) {
-          assert(controller is GetController || controller is SendController,
-              "In onSuccess listener, The provided controller must be either a GetController or a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is GetController && state is GetSuccessState<S>) {
+          assert(controller is ReadController || controller is WriteController,
+              "In onSuccess listener, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is ReadController && state is ReadSuccessState<S>) {
             listener(context, state);
-          } else if (controller is SendController &&
-              state is SendSuccessState<S>) {
+          } else if (controller is WriteController &&
+              state is WriteSuccessState<S>) {
             listener(context, state);
           }
         }
@@ -292,12 +292,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
       },
       builder: (context, state, child) {
         if (builder != null) {
-          assert(controller is GetController || controller is SendController,
-              "In onSuccess builder, The provided controller must be either a GetController or a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is GetController && state is GetSuccessState<S>) {
+          assert(controller is ReadController || controller is WriteController,
+              "In onSuccess builder, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is ReadController && state is ReadSuccessState<S>) {
             return builder(context, state, child);
-          } else if (controller is SendController &&
-              state is SendSuccessState<S>) {
+          } else if (controller is WriteController &&
+              state is WriteSuccessState<S>) {
             return builder(context, state, child);
           }
         }
@@ -307,12 +307,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
     );
   }
 
-  /// Creates a new instance of [ApiBloc] with listeners and builders for the SendIdleState.
+  /// Creates a new instance of [ApiBloc] with listeners and builders for the WriteIdleState.
   ///
-  /// The [listener] parameter is an optional [OnBlocListener] that listens to the [SendFailedState].
-  /// The [builder] parameter is an optional [OnBlocBuilder] that rebuilds its widget tree based on the [SendFailedState].
+  /// The [listener] parameter is an optional [OnBlocListener] that listens to the [WriteFailedState].
+  /// The [builder] parameter is an optional [OnBlocBuilder] that rebuilds its widget tree based on the [WriteFailedState].
   ///
-  /// Returns a new [ApiBloc] instance with the specified listeners and builders for the SendIdleState.
+  /// Returns a new [ApiBloc] instance with the specified listeners and builders for the WriteIdleState.
   ///
   /// ```dart
   /// ApiBloc(
@@ -332,9 +332,9 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
     return this.copyWith(
       listener: (context, state) {
         if (listener != null) {
-          assert(controller is SendController,
-              "In onFailed listener, The provided controller must be a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is SendController && state is SendFailedState<S>) {
+          assert(controller is WriteController,
+              "In onFailed listener, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is WriteController && state is WriteFailedState<S>) {
             listener(context, state);
           }
         }
@@ -342,9 +342,9 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
       },
       builder: (context, state, child) {
         if (builder != null) {
-          assert(controller is SendController,
-              "In onFailed builder, The provided controller must be a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is SendController && state is SendFailedState<S>) {
+          assert(controller is WriteController,
+              "In onFailed builder, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is WriteController && state is WriteFailedState<S>) {
             return builder(context, state, child);
           }
         }
@@ -359,10 +359,10 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
   /// The `onError` method allows you to specify custom listener and builder functions
   /// to handle error states based on the provided [BlocController].
   ///
-  /// If [listener] is specified and the controller is of type [GetController] or [SendController],
+  /// If [listener] is specified and the controller is of type [ReadController] or [WriteController],
   /// it will be called when the state is an error state.
   ///
-  /// If [builder] is specified and the controller is of type [GetController] or [SendController],
+  /// If [builder] is specified and the controller is of type [ReadController] or [WriteController],
   /// it will be used to build the widget tree when the state is an error state.
   ///
   /// When neither [listener] nor [builder] is specified, the default listener and builder
@@ -386,12 +386,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
     return this.copyWith(
       listener: (context, state) {
         if (listener != null) {
-          assert(controller is GetController || controller is SendController,
-              "In onError listener, The provided controller must be either a GetController or a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is GetController && state is GetErrorState<S>) {
+          assert(controller is ReadController || controller is WriteController,
+              "In onError listener, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is ReadController && state is ReadErrorState<S>) {
             listener(context, state);
-          } else if (controller is SendController &&
-              state is SendErrorState<S>) {
+          } else if (controller is WriteController &&
+              state is WriteErrorState<S>) {
             listener(context, state);
           }
         }
@@ -399,12 +399,12 @@ class ApiBloc<T extends BlocStates> extends StatefulWidget {
       },
       builder: (context, state, child) {
         if (builder != null) {
-          assert(controller is GetController || controller is SendController,
-              "In onError builder, The provided controller must be either a GetController or a SendController. This requirement is due to the design based on known states pattern.");
-          if (controller is GetController && state is GetErrorState<S>) {
+          assert(controller is ReadController || controller is WriteController,
+              "In onError builder, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.");
+          if (controller is ReadController && state is ReadErrorState<S>) {
             return builder(context, state, child);
-          } else if (controller is SendController &&
-              state is SendErrorState<S>) {
+          } else if (controller is WriteController &&
+              state is WriteErrorState<S>) {
             return builder(context, state, child);
           }
         }

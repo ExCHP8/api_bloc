@@ -32,7 +32,7 @@ class GetPage extends StatelessWidget {
               //     child: ApiBloc.builder(
               //       controller: controller,
               //       builder: (context, state, child) {
-              //         if (state is FetchSuccessState<GetUserModel>) {
+              //         if (state is ReadSuccessState<GetUserModel>) {
               //           return Column(
               //               mainAxisSize: MainAxisSize.max,
               //               mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +41,7 @@ class GetPage extends StatelessWidget {
               //                 Text(
               //                     '${state.data!.firstName} ${state.data!.lastName}')
               //               ]);
-              //         } else if (state is FetchErrorState) {
+              //         } else if (state is ReadErrorState) {
               //           return Text(
               //             'Oops something is wrong\n${state.message}',
               //           );

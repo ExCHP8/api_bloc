@@ -6,14 +6,15 @@ final class Model {
       required Directory root,
       required String module}) {
     List<String> result = [];
-    List<String> getlist = from['get'];
-    List<String> sendlist = from['send'];
+    List<String> readlist = from['read'];
+    List<String> writelist = from['write'];
     Directory directory = Directory('${root.path}models')
       ..createSync(recursive: true);
     buffer.write('📂 ${directory.safePath}\n');
 
-    for (var name in getlist) {
-      File file = File('${directory.safePath}get_${module}_${name}_model.dart');
+    for (var name in readlist) {
+      File file =
+          File('${directory.safePath}read_${module}_${name}_model.dart');
       result.add(file.path);
       if (file.existsSync()) {
         buffer.write('\x1B[30m   📄 ${file.path} \x1B[33m[SKIPPED]\x1B[32m\n');
@@ -21,13 +22,13 @@ final class Model {
         buffer.write('   📄 ${file.path} \n');
         file
           ..createSync(recursive: true)
-          ..writeAsStringSync(getAsStringSync(module: module, name: name));
+          ..writeAsStringSync(readAsStringSync(module: module, name: name));
       }
     }
 
-    for (var name in sendlist) {
+    for (var name in writelist) {
       File file =
-          File('${directory.safePath}send_${module}_${name}_model.dart');
+          File('${directory.safePath}write_${module}_${name}_model.dart');
       result.add(file.path);
       if (file.existsSync()) {
         buffer.write('\x1B[30m   📄 ${file.path} \x1B[33m[SKIPPED]\x1B[32m\n');
@@ -35,34 +36,34 @@ final class Model {
         buffer.write('   📄 ${file.path} \n');
         file
           ..createSync(recursive: true)
-          ..writeAsStringSync(sendAsStringSync(module: module, name: name));
+          ..writeAsStringSync(writeAsStringSync(module: module, name: name));
       }
     }
 
     return result;
   }
 
-  static String getAsStringSync({
+  static String readAsStringSync({
     required String module,
     required String name,
   }) {
     return '''
 part of '../$module.dart';
 
-class Get${module.capitalize}${name.capitalize}Model {}
+class Read${module.capitalize}${name.capitalize}Model {}
 ''';
   }
 
-  static String sendAsStringSync({
+  static String writeAsStringSync({
     required String module,
     required String name,
   }) {
     return '''
 part of '../$module.dart';
 
-class Send${module.capitalize}${name.capitalize}SuccessModel {}
+class Write${module.capitalize}${name.capitalize}SuccessModel {}
 
-class Send${module.capitalize}${name.capitalize}FailedModel {}
+class Write${module.capitalize}${name.capitalize}FailedModel {}
 ''';
   }
 }

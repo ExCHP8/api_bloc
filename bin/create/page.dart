@@ -7,22 +7,22 @@ final class Page {
       required String module}) {
     File file = File('${root.safePath}$module.dart');
     bool existed = file.existsSync();
-    List<String> getlist = from['get'];
-    List<String> sendlist = from['send'];
+    List<String> readlist = from['read'];
+    List<String> writelist = from['write'];
     if (existed) {
       file
         ..writeAsStringSync(Page.update(
           file.readAsLinesSync(),
-          getlist: getlist,
-          sendlist: sendlist,
+          readlist: readlist,
+          writelist: writelist,
           module: module,
         ))
         ..createSync(recursive: true);
     } else {
       file
         ..writeAsStringSync(Page.create(
-          getlist: getlist,
-          sendlist: sendlist,
+          readlist: readlist,
+          writelist: writelist,
           module: module,
         ))
         ..createSync(recursive: true);
@@ -36,8 +36,8 @@ final class Page {
   static String update(
     List<String> input, {
     required String module,
-    required List<String> getlist,
-    required List<String> sendlist,
+    required List<String> readlist,
+    required List<String> writelist,
   }) {
     int import = input.lastIndexWhere((e) {
       String result = e.trim();
@@ -52,20 +52,20 @@ final class Page {
             ? 0
             : part + 1
         : import + 1;
-    for (var item in getlist) {
+    for (var item in readlist) {
       String controller =
-          "part 'controllers/get_${module}_${item}_controller.dart';";
-      String model = "part 'models/get_${module}_${item}_model.dart';";
-      String widget = "part 'views/get_${module}_${item}_widget.dart';";
+          "part 'controllers/read_${module}_${item}_controller.dart';";
+      String model = "part 'models/read_${module}_${item}_model.dart';";
+      String widget = "part 'views/read_${module}_${item}_widget.dart';";
       if (!input.contains(controller)) input.insert(index, controller);
       if (!input.contains(model)) input.insert(index, model);
       if (!input.contains(widget)) input.insert(index, widget);
     }
-    for (var item in sendlist) {
+    for (var item in writelist) {
       String controller =
-          "part 'controllers/send_${module}_${item}_controller.dart';";
-      String model = "part 'models/send_${module}_${item}_model.dart';";
-      String widget = "part 'views/send_${module}_${item}_widget.dart';";
+          "part 'controllers/write_${module}_${item}_controller.dart';";
+      String model = "part 'models/write_${module}_${item}_model.dart';";
+      String widget = "part 'views/write_${module}_${item}_widget.dart';";
       if (!input.contains(controller)) input.insert(index, controller);
       if (!input.contains(model)) input.insert(index, model);
       if (!input.contains(widget)) input.insert(index, widget);
@@ -75,8 +75,8 @@ final class Page {
 
   static String create({
     required String module,
-    required List<String> getlist,
-    required List<String> sendlist,
+    required List<String> readlist,
+    required List<String> writelist,
   }) {
     StringBuffer buffer = StringBuffer();
     buffer.write('''
@@ -89,18 +89,18 @@ import 'package:flutter/material.dart';
 
 ''');
 
-    for (var item in getlist) {
+    for (var item in readlist) {
       buffer
-        ..writeln("part 'controllers/get_${module}_${item}_controller.dart';")
-        ..writeln("part 'models/get_${module}_${item}_model.dart';")
-        ..writeln("part 'views/get_${module}_${item}_widget.dart';");
+        ..writeln("part 'controllers/read_${module}_${item}_controller.dart';")
+        ..writeln("part 'models/read_${module}_${item}_model.dart';")
+        ..writeln("part 'views/read_${module}_${item}_widget.dart';");
     }
 
-    for (var item in sendlist) {
+    for (var item in writelist) {
       buffer
-        ..writeln("part 'controllers/send_${module}_${item}_controller.dart';")
-        ..writeln("part 'models/send_${module}_${item}_model.dart';")
-        ..writeln("part 'views/send_${module}_${item}_widget.dart';");
+        ..writeln("part 'controllers/write_${module}_${item}_controller.dart';")
+        ..writeln("part 'models/write_${module}_${item}_model.dart';")
+        ..writeln("part 'views/write_${module}_${item}_widget.dart';");
     }
 
     buffer.write('''
@@ -115,13 +115,13 @@ import 'package:flutter/material.dart';
 // class _${module.capitalize} extends State<${module.capitalize}> {
 ''');
 
-    for (var item in getlist) {
+    for (var item in readlist) {
       buffer.writeln(
-          '// final _${(module)}${item.capitalize}Getter = Get${module.capitalize}${item.capitalize}Controller();');
+          '// final _${(module)}${item.capitalize}Reader = Read${module.capitalize}${item.capitalize}Controller();');
     }
-    for (var item in sendlist) {
+    for (var item in writelist) {
       buffer.writeln(
-          '// final _${(module)}${item.capitalize}Sender = Send${module.capitalize}${item.capitalize}Controller();');
+          '// final _${(module)}${item.capitalize}Writer = Write${module.capitalize}${item.capitalize}Controller();');
     }
 
     buffer.write('''
@@ -134,11 +134,11 @@ import 'package:flutter/material.dart';
 // @override
 // void dispose() {''');
 
-    for (var item in getlist) {
-      buffer.write('\n//\t\t_${(module)}${item.capitalize}Getter.dispose();');
+    for (var item in readlist) {
+      buffer.write('\n//\t\t_${(module)}${item.capitalize}Reader.dispose();');
     }
-    for (var item in sendlist) {
-      buffer.write('\n//\t\t_${(module)}${item.capitalize}Sender.dispose();');
+    for (var item in writelist) {
+      buffer.write('\n//\t\t_${(module)}${item.capitalize}Writer.dispose();');
     }
 
     buffer.write('''
