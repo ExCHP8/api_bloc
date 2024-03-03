@@ -102,7 +102,7 @@ When the first time it initiate the controller, on ReadController it's auto runn
 controller.run();
 ```
 
-## Writeing Scenario
+## Submitting Scenario
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
