@@ -53,3 +53,6 @@
 * Add `onError` function
 * Update generator
 * Refactor `get` to `read` and `send` to `write`
+
+## 2.0.1
+* Update description

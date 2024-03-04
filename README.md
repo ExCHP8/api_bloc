@@ -6,7 +6,7 @@
 <a href='https://pub.dev/packages/api_bloc'><img src='https://img.shields.io/pub/v/api_bloc.svg?logo=flutter&color=blue&style=flat-square'/></a>
 <a href='https://raw.githack.com/Nialixus/api_bloc/main/coverage/html/index.html'><img src='https://img.shields.io/badge/coverage-62%25-blue.svg' /></a>
 
-A Flutter library for managing API calls using the BLoC pattern. This library provides a set of classes and utilities to simplify API calls and manage state changes.
+A Flutter library for managing Rest API calls using the BLoC pattern. This library provides a set of classes and utilities to simplify API calls and manage state changes.
 
 ## Features
 - Easily manage API calls and state changes using the BLoC pattern.
@@ -20,7 +20,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^2.0.0
+  api_bloc: ^2.0.1
 ```
 
 and to use `api_bloc_cli` run this command in terminal.
