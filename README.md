@@ -9,13 +9,13 @@
 A Flutter library for managing Rest API calls using the BLoC pattern. This library provides a set of classes and utilities to simplify API calls and manage state changes.
 
 ## Features
-- Easily manage API calls and state changes using the BLoC pattern.
-- Generic classes for handling various API states such as loading, success, and error.
+- Significantly reducing boilerplate code of bloc pattern to interact with Rest API.
+- Generic classes for handling various API states such as _`loading, success,` & `error`_ for **READ** states and _`idle, loading, success, failed` & `error`_ for **WRITE** states.
 - Customizable builder and listener functions to respond to state changes.
 - Automatic disposal of the controller to prevent memory leaks.
 - Generate api bloc pattern on command.
 
-## Readting Started
+## Getting Started
 To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
