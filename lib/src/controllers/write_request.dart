@@ -1,10 +1,10 @@
 part of 'package:api_bloc/api_bloc.dart';
 
-/// An extended abstract class of [BlocController] specifically made for
+/// An extended abstract class of [BlocRequest] specifically made for
 /// submitting api request.  Normally used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.
 ///
 /// ```dart
-/// class UpdateUserController extends WriteController {
+/// class UpdateUserController extends WriteRequest {
 ///
 ///   @override
 ///   Future<void> onRequest() async {
@@ -47,16 +47,16 @@ part of 'package:api_bloc/api_bloc.dart';
 ///   }
 /// )
 /// ```
-abstract class WriteController extends BlocController<WriteStates> {
+abstract class WriteRequest extends BlocRequest<WriteStates> {
   /// This is constructor of fetching api request with its initial value
-  /// is [WriteIdleState] and different compare to [ReadController]
+  /// is [WriteIdleState] and different compare to [ReadRequest]
   /// it's not calling [run] on init.  Normally used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.
-  WriteController() : super(value: const WriteIdleState());
+  WriteRequest() : super(value: const WriteIdleState());
 
   /// A neccessary function to override when we extends this controller.
   ///
   /// ```dart
-  /// class UpdateUserController extends WriteController {
+  /// class UpdateUserController extends WriteRequest {
   ///
   ///   @override
   ///   Future<void> onRequest() async {
@@ -123,14 +123,9 @@ abstract class WriteController extends BlocController<WriteStates> {
       await onError(e, s);
     }
   }
-
-  /// Whether the controller that we created and associated to certain route
-  /// should be automatically dispose or not. By default it's `true`.
-  @override
-  bool get autoDispose => super.autoDispose;
 }
 
-/// A standalone class that extends [WriteController] and is used to write
+/// A standalone class that extends [WriteRequest] and is used to write
 /// data to the server. Normally used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.
 ///
 /// ```dart
@@ -162,8 +157,8 @@ abstract class WriteController extends BlocController<WriteStates> {
 ///   }
 /// )
 /// ```
-final class ApiWriter extends WriteController {
-  /// This is constructor for declaring standalone [WriteController].
+final class ApiWriter extends WriteRequest {
+  /// This is constructor for declaring standalone [WriteRequest].
   /// A controller that normally being used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.
   ///
   /// Where [onRequest] is a function that will be called when [run] is called.
@@ -205,12 +200,7 @@ final class ApiWriter extends WriteController {
     Future<void> Function(dynamic e, StackTrace s)? onError,
     bool autoDispose = false,
   })  : _onRequest = onRequest,
-        _onError = onError,
-        _autoDispose = autoDispose;
-
-  /// Whether the controller that we created and associated to certain route
-  /// should be automatically dispose or not. By default it's `false`.
-  final bool _autoDispose;
+        _onError = onError;
 
   /// A function where we execute api request.
   ///
@@ -257,7 +247,4 @@ final class ApiWriter extends WriteController {
   Future<void> onError(e, StackTrace s) {
     return _onError != null ? _onError!(e, s) : super.onError(e, s);
   }
-
-  @override
-  bool get autoDispose => _autoDispose;
 }

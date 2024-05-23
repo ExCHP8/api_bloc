@@ -62,11 +62,11 @@
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : part of 'package:api_bloc/api_bloc.dart';</span>
 <span id="L2"><span class="lineNum">       2</span>              : </span>
-<span id="L3"><span class="lineNum">       3</span>              : /// An extended abstract class of [BlocController] specifically made for</span>
+<span id="L3"><span class="lineNum">       3</span>              : /// An extended abstract class of [BlocRequest] specifically made for</span>
 <span id="L4"><span class="lineNum">       4</span>              : /// fetching api request. Normally used for interacting with http method `GET`.</span>
 <span id="L5"><span class="lineNum">       5</span>              : ///</span>
 <span id="L6"><span class="lineNum">       6</span>              : /// ```dart</span>
-<span id="L7"><span class="lineNum">       7</span>              : /// class ReadUserController extends ReadController {</span>
+<span id="L7"><span class="lineNum">       7</span>              : /// class ReadUserController extends ReadRequest {</span>
 <span id="L8"><span class="lineNum">       8</span>              : ///   @override</span>
 <span id="L9"><span class="lineNum">       9</span>              : ///   Future&lt;void&gt; onRequest() async {</span>
 <span id="L10"><span class="lineNum">      10</span>              : ///     Response response = await Response.get('https://base.url/api/user',</span>
@@ -104,11 +104,11 @@
 <span id="L42"><span class="lineNum">      42</span>              : ///   }</span>
 <span id="L43"><span class="lineNum">      43</span>              : /// )</span>
 <span id="L44"><span class="lineNum">      44</span>              : /// ```</span>
-<span id="L45"><span class="lineNum">      45</span>              : abstract class ReadController extends BlocController&lt;ReadStates&gt; {</span>
+<span id="L45"><span class="lineNum">      45</span>              : abstract class ReadRequest extends BlocRequest&lt;ReadStates&gt; {</span>
 <span id="L46"><span class="lineNum">      46</span>              :   /// This is constructor of fetching api request with its initial value</span>
 <span id="L47"><span class="lineNum">      47</span>              :   /// is [ReadLoadingState] and also automatically calling [run] on init.</span>
 <span id="L48"><span class="lineNum">      48</span>              :   /// Normally used for interacting with http method `GET`.</span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC tlaBgGNC">           2 :   ReadController({</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC tlaBgGNC">           2 :   ReadRequest({</span></span>
 <span id="L50"><span class="lineNum">      50</span>              :     Map&lt;String, dynamic&gt; args = const {},</span>
 <span id="L51"><span class="lineNum">      51</span>              :     this.autoRun = true,</span>
 <span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           2 :   }) : super(value: const ReadLoadingState()) {</span></span>
@@ -188,7 +188,7 @@
 <span id="L126"><span class="lineNum">     126</span>              :   final bool autoRun;</span>
 <span id="L127"><span class="lineNum">     127</span>              : }</span>
 <span id="L128"><span class="lineNum">     128</span>              : </span>
-<span id="L129"><span class="lineNum">     129</span>              : /// A standalone class that extends [ReadController] and is used to read</span>
+<span id="L129"><span class="lineNum">     129</span>              : /// A standalone class that extends [ReadRequest] and is used to read</span>
 <span id="L130"><span class="lineNum">     130</span>              : /// data to the server. Normally used for interacting with http method `GET`.</span>
 <span id="L131"><span class="lineNum">     131</span>              : ///</span>
 <span id="L132"><span class="lineNum">     132</span>              : /// ```dart</span>
@@ -215,7 +215,7 @@
 <span id="L153"><span class="lineNum">     153</span>              : ///   }</span>
 <span id="L154"><span class="lineNum">     154</span>              : /// );</span>
 <span id="L155"><span class="lineNum">     155</span>              : /// ```</span>
-<span id="L156"><span class="lineNum">     156</span>              : class ApiReader extends ReadController {</span>
+<span id="L156"><span class="lineNum">     156</span>              : class ApiReader extends ReadRequest {</span>
 <span id="L157"><span class="lineNum">     157</span>              :   /// This is constructor of fetching api request with its initial value</span>
 <span id="L158"><span class="lineNum">     158</span>              :   /// is [ReadLoadingState] and also automatically calling [run] on init.</span>
 <span id="L159"><span class="lineNum">     159</span>              :   /// [autoRun] is [true] by default and [autoDispose] is [false] by default.</span>

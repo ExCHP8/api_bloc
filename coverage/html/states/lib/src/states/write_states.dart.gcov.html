@@ -62,7 +62,7 @@
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : part of 'package:api_bloc/api_bloc.dart';</span>
 <span id="L2"><span class="lineNum">       2</span>              : </span>
-<span id="L3"><span class="lineNum">       3</span>              : /// The different types of states that can be represented in [WriteController].</span>
+<span id="L3"><span class="lineNum">       3</span>              : /// The different types of states that can be represented in [WriteRequest].</span>
 <span id="L4"><span class="lineNum">       4</span>              : enum WriteStateType {</span>
 <span id="L5"><span class="lineNum">       5</span>              :   /// Represents the idle state when there is no request is in progress.</span>
 <span id="L6"><span class="lineNum">       6</span>              :   idle,</span>
@@ -93,7 +93,7 @@
 <span id="L31"><span class="lineNum">      31</span>              :   }</span>
 <span id="L32"><span class="lineNum">      32</span>              : }</span>
 <span id="L33"><span class="lineNum">      33</span>              : </span>
-<span id="L34"><span class="lineNum">      34</span>              : /// The base state class used in [WriteController].</span>
+<span id="L34"><span class="lineNum">      34</span>              : /// The base state class used in [WriteRequest].</span>
 <span id="L35"><span class="lineNum">      35</span>              : ///</span>
 <span id="L36"><span class="lineNum">      36</span>              : /// The [WriteStates] class extends [BlocStates] to provide a generic state</span>
 <span id="L37"><span class="lineNum">      37</span>              : /// that includes [WriteStateType], [message], and a nullable [data] object.</span>
@@ -147,14 +147,14 @@
 <span id="L85"><span class="lineNum">      85</span>              :   }</span>
 <span id="L86"><span class="lineNum">      86</span>              : }</span>
 <span id="L87"><span class="lineNum">      87</span>              : </span>
-<span id="L88"><span class="lineNum">      88</span>              : /// Represents the idle state when no request is in progress in [WriteController].</span>
+<span id="L88"><span class="lineNum">      88</span>              : /// Represents the idle state when no request is in progress in [WriteRequest].</span>
 <span id="L89"><span class="lineNum">      89</span>              : class WriteIdleState&lt;T extends Object?&gt; extends WriteStates&lt;T&gt; {</span>
 <span id="L90"><span class="lineNum">      90</span>              :   /// Create a [WriteIdleState] with an optional [message] and [data].</span>
 <span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC tlaBgGNC">           8 :   const WriteIdleState({super.message, super.data})</span></span>
 <span id="L92"><span class="lineNum">      92</span> <span class="tlaUNC tlaBgUNC">           0 :       : super(type: WriteStateType.idle);</span></span>
 <span id="L93"><span class="lineNum">      93</span>              : }</span>
 <span id="L94"><span class="lineNum">      94</span>              : </span>
-<span id="L95"><span class="lineNum">      95</span>              : /// Represents the loading state when a request is in progress in [WriteController].</span>
+<span id="L95"><span class="lineNum">      95</span>              : /// Represents the loading state when a request is in progress in [WriteRequest].</span>
 <span id="L96"><span class="lineNum">      96</span>              : class WriteLoadingState&lt;T extends Object?&gt; extends WriteStates&lt;T&gt; {</span>
 <span id="L97"><span class="lineNum">      97</span>              :   /// Create a [WriteLoadingState] with an optional [message] and [data].</span>
 <span id="L98"><span class="lineNum">      98</span>              :   ///</span>
@@ -168,7 +168,7 @@
 <span id="L106"><span class="lineNum">     106</span>              : }</span>
 <span id="L107"><span class="lineNum">     107</span>              : </span>
 <span id="L108"><span class="lineNum">     108</span>              : /// Represents the success state when a request is successfully submitted in</span>
-<span id="L109"><span class="lineNum">     109</span>              : /// [WriteController].</span>
+<span id="L109"><span class="lineNum">     109</span>              : /// [WriteRequest].</span>
 <span id="L110"><span class="lineNum">     110</span>              : class WriteSuccessState&lt;T extends Object&gt; extends WriteStates&lt;T&gt; {</span>
 <span id="L111"><span class="lineNum">     111</span>              :   /// Create a [WriteSuccessState] with a required [data] object and an optional [message].</span>
 <span id="L112"><span class="lineNum">     112</span>              :   ///</span>
@@ -182,7 +182,7 @@
 <span id="L120"><span class="lineNum">     120</span>              : }</span>
 <span id="L121"><span class="lineNum">     121</span>              : </span>
 <span id="L122"><span class="lineNum">     122</span>              : /// Represents the failed state when a request submission fails in</span>
-<span id="L123"><span class="lineNum">     123</span>              : /// [WriteController].</span>
+<span id="L123"><span class="lineNum">     123</span>              : /// [WriteRequest].</span>
 <span id="L124"><span class="lineNum">     124</span>              : class WriteFailedState&lt;T extends Object&gt; extends WriteStates&lt;T&gt; {</span>
 <span id="L125"><span class="lineNum">     125</span>              :   /// Create a [WriteFailedState] with a required [data] object and an</span>
 <span id="L126"><span class="lineNum">     126</span>              :   /// optional [message].</span>
@@ -197,10 +197,10 @@
 <span id="L135"><span class="lineNum">     135</span>              : }</span>
 <span id="L136"><span class="lineNum">     136</span>              : </span>
 <span id="L137"><span class="lineNum">     137</span>              : /// Represents the error state when an error occurs during request submission in</span>
-<span id="L138"><span class="lineNum">     138</span>              : /// [WriteController].</span>
+<span id="L138"><span class="lineNum">     138</span>              : /// [WriteRequest].</span>
 <span id="L139"><span class="lineNum">     139</span>              : class WriteErrorState&lt;T extends Object?&gt; extends WriteStates&lt;T&gt; {</span>
 <span id="L140"><span class="lineNum">     140</span>              :   /// Represents the error state when an error occurs during request submission in</span>
-<span id="L141"><span class="lineNum">     141</span>              :   /// [WriteController].</span>
+<span id="L141"><span class="lineNum">     141</span>              :   /// [WriteRequest].</span>
 <span id="L142"><span class="lineNum">     142</span> <span class="tlaGNC tlaBgGNC">           3 :   const WriteErrorState({super.message, super.data})</span></span>
 <span id="L143"><span class="lineNum">     143</span> <span class="tlaGNC">           1 :       : super(type: WriteStateType.error);</span></span>
 <span id="L144"><span class="lineNum">     144</span>              : }</span>

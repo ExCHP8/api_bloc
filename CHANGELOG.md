@@ -56,3 +56,5 @@
 
 ## 2.0.1
 * Update description
+
+## 2.0.2

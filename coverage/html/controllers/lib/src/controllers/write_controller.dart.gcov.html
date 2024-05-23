@@ -62,11 +62,11 @@
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : part of 'package:api_bloc/api_bloc.dart';</span>
 <span id="L2"><span class="lineNum">       2</span>              : </span>
-<span id="L3"><span class="lineNum">       3</span>              : /// An extended abstract class of [BlocController] specifically made for</span>
+<span id="L3"><span class="lineNum">       3</span>              : /// An extended abstract class of [BlocRequest] specifically made for</span>
 <span id="L4"><span class="lineNum">       4</span>              : /// submitting api request.  Normally used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.</span>
 <span id="L5"><span class="lineNum">       5</span>              : ///</span>
 <span id="L6"><span class="lineNum">       6</span>              : /// ```dart</span>
-<span id="L7"><span class="lineNum">       7</span>              : /// class UpdateUserController extends WriteController {</span>
+<span id="L7"><span class="lineNum">       7</span>              : /// class UpdateUserController extends WriteRequest {</span>
 <span id="L8"><span class="lineNum">       8</span>              : ///</span>
 <span id="L9"><span class="lineNum">       9</span>              : ///   @override</span>
 <span id="L10"><span class="lineNum">      10</span>              : ///   Future&lt;void&gt; onRequest() async {</span>
@@ -109,16 +109,16 @@
 <span id="L47"><span class="lineNum">      47</span>              : ///   }</span>
 <span id="L48"><span class="lineNum">      48</span>              : /// )</span>
 <span id="L49"><span class="lineNum">      49</span>              : /// ```</span>
-<span id="L50"><span class="lineNum">      50</span>              : abstract class WriteController extends BlocController&lt;WriteStates&gt; {</span>
+<span id="L50"><span class="lineNum">      50</span>              : abstract class WriteRequest extends BlocRequest&lt;WriteStates&gt; {</span>
 <span id="L51"><span class="lineNum">      51</span>              :   /// This is constructor of fetching api request with its initial value</span>
-<span id="L52"><span class="lineNum">      52</span>              :   /// is [WriteIdleState] and different compare to [ReadController]</span>
+<span id="L52"><span class="lineNum">      52</span>              :   /// is [WriteIdleState] and different compare to [ReadRequest]</span>
 <span id="L53"><span class="lineNum">      53</span>              :   /// it's not calling [run] on init.  Normally used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.</span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC tlaBgGNC">           4 :   WriteController() : super(value: const WriteIdleState());</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC tlaBgGNC">           4 :   WriteRequest() : super(value: const WriteIdleState());</span></span>
 <span id="L55"><span class="lineNum">      55</span>              : </span>
 <span id="L56"><span class="lineNum">      56</span>              :   /// A neccessary function to override when we extends this controller.</span>
 <span id="L57"><span class="lineNum">      57</span>              :   ///</span>
 <span id="L58"><span class="lineNum">      58</span>              :   /// ```dart</span>
-<span id="L59"><span class="lineNum">      59</span>              :   /// class UpdateUserController extends WriteController {</span>
+<span id="L59"><span class="lineNum">      59</span>              :   /// class UpdateUserController extends WriteRequest {</span>
 <span id="L60"><span class="lineNum">      60</span>              :   ///</span>
 <span id="L61"><span class="lineNum">      61</span>              :   ///   @override</span>
 <span id="L62"><span class="lineNum">      62</span>              :   ///   Future&lt;void&gt; onRequest() async {</span>
@@ -192,7 +192,7 @@
 <span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC">           1 :   bool get autoDispose =&gt; super.autoDispose;</span></span>
 <span id="L131"><span class="lineNum">     131</span>              : }</span>
 <span id="L132"><span class="lineNum">     132</span>              : </span>
-<span id="L133"><span class="lineNum">     133</span>              : /// A standalone class that extends [WriteController] and is used to write</span>
+<span id="L133"><span class="lineNum">     133</span>              : /// A standalone class that extends [WriteRequest] and is used to write</span>
 <span id="L134"><span class="lineNum">     134</span>              : /// data to the server. Normally used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.</span>
 <span id="L135"><span class="lineNum">     135</span>              : ///</span>
 <span id="L136"><span class="lineNum">     136</span>              : /// ```dart</span>
@@ -224,8 +224,8 @@
 <span id="L162"><span class="lineNum">     162</span>              : ///   }</span>
 <span id="L163"><span class="lineNum">     163</span>              : /// )</span>
 <span id="L164"><span class="lineNum">     164</span>              : /// ```</span>
-<span id="L165"><span class="lineNum">     165</span>              : final class ApiWriter extends WriteController {</span>
-<span id="L166"><span class="lineNum">     166</span>              :   /// This is constructor for declaring standalone [WriteController].</span>
+<span id="L165"><span class="lineNum">     165</span>              : final class ApiWriter extends WriteRequest {</span>
+<span id="L166"><span class="lineNum">     166</span>              :   /// This is constructor for declaring standalone [WriteRequest].</span>
 <span id="L167"><span class="lineNum">     167</span>              :   /// A controller that normally being used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.</span>
 <span id="L168"><span class="lineNum">     168</span>              :   ///</span>
 <span id="L169"><span class="lineNum">     169</span>              :   /// Where [onRequest] is a function that will be called when [run] is called.</span>

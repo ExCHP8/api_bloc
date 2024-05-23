@@ -68,7 +68,7 @@
 <span id="L6"><span class="lineNum">       6</span>              : /// it's a function where we executing request on api.</span>
 <span id="L7"><span class="lineNum">       7</span>              : ///</span>
 <span id="L8"><span class="lineNum">       8</span>              : /// ```dart</span>
-<span id="L9"><span class="lineNum">       9</span>              : /// class MyController extends BlocController&lt;BlocStates&gt;{</span>
+<span id="L9"><span class="lineNum">       9</span>              : /// class MyController extends BlocRequest&lt;BlocStates&gt;{</span>
 <span id="L10"><span class="lineNum">      10</span>              : /// MyController({super.value = LoadingState()});</span>
 <span id="L11"><span class="lineNum">      11</span>              : ///</span>
 <span id="L12"><span class="lineNum">      12</span>              : /// @override</span>
@@ -85,17 +85,17 @@
 <span id="L23"><span class="lineNum">      23</span>              : /// @override</span>
 <span id="L24"><span class="lineNum">      24</span>              : /// bool get autoDispose =&gt; super.autoDispose;</span>
 <span id="L25"><span class="lineNum">      25</span>              : /// ```</span>
-<span id="L26"><span class="lineNum">      26</span>              : abstract class BlocController&lt;T extends BlocStates&gt; extends ValueNotifier&lt;T&gt; {</span>
-<span id="L27"><span class="lineNum">      27</span>              :   /// [BlocController] requiring a [value] that extends [BlocStates],</span>
+<span id="L26"><span class="lineNum">      26</span>              : abstract class BlocRequest&lt;T extends BlocStates&gt; extends ValueNotifier&lt;T&gt; {</span>
+<span id="L27"><span class="lineNum">      27</span>              :   /// [BlocRequest] requiring a [value] that extends [BlocStates],</span>
 <span id="L28"><span class="lineNum">      28</span>              :   ///</span>
 <span id="L29"><span class="lineNum">      29</span>              :   /// ```dart</span>
-<span id="L30"><span class="lineNum">      30</span>              :   /// class MyContrroller extends BlocController&lt;BlocStates&gt;{</span>
+<span id="L30"><span class="lineNum">      30</span>              :   /// class MyContrroller extends BlocRequest&lt;BlocStates&gt;{</span>
 <span id="L31"><span class="lineNum">      31</span>              :   ///   MyController({super.value = LoadingState()});</span>
 <span id="L32"><span class="lineNum">      32</span>              :   /// }</span>
 <span id="L33"><span class="lineNum">      33</span>              :   /// ```</span>
 <span id="L34"><span class="lineNum">      34</span>              :   ///</span>
-<span id="L35"><span class="lineNum">      35</span>              :   /// and [BlocController] also automatically set [autoDispose] as `true`.</span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC tlaBgGNC">           8 :   BlocController({required T value, this.autoDispose = true}) : super(value);</span></span>
+<span id="L35"><span class="lineNum">      35</span>              :   /// and [BlocRequest] also automatically set [autoDispose] as `true`.</span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC tlaBgGNC">           8 :   BlocRequest({required T value, this.autoDispose = true}) : super(value);</span></span>
 <span id="L37"><span class="lineNum">      37</span>              : </span>
 <span id="L38"><span class="lineNum">      38</span>              :   /// Updating [BlocStates] value in this controller.</span>
 <span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           8 :   void emit(T value) =&gt; this.value = value;</span></span>

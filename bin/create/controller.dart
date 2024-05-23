@@ -50,7 +50,7 @@ final class Controller {
     return '''
 part of '../$module.dart';
 
-class Read${module.capitalize}${name.capitalize}Controller extends ReadController {
+class Read${module.capitalize}${name.capitalize}Controller extends ReadRequest {
 
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
@@ -74,7 +74,7 @@ class Read${module.capitalize}${name.capitalize}Controller extends ReadControlle
     return '''
 part of '../$module.dart';
 
-class Write${module.capitalize}${name.capitalize}Controller extends WriteController {
+class Write${module.capitalize}${name.capitalize}Controller extends WriteRequest {
 
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {

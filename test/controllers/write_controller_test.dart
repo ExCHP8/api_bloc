@@ -18,7 +18,7 @@ class StatusModel {
   }
 }
 
-class MockWriteController extends WriteController {
+class MockWriteRequest extends WriteRequest {
   bool success = true;
 
   @override
@@ -38,36 +38,32 @@ class MockWriteController extends WriteController {
 }
 
 void main() {
-  group('WriteController', () {
-    late MockWriteController mockWriteController;
+  group('WriteRequest', () {
+    late MockWriteRequest mockWriteRequest;
 
     setUp(() {
-      mockWriteController = MockWriteController();
+      mockWriteRequest = MockWriteRequest();
     });
 
     test('Validate Initial State', () {
-      expect(mockWriteController.value, isA<WriteIdleState>());
+      expect(mockWriteRequest.value, isA<WriteIdleState>());
     });
 
     test('Validate Success State', () async {
-      await mockWriteController.run();
-      expect(mockWriteController.value, isA<WriteSuccessState<StatusModel>>());
-      expect(mockWriteController.value.data, isA<StatusModel>());
-      expect(mockWriteController.value.message, isNotEmpty);
-      expect(mockWriteController.value.message, equals('Operation successful'));
+      await mockWriteRequest.run();
+      expect(mockWriteRequest.value, isA<WriteSuccessState<StatusModel>>());
+      expect(mockWriteRequest.value.data, isA<StatusModel>());
+      expect(mockWriteRequest.value.message, isNotEmpty);
+      expect(mockWriteRequest.value.message, equals('Operation successful'));
     });
 
     test('Validate Error State', () async {
-      mockWriteController.success = false;
-      await mockWriteController.run();
-      expect(mockWriteController.value, isA<WriteErrorState>());
-      expect(mockWriteController.value.message, isNotEmpty);
-      expect(mockWriteController.value.message, equals('Mocked error'));
-      expect(mockWriteController.value.data, isA<StackTrace>());
-    });
-
-    test('Validate AutoDispose Value', () {
-      expect(mockWriteController.autoDispose, isTrue);
+      mockWriteRequest.success = false;
+      await mockWriteRequest.run();
+      expect(mockWriteRequest.value, isA<WriteErrorState>());
+      expect(mockWriteRequest.value.message, isNotEmpty);
+      expect(mockWriteRequest.value.message, equals('Mocked error'));
+      expect(mockWriteRequest.value.data, isA<StackTrace>());
     });
   });
 }

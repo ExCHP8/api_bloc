@@ -17,25 +17,19 @@ class UserModel {
   }
 }
 
-class MockReadController extends ReadController {
+class MockReadRequest extends ReadRequest {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {}
-
-  @override
-  bool get autoDispose => false;
 }
 
-class MockWriteController extends WriteController {
+class MockWriteRequest extends WriteRequest {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {}
-
-  @override
-  bool get autoDispose => false;
 }
 
 void main() {
   group('ApiBloc: Fetch Scenario', () {
-    final controller = MockReadController();
+    final controller = MockReadRequest();
     final widget = MaterialApp(
       home: ApiBloc(
         controller: controller,
@@ -86,7 +80,7 @@ void main() {
       ));
     }
 
-    final controller = MockWriteController();
+    final controller = MockWriteRequest();
     final widget = MaterialApp(
       home: Scaffold(
           body: ApiBloc(

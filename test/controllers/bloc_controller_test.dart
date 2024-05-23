@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:api_bloc/api_bloc.dart';
 
-class MockController extends BlocController<BlocStates> {
+class MockController extends BlocRequest<BlocStates> {
   MockController({super.value = const ReadLoadingState()});
   bool success = true;
 
@@ -23,7 +23,7 @@ class MockController extends BlocController<BlocStates> {
 }
 
 void main() {
-  group('BlocController', () {
+  group('BlocRequest', () {
     late MockController myController;
 
     setUp(() {
@@ -48,10 +48,6 @@ void main() {
       expect(myController.value, isA<ReadErrorState>());
       expect(myController.value.data, isNotEmpty);
       expect(myController.value.data, equals('Mocked error'));
-    });
-
-    test('Validate AutoDispose Value', () {
-      expect(myController.autoDispose, isTrue);
     });
   });
 }

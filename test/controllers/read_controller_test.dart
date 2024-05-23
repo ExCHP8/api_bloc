@@ -17,7 +17,7 @@ class UserModel {
   }
 }
 
-class MockReadController extends ReadController {
+class MockReadRequest extends ReadRequest {
   bool success = true;
 
   @override
@@ -34,48 +34,40 @@ class MockReadController extends ReadController {
 }
 
 void main() {
-  group('ReadController', () {
-    late MockReadController mockReadController;
+  group('ReadRequest', () {
+    late MockReadRequest mockReadRequest;
 
     setUp(() {
-      mockReadController = MockReadController();
+      mockReadRequest = MockReadRequest();
     });
 
     test('Validate Initial State', () {
-      expect(mockReadController.value, isA<ReadLoadingState>());
+      expect(mockReadRequest.value, isA<ReadLoadingState>());
     });
 
     test('Validate Success State', () async {
-      await mockReadController.run();
-      expect(mockReadController.value, isA<ReadSuccessState<UserModel>>());
-      expect(mockReadController.value.data, isA<UserModel>());
+      await mockReadRequest.run();
+      expect(mockReadRequest.value, isA<ReadSuccessState<UserModel>>());
+      expect(mockReadRequest.value.data, isA<UserModel>());
       expect(
-          (mockReadController.value as ReadSuccessState<UserModel>)
-              .data!
-              .userName,
+          (mockReadRequest.value as ReadSuccessState<UserModel>).data!.userName,
           isNotEmpty);
       expect(
-          (mockReadController.value as ReadSuccessState<UserModel>)
-              .data!
-              .userName,
+          (mockReadRequest.value as ReadSuccessState<UserModel>).data!.userName,
           equals('John Doe'));
     });
 
     test('Validate Error State', () async {
-      mockReadController.success = false;
-      await mockReadController.run();
-      expect(mockReadController.value, isA<ReadErrorState>());
-      expect(mockReadController.value.message, isNotEmpty);
-      expect(mockReadController.value.message, equals('Mocked error'));
-      expect(mockReadController.value.data, isA<StackTrace>());
-    });
-
-    test('Validate AutoDispose Value', () {
-      expect(mockReadController.autoDispose, isTrue);
+      mockReadRequest.success = false;
+      await mockReadRequest.run();
+      expect(mockReadRequest.value, isA<ReadErrorState>());
+      expect(mockReadRequest.value.message, isNotEmpty);
+      expect(mockReadRequest.value.message, equals('Mocked error'));
+      expect(mockReadRequest.value.data, isA<StackTrace>());
     });
 
     test('Validate AutoRun Value', () {
-      expect(mockReadController.autoRun, isTrue);
+      expect(mockReadRequest.autorun, isTrue);
     });
   });
 }

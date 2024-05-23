@@ -1,10 +1,10 @@
 part of 'package:api_bloc/api_bloc.dart';
 
-/// An extended abstract class of [BlocController] specifically made for
+/// An extended abstract class of [BlocRequest] specifically made for
 /// fetching api request. Normally used for interacting with http method `GET`.
 ///
 /// ```dart
-/// class ReadUserController extends ReadController {
+/// class ReadUserController extends ReadRequest {
 ///   @override
 ///   Future<void> onRequest() async {
 ///     Response response = await Response.get('https://base.url/api/user',
@@ -42,15 +42,15 @@ part of 'package:api_bloc/api_bloc.dart';
 ///   }
 /// )
 /// ```
-abstract class ReadController extends BlocController<ReadStates> {
+abstract class ReadRequest extends BlocRequest<ReadStates> {
   /// This is constructor of fetching api request with its initial value
   /// is [ReadLoadingState] and also automatically calling [run] on init.
   /// Normally used for interacting with http method `GET`.
-  ReadController({
+  ReadRequest({
     Map<String, dynamic> args = const {},
-    this.autoRun = true,
+    this.autorun = true,
   }) : super(value: const ReadLoadingState()) {
-    if (autoRun) run(args);
+    if (autorun) run(args);
   }
 
   /// A function where we execute api request.
@@ -117,16 +117,11 @@ abstract class ReadController extends BlocController<ReadStates> {
     }
   }
 
-  /// Whether the controller that we created and associated to certain route
-  /// should be automatically dispose or not. By default it's `true`.
-  @override
-  bool get autoDispose => super.autoDispose;
-
   /// Wether the controller should trigger run on initialization or not.
-  final bool autoRun;
+  final bool autorun;
 }
 
-/// A standalone class that extends [ReadController] and is used to read
+/// A standalone class that extends [ReadRequest] and is used to read
 /// data to the server. Normally used for interacting with http method `GET`.
 ///
 /// ```dart
@@ -153,10 +148,10 @@ abstract class ReadController extends BlocController<ReadStates> {
 ///   }
 /// );
 /// ```
-class ApiReader extends ReadController {
+class ApiReader extends ReadRequest {
   /// This is constructor of fetching api request with its initial value
   /// is [ReadLoadingState] and also automatically calling [run] on init.
-  /// [autoRun] is [true] by default and [autoDispose] is [false] by default.
+  /// [autorun] is [true] by default.
   /// This controller normally being used for interacting with http method `GET`.
   ///
   /// ```dart
@@ -186,15 +181,10 @@ class ApiReader extends ReadController {
   ApiReader({
     required Future<void> onRequest,
     Future<void> Function(dynamic e, StackTrace s)? onError,
-    super.autoRun = true,
+    super.autorun = true,
     bool autoDispose = false,
   })  : _onRequest = onRequest,
-        _onError = onError,
-        _autoDispose = autoDispose;
-
-  /// Whether the controller that we created and associated to certain route
-  /// should be automatically dispose or not. By default it's `false`.
-  final bool _autoDispose;
+        _onError = onError;
 
   /// A function where we execute api request.
   ///
@@ -234,7 +224,4 @@ class ApiReader extends ReadController {
   Future<void> onError(e, StackTrace s) {
     return _onError != null ? _onError!(e, s) : super.onError(e, s);
   }
-
-  @override
-  bool get autoDispose => _autoDispose;
 }

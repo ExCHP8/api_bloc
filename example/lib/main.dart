@@ -1,3 +1,4 @@
+import 'package:api_bloc/api_bloc.dart';
 import 'package:example/fetch/get_page.dart';
 import 'package:example/submit/post_page.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,10 @@ class HomePage extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => [
+                                          builder: (context) => const [
                                                 GetPage(),
-                                                const PostPage()
+                                                GetPage(),
+                                                // const PostPage()
                                               ][x]));
                                 },
                                 child: Text(

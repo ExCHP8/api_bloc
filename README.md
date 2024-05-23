@@ -20,7 +20,7 @@ To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^2.0.1
+  api_bloc: ^2.0.2
 ```
 
 and to use `api_bloc_cli` run this command in terminal.
@@ -64,7 +64,7 @@ Now the things that left to do is writing the content of the controllers, widget
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class ReadUserController extends ReadController {
+class ReadUserController extends ReadRequest {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
@@ -96,7 +96,7 @@ ApiBloc.builder(
   },
 );
 ```
-When the first time it initiate the controller, on ReadController it's auto running the request function. But if you want to re run it, you can do it by calling
+When the first time it initiate the controller, on ReadRequest it's auto running the request function. But if you want to re run it, you can do it by calling
 
 ```dart
 controller.run();
@@ -107,7 +107,7 @@ controller.run();
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class CreateUserController extends WriteController {
+class CreateUserController extends WriteRequest {
   @override
   // We're going to dispose it manually if we set it as false.
   bool get autoDispose => false;
@@ -157,16 +157,16 @@ ApiBloc(
   },
 );
 ```
-Unlike the ReadController, initial state of WriteController is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
+Unlike the ReadRequest, initial state of WriteRequest is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
 
 ## Using Extension
 Now you can easily customize how your `ApiBloc` handles different state scenarios using these new extensions:
 
-- `onIdle`: Handle `WriteIdleState` and only work with `WriteController`.
-- `onLoading`: Handle `ReadLoadingState` and only work with `ReadController` or `WriteLoadingState` that only work with `WriteController`.
-- `onSuccess`: Handle `ReadSuccessState` and only work with `ReadController` or `WriteSuccessState` that only work with `WriteController`.
-- `onFailed`: Handle `WriteFailedState` and only work with `WriteController`.
-- `onError`: Handle `ReadErrorState` and only work with `ReadController` or `WriteErrorState` that only work with `WriteController`.
+- `onIdle`: Handle `WriteIdleState` and only work with `WriteRequest`.
+- `onLoading`: Handle `ReadLoadingState` and only work with `ReadRequest` or `WriteLoadingState` that only work with `WriteRequest`.
+- `onSuccess`: Handle `ReadSuccessState` and only work with `ReadRequest` or `WriteSuccessState` that only work with `WriteRequest`.
+- `onFailed`: Handle `WriteFailedState` and only work with `WriteRequest`.
+- `onError`: Handle `ReadErrorState` and only work with `ReadRequest` or `WriteErrorState` that only work with `WriteRequest`.
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
@@ -206,7 +206,7 @@ ApiBloc(
 You can integrate this library with sentry by making custom controller like this.
 
 ```dart
-abstract class ReadSentryController extends BlocController<ReadStates> {
+abstract class ReadSentryController extends BlocRequest<ReadStates> {
   ReadSentryController({
     this.autoRun = true,
     JSON args = const {},
@@ -237,7 +237,7 @@ abstract class ReadSentryController extends BlocController<ReadStates> {
   final bool autoRun;
 }
 
-abstract class WriteSentryController extends BlocController<WriteStates> {
+abstract class WriteSentryController extends BlocRequest<WriteStates> {
   WriteSentryController() : super(value: const WriteIdleState());
 
   @override

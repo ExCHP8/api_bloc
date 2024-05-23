@@ -8,13 +8,14 @@ class GetUserModel {
       required this.avatar});
   final int id;
   final String firstName, lastName, avatar;
+  String get fullName => '$firstName $lastName';
 
   static GetUserModel fromJSON(Map<String, dynamic> value) {
     return GetUserModel(
-      id: value['data']['id'] as int,
-      firstName: value['data']['first_name'] as String,
-      lastName: value['data']['last_name'] as String,
-      avatar: value['data']['avatar'] as String,
+      id: value['data']?['id'] ?? 0,
+      firstName: value['data']?['first_name'] ?? 'FIRST_NAME',
+      lastName: value['data']?['last_name'] ?? 'LAST_NAME',
+      avatar: value['data']?['avatar'] ?? 'https:/placehold.co/300x300',
     );
   }
 

@@ -102,7 +102,7 @@
 <span id="L40"><span class="lineNum">      40</span>              : class ApiBloc&lt;T extends BlocStates&gt; extends StatefulWidget {</span>
 <span id="L41"><span class="lineNum">      41</span>              :   /// Default constructor for [ApiBloc].</span>
 <span id="L42"><span class="lineNum">      42</span>              :   ///</span>
-<span id="L43"><span class="lineNum">      43</span>              :   /// The [controller] is a required parameter of type [BlocController] that</span>
+<span id="L43"><span class="lineNum">      43</span>              :   /// The [controller] is a required parameter of type [BlocRequest] that</span>
 <span id="L44"><span class="lineNum">      44</span>              :   /// manages the state.</span>
 <span id="L45"><span class="lineNum">      45</span>              :   ///</span>
 <span id="L46"><span class="lineNum">      46</span>              :   /// The [builder] is an optional parameter of type [BlocBuilder] that builds</span>
@@ -116,7 +116,7 @@
 <span id="L54"><span class="lineNum">      54</span>              :   ///</span>
 <span id="L55"><span class="lineNum">      55</span>              :   /// ```dart</span>
 <span id="L56"><span class="lineNum">      56</span>              :   /// ApiBloc(</span>
-<span id="L57"><span class="lineNum">      57</span>              :   ///   controller: ReadController(),</span>
+<span id="L57"><span class="lineNum">      57</span>              :   ///   controller: ReadRequest(),</span>
 <span id="L58"><span class="lineNum">      58</span>              :   ///   listener: (context, state) =&gt; log(state.toString());</span>
 <span id="L59"><span class="lineNum">      59</span>              :   ///   builder: (context, state, child) {</span>
 <span id="L60"><span class="lineNum">      60</span>              :   ///     if (state is ReadSuccessState&lt;Model&gt;){</span>
@@ -137,14 +137,14 @@
 <span id="L75"><span class="lineNum">      75</span>              :     this.builder,</span>
 <span id="L76"><span class="lineNum">      76</span>              :   });</span>
 <span id="L77"><span class="lineNum">      77</span>              : </span>
-<span id="L78"><span class="lineNum">      78</span>              :   /// The [BlocController] that manages the state of the [ApiBloc].</span>
-<span id="L79"><span class="lineNum">      79</span>              :   final BlocController&lt;T&gt; controller;</span>
+<span id="L78"><span class="lineNum">      78</span>              :   /// The [BlocRequest] that manages the state of the [ApiBloc].</span>
+<span id="L79"><span class="lineNum">      79</span>              :   final BlocRequest&lt;T&gt; controller;</span>
 <span id="L80"><span class="lineNum">      80</span>              : </span>
 <span id="L81"><span class="lineNum">      81</span>              :   /// The child widget to be rendered when no [builder] is provided.</span>
 <span id="L82"><span class="lineNum">      82</span>              :   final Widget child;</span>
 <span id="L83"><span class="lineNum">      83</span>              : </span>
 <span id="L84"><span class="lineNum">      84</span>              :   /// The [BlocBuilder] function that rebuild its widget by listening to changes</span>
-<span id="L85"><span class="lineNum">      85</span>              :   /// in [BlocController].</span>
+<span id="L85"><span class="lineNum">      85</span>              :   /// in [BlocRequest].</span>
 <span id="L86"><span class="lineNum">      86</span>              :   final BlocBuilder&lt;T&gt;? builder;</span>
 <span id="L87"><span class="lineNum">      87</span>              : </span>
 <span id="L88"><span class="lineNum">      88</span>              :   /// The [BlocListener] function that listens to changes in the [BlocStates].</span>
@@ -180,7 +180,7 @@
 <span id="L118"><span class="lineNum">     118</span>              :   /// Creates a new instance of [ApiBloc] with the given parameters replaced.</span>
 <span id="L119"><span class="lineNum">     119</span>              :   ///</span>
 <span id="L120"><span class="lineNum">     120</span>              :   /// The [key] parameter is an optional key to be used for the new [ApiBloc] instance.</span>
-<span id="L121"><span class="lineNum">     121</span>              :   /// The [controller] parameter is an optional [BlocController] that manages the state.</span>
+<span id="L121"><span class="lineNum">     121</span>              :   /// The [controller] parameter is an optional [BlocRequest] that manages the state.</span>
 <span id="L122"><span class="lineNum">     122</span>              :   /// The [listener] parameter is an optional [BlocListener] that listens to changes in the [BlocStates].</span>
 <span id="L123"><span class="lineNum">     123</span>              :   /// The [builder] parameter is an optional [BlocBuilder] that rebuilds its widget based on the current [BlocStates].</span>
 <span id="L124"><span class="lineNum">     124</span>              :   /// The [child] parameter is an optional child widget to be rendered when no [builder] is provided.</span>
@@ -188,7 +188,7 @@
 <span id="L126"><span class="lineNum">     126</span>              :   /// Returns a new [ApiBloc] instance with the specified parameters replaced.</span>
 <span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">           1 :   ApiBloc&lt;T&gt; copyWith({</span></span>
 <span id="L128"><span class="lineNum">     128</span>              :     Key? key,</span>
-<span id="L129"><span class="lineNum">     129</span>              :     BlocController&lt;T&gt;? controller,</span>
+<span id="L129"><span class="lineNum">     129</span>              :     BlocRequest&lt;T&gt;? controller,</span>
 <span id="L130"><span class="lineNum">     130</span>              :     BlocListener&lt;T&gt;? listener,</span>
 <span id="L131"><span class="lineNum">     131</span>              :     BlocBuilder&lt;T&gt;? builder,</span>
 <span id="L132"><span class="lineNum">     132</span>              :     Widget? child,</span>
@@ -211,7 +211,7 @@
 <span id="L149"><span class="lineNum">     149</span>              :   ///</span>
 <span id="L150"><span class="lineNum">     150</span>              :   /// ```dart</span>
 <span id="L151"><span class="lineNum">     151</span>              :   /// ApiBloc(</span>
-<span id="L152"><span class="lineNum">     152</span>              :   ///   controller: BlocController(),</span>
+<span id="L152"><span class="lineNum">     152</span>              :   ///   controller: BlocRequest(),</span>
 <span id="L153"><span class="lineNum">     153</span>              :   /// ).onIdle&lt;int&gt;(</span>
 <span id="L154"><span class="lineNum">     154</span>              :   ///   listener: (context, state) {</span>
 <span id="L155"><span class="lineNum">     155</span>              :   ///     /* your code here */</span>
@@ -227,9 +227,9 @@
 <span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :     return this.copyWith(</span></span>
 <span id="L166"><span class="lineNum">     166</span> <span class="tlaUNC">           0 :       listener: (context, state) {</span></span>
 <span id="L167"><span class="lineNum">     167</span>              :         if (listener != null) {</span>
-<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :           assert(controller is WriteController,</span></span>
-<span id="L169"><span class="lineNum">     169</span>              :               &quot;In onIdle listener, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L170"><span class="lineNum">     170</span> <span class="tlaUNC">           0 :           if (controller is WriteController &amp;&amp; state is WriteIdleState&lt;S&gt;) {</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :           assert(controller is WriteRequest,</span></span>
+<span id="L169"><span class="lineNum">     169</span>              :               &quot;In onIdle listener, The provided controller must be a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaUNC">           0 :           if (controller is WriteRequest &amp;&amp; state is WriteIdleState&lt;S&gt;) {</span></span>
 <span id="L171"><span class="lineNum">     171</span> <span class="tlaUNC">           0 :             listener(context, state);</span></span>
 <span id="L172"><span class="lineNum">     172</span>              :           }</span>
 <span id="L173"><span class="lineNum">     173</span>              :         }</span>
@@ -237,9 +237,9 @@
 <span id="L175"><span class="lineNum">     175</span>              :       },</span>
 <span id="L176"><span class="lineNum">     176</span> <span class="tlaUNC">           0 :       builder: (context, state, child) {</span></span>
 <span id="L177"><span class="lineNum">     177</span>              :         if (builder != null) {</span>
-<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 :           assert(controller is WriteController,</span></span>
-<span id="L179"><span class="lineNum">     179</span>              :               &quot;In onIdle builder, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L180"><span class="lineNum">     180</span> <span class="tlaUNC">           0 :           if (controller is WriteController &amp;&amp; state is WriteIdleState&lt;S&gt;) {</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 :           assert(controller is WriteRequest,</span></span>
+<span id="L179"><span class="lineNum">     179</span>              :               &quot;In onIdle builder, The provided controller must be a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaUNC">           0 :           if (controller is WriteRequest &amp;&amp; state is WriteIdleState&lt;S&gt;) {</span></span>
 <span id="L181"><span class="lineNum">     181</span> <span class="tlaUNC">           0 :             return builder(context, state, child);</span></span>
 <span id="L182"><span class="lineNum">     182</span>              :           }</span>
 <span id="L183"><span class="lineNum">     183</span>              :         }</span>
@@ -252,12 +252,12 @@
 <span id="L190"><span class="lineNum">     190</span>              :   /// Extends the [ApiBloc] with custom logic to handle loading states.</span>
 <span id="L191"><span class="lineNum">     191</span>              :   ///</span>
 <span id="L192"><span class="lineNum">     192</span>              :   /// The `onLoading` method allows you to specify custom listener and builder functions</span>
-<span id="L193"><span class="lineNum">     193</span>              :   /// to handle loading states based on the provided [BlocController].</span>
+<span id="L193"><span class="lineNum">     193</span>              :   /// to handle loading states based on the provided [BlocRequest].</span>
 <span id="L194"><span class="lineNum">     194</span>              :   ///</span>
-<span id="L195"><span class="lineNum">     195</span>              :   /// If [listener] is specified and the controller is of type [ReadController] or [WriteController],</span>
+<span id="L195"><span class="lineNum">     195</span>              :   /// If [listener] is specified and the controller is of type [ReadRequest] or [WriteRequest],</span>
 <span id="L196"><span class="lineNum">     196</span>              :   /// it will be called when the state is a loading state.</span>
 <span id="L197"><span class="lineNum">     197</span>              :   ///</span>
-<span id="L198"><span class="lineNum">     198</span>              :   /// If [builder] is specified and the controller is of type [ReadController] or [WriteController],</span>
+<span id="L198"><span class="lineNum">     198</span>              :   /// If [builder] is specified and the controller is of type [ReadRequest] or [WriteRequest],</span>
 <span id="L199"><span class="lineNum">     199</span>              :   /// it will be used to build the widget tree when the state is a loading state.</span>
 <span id="L200"><span class="lineNum">     200</span>              :   ///</span>
 <span id="L201"><span class="lineNum">     201</span>              :   /// When neither [listener] nor [builder] is specified, the default listener and builder</span>
@@ -265,7 +265,7 @@
 <span id="L203"><span class="lineNum">     203</span>              :   ///</span>
 <span id="L204"><span class="lineNum">     204</span>              :   /// ```dart</span>
 <span id="L205"><span class="lineNum">     205</span>              :   /// ApiBloc(</span>
-<span id="L206"><span class="lineNum">     206</span>              :   ///   controller: BlocController(),</span>
+<span id="L206"><span class="lineNum">     206</span>              :   ///   controller: BlocRequest(),</span>
 <span id="L207"><span class="lineNum">     207</span>              :   /// ).onLoading&lt;double&gt;(</span>
 <span id="L208"><span class="lineNum">     208</span>              :   ///   listener: (context, state) {</span>
 <span id="L209"><span class="lineNum">     209</span>              :   ///     /* your code here */</span>
@@ -281,11 +281,11 @@
 <span id="L219"><span class="lineNum">     219</span> <span class="tlaGNC">           1 :     return this.copyWith(</span></span>
 <span id="L220"><span class="lineNum">     220</span> <span class="tlaGNC">           1 :       listener: (context, state) {</span></span>
 <span id="L221"><span class="lineNum">     221</span>              :         if (listener != null) {</span>
-<span id="L222"><span class="lineNum">     222</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is ReadController || controller is WriteController,</span></span>
-<span id="L223"><span class="lineNum">     223</span>              :               &quot;In onLoading listener, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L224"><span class="lineNum">     224</span> <span class="tlaUNC">           0 :           if (controller is ReadController &amp;&amp; state is ReadLoadingState&lt;S&gt;) {</span></span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is ReadRequest || controller is WriteRequest,</span></span>
+<span id="L223"><span class="lineNum">     223</span>              :               &quot;In onLoading listener, The provided controller must be either a ReadRequest or a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaUNC">           0 :           if (controller is ReadRequest &amp;&amp; state is ReadLoadingState&lt;S&gt;) {</span></span>
 <span id="L225"><span class="lineNum">     225</span> <span class="tlaUNC">           0 :             listener(context, state);</span></span>
-<span id="L226"><span class="lineNum">     226</span> <span class="tlaUNC">           0 :           } else if (controller is WriteController &amp;&amp;</span></span>
+<span id="L226"><span class="lineNum">     226</span> <span class="tlaUNC">           0 :           } else if (controller is WriteRequest &amp;&amp;</span></span>
 <span id="L227"><span class="lineNum">     227</span> <span class="tlaUNC">           0 :               state is WriteLoadingState&lt;S&gt;) {</span></span>
 <span id="L228"><span class="lineNum">     228</span> <span class="tlaUNC">           0 :             listener(context, state);</span></span>
 <span id="L229"><span class="lineNum">     229</span>              :           }</span>
@@ -294,11 +294,11 @@
 <span id="L232"><span class="lineNum">     232</span>              :       },</span>
 <span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">           1 :       builder: (context, state, child) {</span></span>
 <span id="L234"><span class="lineNum">     234</span>              :         if (builder != null) {</span>
-<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">           4 :           assert(controller is ReadController || controller is WriteController,</span></span>
-<span id="L236"><span class="lineNum">     236</span>              :               &quot;In onLoading builder, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">           2 :           if (controller is ReadController &amp;&amp; state is ReadLoadingState&lt;S&gt;) {</span></span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaGNC">           4 :           assert(controller is ReadRequest || controller is WriteRequest,</span></span>
+<span id="L236"><span class="lineNum">     236</span>              :               &quot;In onLoading builder, The provided controller must be either a ReadRequest or a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">           2 :           if (controller is ReadRequest &amp;&amp; state is ReadLoadingState&lt;S&gt;) {</span></span>
 <span id="L238"><span class="lineNum">     238</span> <span class="tlaUNC tlaBgUNC">           0 :             return builder(context, state, child);</span></span>
-<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC tlaBgGNC">           2 :           } else if (controller is WriteController &amp;&amp;</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC tlaBgGNC">           2 :           } else if (controller is WriteRequest &amp;&amp;</span></span>
 <span id="L240"><span class="lineNum">     240</span> <span class="tlaGNC">           1 :               state is WriteLoadingState&lt;S&gt;) {</span></span>
 <span id="L241"><span class="lineNum">     241</span> <span class="tlaGNC">           1 :             return builder(context, state, child);</span></span>
 <span id="L242"><span class="lineNum">     242</span>              :           }</span>
@@ -312,12 +312,12 @@
 <span id="L250"><span class="lineNum">     250</span>              :   /// Extends the [ApiBloc] with custom logic to handle success states.</span>
 <span id="L251"><span class="lineNum">     251</span>              :   ///</span>
 <span id="L252"><span class="lineNum">     252</span>              :   /// The `onSuccess` method allows you to specify custom listener and builder functions</span>
-<span id="L253"><span class="lineNum">     253</span>              :   /// to handle success states based on the provided [BlocController].</span>
+<span id="L253"><span class="lineNum">     253</span>              :   /// to handle success states based on the provided [BlocRequest].</span>
 <span id="L254"><span class="lineNum">     254</span>              :   ///</span>
-<span id="L255"><span class="lineNum">     255</span>              :   /// If [listener] is specified and the controller is of type [ReadController] or [WriteController],</span>
+<span id="L255"><span class="lineNum">     255</span>              :   /// If [listener] is specified and the controller is of type [ReadRequest] or [WriteRequest],</span>
 <span id="L256"><span class="lineNum">     256</span>              :   /// it will be called when the state is a success state.</span>
 <span id="L257"><span class="lineNum">     257</span>              :   ///</span>
-<span id="L258"><span class="lineNum">     258</span>              :   /// If [builder] is specified and the controller is of type [ReadController] or [WriteController],</span>
+<span id="L258"><span class="lineNum">     258</span>              :   /// If [builder] is specified and the controller is of type [ReadRequest] or [WriteRequest],</span>
 <span id="L259"><span class="lineNum">     259</span>              :   /// it will be used to build the widget tree when the state is a success state.</span>
 <span id="L260"><span class="lineNum">     260</span>              :   ///</span>
 <span id="L261"><span class="lineNum">     261</span>              :   /// When neither [listener] nor [builder] is specified, the default listener and builder</span>
@@ -325,7 +325,7 @@
 <span id="L263"><span class="lineNum">     263</span>              :   ///</span>
 <span id="L264"><span class="lineNum">     264</span>              :   /// ```dart</span>
 <span id="L265"><span class="lineNum">     265</span>              :   /// ApiBloc(</span>
-<span id="L266"><span class="lineNum">     266</span>              :   ///   controller: BlocController(),</span>
+<span id="L266"><span class="lineNum">     266</span>              :   ///   controller: BlocRequest(),</span>
 <span id="L267"><span class="lineNum">     267</span>              :   /// ).onSuccess&lt;YourModel&gt;(</span>
 <span id="L268"><span class="lineNum">     268</span>              :   ///   listener: (context, state) {</span>
 <span id="L269"><span class="lineNum">     269</span>              :   ///     /* your code here */</span>
@@ -341,11 +341,11 @@
 <span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC">           1 :     return this.copyWith(</span></span>
 <span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">           1 :       listener: (context, state) {</span></span>
 <span id="L281"><span class="lineNum">     281</span>              :         if (listener != null) {</span>
-<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           4 :           assert(controller is ReadController || controller is WriteController,</span></span>
-<span id="L283"><span class="lineNum">     283</span>              :               &quot;In onSuccess listener, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           2 :           if (controller is ReadController &amp;&amp; state is ReadSuccessState&lt;S&gt;) {</span></span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           4 :           assert(controller is ReadRequest || controller is WriteRequest,</span></span>
+<span id="L283"><span class="lineNum">     283</span>              :               &quot;In onSuccess listener, The provided controller must be either a ReadRequest or a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           2 :           if (controller is ReadRequest &amp;&amp; state is ReadSuccessState&lt;S&gt;) {</span></span>
 <span id="L285"><span class="lineNum">     285</span> <span class="tlaUNC tlaBgUNC">           0 :             listener(context, state);</span></span>
-<span id="L286"><span class="lineNum">     286</span> <span class="tlaGNC tlaBgGNC">           2 :           } else if (controller is WriteController &amp;&amp;</span></span>
+<span id="L286"><span class="lineNum">     286</span> <span class="tlaGNC tlaBgGNC">           2 :           } else if (controller is WriteRequest &amp;&amp;</span></span>
 <span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">           1 :               state is WriteSuccessState&lt;S&gt;) {</span></span>
 <span id="L288"><span class="lineNum">     288</span> <span class="tlaGNC">           1 :             listener(context, state);</span></span>
 <span id="L289"><span class="lineNum">     289</span>              :           }</span>
@@ -354,11 +354,11 @@
 <span id="L292"><span class="lineNum">     292</span>              :       },</span>
 <span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC">           1 :       builder: (context, state, child) {</span></span>
 <span id="L294"><span class="lineNum">     294</span>              :         if (builder != null) {</span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is ReadController || controller is WriteController,</span></span>
-<span id="L296"><span class="lineNum">     296</span>              :               &quot;In onSuccess builder, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :           if (controller is ReadController &amp;&amp; state is ReadSuccessState&lt;S&gt;) {</span></span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is ReadRequest || controller is WriteRequest,</span></span>
+<span id="L296"><span class="lineNum">     296</span>              :               &quot;In onSuccess builder, The provided controller must be either a ReadRequest or a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L297"><span class="lineNum">     297</span> <span class="tlaUNC">           0 :           if (controller is ReadRequest &amp;&amp; state is ReadSuccessState&lt;S&gt;) {</span></span>
 <span id="L298"><span class="lineNum">     298</span> <span class="tlaUNC">           0 :             return builder(context, state, child);</span></span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 :           } else if (controller is WriteController &amp;&amp;</span></span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaUNC">           0 :           } else if (controller is WriteRequest &amp;&amp;</span></span>
 <span id="L300"><span class="lineNum">     300</span> <span class="tlaUNC">           0 :               state is WriteSuccessState&lt;S&gt;) {</span></span>
 <span id="L301"><span class="lineNum">     301</span> <span class="tlaUNC">           0 :             return builder(context, state, child);</span></span>
 <span id="L302"><span class="lineNum">     302</span>              :           }</span>
@@ -378,7 +378,7 @@
 <span id="L316"><span class="lineNum">     316</span>              :   ///</span>
 <span id="L317"><span class="lineNum">     317</span>              :   /// ```dart</span>
 <span id="L318"><span class="lineNum">     318</span>              :   /// ApiBloc(</span>
-<span id="L319"><span class="lineNum">     319</span>              :   ///   controller: BlocController(),</span>
+<span id="L319"><span class="lineNum">     319</span>              :   ///   controller: BlocRequest(),</span>
 <span id="L320"><span class="lineNum">     320</span>              :   /// ).onFailed&lt;YourModel&gt;(</span>
 <span id="L321"><span class="lineNum">     321</span>              :   ///   listener: (context, state) {</span>
 <span id="L322"><span class="lineNum">     322</span>              :   ///     /* your code here */</span>
@@ -394,9 +394,9 @@
 <span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">           1 :     return this.copyWith(</span></span>
 <span id="L333"><span class="lineNum">     333</span> <span class="tlaGNC">           1 :       listener: (context, state) {</span></span>
 <span id="L334"><span class="lineNum">     334</span>              :         if (listener != null) {</span>
-<span id="L335"><span class="lineNum">     335</span> <span class="tlaGNC">           2 :           assert(controller is WriteController,</span></span>
-<span id="L336"><span class="lineNum">     336</span>              :               &quot;In onFailed listener, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L337"><span class="lineNum">     337</span> <span class="tlaGNC">           3 :           if (controller is WriteController &amp;&amp; state is WriteFailedState&lt;S&gt;) {</span></span>
+<span id="L335"><span class="lineNum">     335</span> <span class="tlaGNC">           2 :           assert(controller is WriteRequest,</span></span>
+<span id="L336"><span class="lineNum">     336</span>              :               &quot;In onFailed listener, The provided controller must be a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L337"><span class="lineNum">     337</span> <span class="tlaGNC">           3 :           if (controller is WriteRequest &amp;&amp; state is WriteFailedState&lt;S&gt;) {</span></span>
 <span id="L338"><span class="lineNum">     338</span> <span class="tlaGNC">           1 :             listener(context, state);</span></span>
 <span id="L339"><span class="lineNum">     339</span>              :           }</span>
 <span id="L340"><span class="lineNum">     340</span>              :         }</span>
@@ -404,9 +404,9 @@
 <span id="L342"><span class="lineNum">     342</span>              :       },</span>
 <span id="L343"><span class="lineNum">     343</span> <span class="tlaGNC">           1 :       builder: (context, state, child) {</span></span>
 <span id="L344"><span class="lineNum">     344</span>              :         if (builder != null) {</span>
-<span id="L345"><span class="lineNum">     345</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is WriteController,</span></span>
-<span id="L346"><span class="lineNum">     346</span>              :               &quot;In onFailed builder, The provided controller must be a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L347"><span class="lineNum">     347</span> <span class="tlaUNC">           0 :           if (controller is WriteController &amp;&amp; state is WriteFailedState&lt;S&gt;) {</span></span>
+<span id="L345"><span class="lineNum">     345</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is WriteRequest,</span></span>
+<span id="L346"><span class="lineNum">     346</span>              :               &quot;In onFailed builder, The provided controller must be a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaUNC">           0 :           if (controller is WriteRequest &amp;&amp; state is WriteFailedState&lt;S&gt;) {</span></span>
 <span id="L348"><span class="lineNum">     348</span> <span class="tlaUNC">           0 :             return builder(context, state, child);</span></span>
 <span id="L349"><span class="lineNum">     349</span>              :           }</span>
 <span id="L350"><span class="lineNum">     350</span>              :         }</span>
@@ -419,12 +419,12 @@
 <span id="L357"><span class="lineNum">     357</span>              :   /// Extends the [ApiBloc] with custom logic to handle error states.</span>
 <span id="L358"><span class="lineNum">     358</span>              :   ///</span>
 <span id="L359"><span class="lineNum">     359</span>              :   /// The `onError` method allows you to specify custom listener and builder functions</span>
-<span id="L360"><span class="lineNum">     360</span>              :   /// to handle error states based on the provided [BlocController].</span>
+<span id="L360"><span class="lineNum">     360</span>              :   /// to handle error states based on the provided [BlocRequest].</span>
 <span id="L361"><span class="lineNum">     361</span>              :   ///</span>
-<span id="L362"><span class="lineNum">     362</span>              :   /// If [listener] is specified and the controller is of type [ReadController] or [WriteController],</span>
+<span id="L362"><span class="lineNum">     362</span>              :   /// If [listener] is specified and the controller is of type [ReadRequest] or [WriteRequest],</span>
 <span id="L363"><span class="lineNum">     363</span>              :   /// it will be called when the state is an error state.</span>
 <span id="L364"><span class="lineNum">     364</span>              :   ///</span>
-<span id="L365"><span class="lineNum">     365</span>              :   /// If [builder] is specified and the controller is of type [ReadController] or [WriteController],</span>
+<span id="L365"><span class="lineNum">     365</span>              :   /// If [builder] is specified and the controller is of type [ReadRequest] or [WriteRequest],</span>
 <span id="L366"><span class="lineNum">     366</span>              :   /// it will be used to build the widget tree when the state is an error state.</span>
 <span id="L367"><span class="lineNum">     367</span>              :   ///</span>
 <span id="L368"><span class="lineNum">     368</span>              :   /// When neither [listener] nor [builder] is specified, the default listener and builder</span>
@@ -432,7 +432,7 @@
 <span id="L370"><span class="lineNum">     370</span>              :   ///</span>
 <span id="L371"><span class="lineNum">     371</span>              :   /// ```dart</span>
 <span id="L372"><span class="lineNum">     372</span>              :   /// ApiBloc(</span>
-<span id="L373"><span class="lineNum">     373</span>              :   ///   controller: BlocController(),</span>
+<span id="L373"><span class="lineNum">     373</span>              :   ///   controller: BlocRequest(),</span>
 <span id="L374"><span class="lineNum">     374</span>              :   /// ).onError&lt;Map&lt;String, dynamic&gt;&gt;(</span>
 <span id="L375"><span class="lineNum">     375</span>              :   ///   listener: (context, state) {</span>
 <span id="L376"><span class="lineNum">     376</span>              :   ///     /* your code here */</span>
@@ -448,11 +448,11 @@
 <span id="L386"><span class="lineNum">     386</span> <span class="tlaGNC">           1 :     return this.copyWith(</span></span>
 <span id="L387"><span class="lineNum">     387</span> <span class="tlaGNC">           1 :       listener: (context, state) {</span></span>
 <span id="L388"><span class="lineNum">     388</span>              :         if (listener != null) {</span>
-<span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">           4 :           assert(controller is ReadController || controller is WriteController,</span></span>
-<span id="L390"><span class="lineNum">     390</span>              :               &quot;In onError listener, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">           2 :           if (controller is ReadController &amp;&amp; state is ReadErrorState&lt;S&gt;) {</span></span>
+<span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">           4 :           assert(controller is ReadRequest || controller is WriteRequest,</span></span>
+<span id="L390"><span class="lineNum">     390</span>              :               &quot;In onError listener, The provided controller must be either a ReadRequest or a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L391"><span class="lineNum">     391</span> <span class="tlaGNC">           2 :           if (controller is ReadRequest &amp;&amp; state is ReadErrorState&lt;S&gt;) {</span></span>
 <span id="L392"><span class="lineNum">     392</span> <span class="tlaUNC tlaBgUNC">           0 :             listener(context, state);</span></span>
-<span id="L393"><span class="lineNum">     393</span> <span class="tlaGNC tlaBgGNC">           2 :           } else if (controller is WriteController &amp;&amp;</span></span>
+<span id="L393"><span class="lineNum">     393</span> <span class="tlaGNC tlaBgGNC">           2 :           } else if (controller is WriteRequest &amp;&amp;</span></span>
 <span id="L394"><span class="lineNum">     394</span> <span class="tlaGNC">           1 :               state is WriteErrorState&lt;S&gt;) {</span></span>
 <span id="L395"><span class="lineNum">     395</span> <span class="tlaGNC">           1 :             listener(context, state);</span></span>
 <span id="L396"><span class="lineNum">     396</span>              :           }</span>
@@ -461,11 +461,11 @@
 <span id="L399"><span class="lineNum">     399</span>              :       },</span>
 <span id="L400"><span class="lineNum">     400</span> <span class="tlaGNC">           1 :       builder: (context, state, child) {</span></span>
 <span id="L401"><span class="lineNum">     401</span>              :         if (builder != null) {</span>
-<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is ReadController || controller is WriteController,</span></span>
-<span id="L403"><span class="lineNum">     403</span>              :               &quot;In onError builder, The provided controller must be either a ReadController or a WriteController. This requirement is due to the design based on known states pattern.&quot;);</span>
-<span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC">           0 :           if (controller is ReadController &amp;&amp; state is ReadErrorState&lt;S&gt;) {</span></span>
+<span id="L402"><span class="lineNum">     402</span> <span class="tlaUNC tlaBgUNC">           0 :           assert(controller is ReadRequest || controller is WriteRequest,</span></span>
+<span id="L403"><span class="lineNum">     403</span>              :               &quot;In onError builder, The provided controller must be either a ReadRequest or a WriteRequest. This requirement is due to the design based on known states pattern.&quot;);</span>
+<span id="L404"><span class="lineNum">     404</span> <span class="tlaUNC">           0 :           if (controller is ReadRequest &amp;&amp; state is ReadErrorState&lt;S&gt;) {</span></span>
 <span id="L405"><span class="lineNum">     405</span> <span class="tlaUNC">           0 :             return builder(context, state, child);</span></span>
-<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :           } else if (controller is WriteController &amp;&amp;</span></span>
+<span id="L406"><span class="lineNum">     406</span> <span class="tlaUNC">           0 :           } else if (controller is WriteRequest &amp;&amp;</span></span>
 <span id="L407"><span class="lineNum">     407</span> <span class="tlaUNC">           0 :               state is WriteErrorState&lt;S&gt;) {</span></span>
 <span id="L408"><span class="lineNum">     408</span> <span class="tlaUNC">           0 :             return builder(context, state, child);</span></span>
 <span id="L409"><span class="lineNum">     409</span>              :           }</span>
@@ -486,7 +486,7 @@
 <span id="L424"><span class="lineNum">     424</span>              :   ///</span>
 <span id="L425"><span class="lineNum">     425</span>              :   /// ```dart</span>
 <span id="L426"><span class="lineNum">     426</span>              :   /// ApiBloc(</span>
-<span id="L427"><span class="lineNum">     427</span>              :   ///   controller: BlocController(),</span>
+<span id="L427"><span class="lineNum">     427</span>              :   ///   controller: BlocRequest(),</span>
 <span id="L428"><span class="lineNum">     428</span>              :   /// ).onState&lt;BlocStates&lt;double&gt;&gt;(</span>
 <span id="L429"><span class="lineNum">     429</span>              :   ///   listener: (context, state) {</span>
 <span id="L430"><span class="lineNum">     430</span>              :   ///     /* your code here */</span>

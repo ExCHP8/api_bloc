@@ -7,12 +7,16 @@ class CreateUserModel {
 
   static CreateUserModel fromJSON(Map<String, dynamic> value) {
     return CreateUserModel(
-        id: value["id"] as String,
-        createdAt: DateTime.parse(value["createdAt"] as String));
+      id: value["id"] ?? '0',
+      createdAt: DateTime.tryParse(value["created_at"] ?? '') ?? DateTime.now(),
+    );
   }
 
   Map<String, dynamic> get toJSON {
-    return {'id': id, 'created_at': createdAt};
+    return {
+      'id': id,
+      'created_at': createdAt,
+    };
   }
 
   @override
