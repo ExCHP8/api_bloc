@@ -51,7 +51,7 @@ abstract class WriteRequest extends BlocRequest<WriteStates> {
   /// This is constructor of fetching api request with its initial value
   /// is [WriteIdleState] and different compare to [ReadRequest]
   /// it's not calling [run] on init.  Normally used for interacting with http method `POST`, `PUT`, `PATCH`, `DELETE`.
-  WriteRequest() : super(value: const WriteIdleState());
+  WriteRequest() : super(const WriteIdleState());
 
   /// A neccessary function to override when we extends this controller.
   ///

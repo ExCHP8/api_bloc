@@ -49,7 +49,7 @@ abstract class ReadRequest extends BlocRequest<ReadStates> {
   ReadRequest({
     Map<String, dynamic> args = const {},
     this.autorun = true,
-  }) : super(value: const ReadLoadingState()) {
+  }) : super(const ReadLoadingState()) {
     if (autorun) run(args);
   }
 

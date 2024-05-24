@@ -15,65 +15,71 @@ class GetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ApiBloc(
       controller: CreateUserController(),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Fetch Test')),
-        body: Builder(
-          builder: (context) => RefreshIndicator(
-            onRefresh: () async {}, // context.read<CreateUserController>().run,
-            child: ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                // [1]. Sample with builder
+      child: ApiBloc(
+        controller: GetUserController(),
+        child: Scaffold(
+          appBar: AppBar(title: const Text('Fetch Test')),
+          body: Builder(
+            builder: (context) => RefreshIndicator(
+              onRefresh:
+                  () async {}, // context.read<CreateUserController>().run,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  // [1]. Sample with builder
 
-                Container(
+                  Container(
                     alignment: Alignment.center,
                     height: MediaQuery.sizeOf(context).height,
-                    child: BlocConsumer<CreateUserController, WriteStates>(
+                    child: BlocConsumer<GetUserController, ReadStates>(
                       builder: (context, state, child) {
-                        if (state is ReadSuccessState<GetUserModel>) {
-                          return Column(
+                        print(state);
+                        switch (state) {
+                          case ReadSuccessState<GetUserModel> _:
+                            return Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.network(state.data.avatar),
                                 Text(state.data.fullName)
-                              ]);
-                        } else if (state is ReadErrorState) {
-                          return Text(
-                            'Oops something is wrong\n${state.message}',
-                          );
-                        } else {
-                          return child;
+                              ],
+                            );
+                          case ReadErrorState _:
+                            return Text(
+                                'Oops something is wrong\n${state.message}');
+                          default:
+                            return const CircularProgressIndicator();
                         }
                       },
-                      child: const CircularProgressIndicator(),
-                    )),
+                    ),
+                  ),
 
-                //
-                // [2]. Sample with extension
-                //
-                // Container(
-                //   alignment: Alignment.center,
-                //   height: MediaQuery.sizeOf(context).height,
-                //   child: BlocConsumer<GetUserController>(
-                //     child: const CircularProgressIndicator(),
-                //   ).onSuccess<GetUserModel>(builder: (context, state, child) {
-                //     return Column(
-                //         mainAxisSize: MainAxisSize.max,
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           Image.network(state.data!.avatar),
-                //           Text('${state.data!.firstName} '
-                //               '${state.data!.lastName}')
-                //         ]);
-                //   }).onError(builder: (context, state, child) {
-                //     return Text(
-                //       'Oops something is '
-                //       'wrong\n${state.message}',
-                //     );
-                //   }),
-                // ),
-              ],
+                  //
+                  // [2]. Sample with extension
+                  //
+                  // Container(
+                  //   alignment: Alignment.center,
+                  //   height: MediaQuery.sizeOf(context).height,
+                  //   child: BlocConsumer<GetUserController>(
+                  //     child: const CircularProgressIndicator(),
+                  //   ).onSuccess<GetUserModel>(builder: (context, state, child) {
+                  //     return Column(
+                  //         mainAxisSize: MainAxisSize.max,
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Image.network(state.data!.avatar),
+                  //           Text('${state.data!.firstName} '
+                  //               '${state.data!.lastName}')
+                  //         ]);
+                  //   }).onError(builder: (context, state, child) {
+                  //     return Text(
+                  //       'Oops something is '
+                  //       'wrong\n${state.message}',
+                  //     );
+                  //   }),
+                  // ),
+                ],
+              ),
             ),
           ),
         ),

@@ -28,7 +28,7 @@ abstract class BlocRequest<T extends BlocStates> extends ValueNotifier<T> {
   ///   MyController({super.value = LoadingState()});
   /// }
   /// ```
-  BlocRequest({required T value}) : super(value);
+  BlocRequest(super.value);
 
   /// Updating [BlocStates] value in this controller.
   void emit(T value) => this.value = value;
@@ -54,33 +54,34 @@ abstract class BlocRequest<T extends BlocStates> extends ValueNotifier<T> {
   /// ```dart
   /// BlocRequest controller = BlocRequest.of(context);
   /// ```
-  static T of<T extends BlocRequest>(BuildContext context) {
+  static Request of<Request extends BlocRequest>(BuildContext context) {
     try {
-      var value = context.dependOnInheritedWidgetOfExactType<_BlocCreate<T>>();
+      var value =
+          context.dependOnInheritedWidgetOfExactType<ApiBloc<Request>>();
 
       return value!.controller;
     } catch (error, stackTrace) {
-      throw BlocException(
-          'BlocException: Unable to retrieve $T from context.\n\n'
+      throw ApiBlocException(
+          'ApiBlocException: Unable to retrieve $Request from context.\n\n'
           'Error: $error\n\n'
-          'When using BlocRequest.of<$T>(), ensure that:\n'
+          'When using BlocRequest.of<$Request>(), ensure that:\n'
           '- The context is within the correct scope under the ApiBloc.\n'
-          '- Make sure you are not accessing context.read<$T>() outside the ApiBloc context.\n'
+          '- Make sure you are not accessing context.read<$Request>() outside the ApiBloc context.\n'
           '- Good Example:\n\n'
           '    ApiBloc(\n'
-          '      controller: $T(),\n'
+          '      controller: $Request(),\n'
           '      child: Builder(\n'
           '        builder: (context) {\n'
-          '          final controller = context.read<$T>();\n'
+          '          final controller = context.read<$Request>();\n'
           '          ...\n'
           '        },\n'
           '      ),\n'
           '    ),\n\n'
           '- Bad Example:\n\n'
           '    ApiBloc(\n'
-          '      controller: $T(),\n'
+          '      controller: $Request(),\n'
           '      child: GestureDetector(\n'
-          '        onTap: () => context.read<$T>(),\n'
+          '        onTap: () => context.read<$Request>(),\n'
           '        ...\n'
           '      ),\n'
           '    ),\n',

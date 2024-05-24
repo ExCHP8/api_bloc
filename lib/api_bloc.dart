@@ -14,73 +14,39 @@ part 'package:api_bloc/src/models/write_states.dart';
 part 'package:api_bloc/src/models/bloc_states.dart';
 part 'package:api_bloc/src/views/bloc_builder.dart';
 part 'package:api_bloc/src/views/bloc_consumer.dart';
-part 'package:api_bloc/src/views/bloc_create.dart';
 part 'package:api_bloc/src/views/bloc_listener.dart';
 
-/// A [ApiBloc] is a [StatefulWidget] that is used to manage the state of a [BlocRequest]
-/// in the widget tree.
-///
-/// It takes a [BlocRequest] of type [T] and a [Widget] child as parameters in its constructor.
-///
-/// The [ApiBloc] is responsible for creating a [State] object (`_BPS`) which is used to manage the state of the [BlocRequest].
-///
-/// The [ApiBloc] is typically used as an ancestor widget in the widget tree to provide a [BlocRequest] to its descendants.
-///
-/// The [ApiBloc] should be preferred over a [_BlocCreate] when the state of the [BlocRequest] needs to be
-/// accessed by multiple widgets in the widget tree.
-class ApiBloc<T extends BlocRequest> extends StatefulWidget {
-  /// Creates a [ApiBloc] that takes a [BlocRequest] of type [T] and a [Widget] child as parameters.
-  ///
-  /// The [controller] parameter is the [BlocRequest] that will be managed by the [ApiBloc].
-  ///
-  /// The [child] parameter is the [Widget] that will be a descendant of the [ApiBloc].
-  const ApiBloc({
+class ApiBloc<Request extends BlocRequest> extends InheritedWidget {
+  ApiBloc({
+    super.key,
+    required this.controller,
+    required Widget child,
+  }) : super(child: ApiBlocManager(controller: controller, child: child));
+  final Request controller;
+
+  @override
+  bool updateShouldNotify(covariant ApiBloc<Request> oldWidget) {
+    return oldWidget.controller != controller;
+  }
+}
+
+class ApiBlocManager<Request extends BlocRequest> extends StatefulWidget {
+  const ApiBlocManager({
     super.key,
     required this.controller,
     required this.child,
   });
-
-  /// The [BlocRequest] that will be managed by the [ApiBloc].
-  ///
-  /// This is the [BlocRequest] that will be provided to the descendants of the [ApiBloc].
-  final T controller;
-
-  /// The [Widget] that will be a descendant of the [ApiBloc].
-  ///
-  /// This is the [Widget] that will have access to the [BlocRequest] managed by the [ApiBloc].
+  final Request controller;
   final Widget child;
 
   @override
-  State<ApiBloc> createState() => _AB();
-
-  static Widget multi({
-    Key? key,
-    required List<BlocRequest> controllers,
-    required Widget child,
-  }) {
-    Widget recursive({int index = 0}) {
-      if (index < controllers.length) {
-        return ApiBloc(
-          key: index == 0 ? key : null,
-          controller: controllers[index],
-          child: recursive(index: index + 1),
-        );
-      } else {
-        return child;
-      }
-    }
-
-    return recursive(index: 0);
-  }
+  State<ApiBlocManager> createState() => ApiBlocStateManager();
 }
 
-class _AB extends State<ApiBloc> {
+class ApiBlocStateManager extends State<ApiBlocManager> {
   @override
   Widget build(BuildContext context) {
-    return _BlocCreate(
-      controller: widget.controller,
-      child: widget.child,
-    );
+    return widget.child;
   }
 
   @override
@@ -88,4 +54,28 @@ class _AB extends State<ApiBloc> {
     widget.controller.dispose();
     super.dispose();
   }
+}
+
+/// A collection of extension used in this package.
+extension ApiBlocExtension on BuildContext {
+  /// Retrieves an instance of [BlocRequest] from the current context.
+  ///
+  /// The [Request] type parameter specifies the type of [BlocRequest] to retrieve.
+  ///
+  /// Returns an instance of [Request] that is managed by the nearest ancestor
+  /// [ApiBloc] widget in the widget tree.
+  ///
+  /// Throws an error if no [ApiBloc] widget is found in the ancestor tree.
+  Request read<Request extends BlocRequest>() {
+    return BlocRequest.of<Request>(this);
+  }
+}
+
+class ApiBlocException implements Exception {
+  const ApiBlocException(this.message, this.stackTrace);
+  final String message;
+  final StackTrace stackTrace;
+
+  @override
+  String toString() => '$message\n\nStackTrace: \n\n$stackTrace)';
 }

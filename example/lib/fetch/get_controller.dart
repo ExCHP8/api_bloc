@@ -13,9 +13,7 @@ class GetUserController extends ReadRequest {
       },
     );
 
-    // final model = GetUserModel.fromJSON(response.data);
-    // emit(ReadSuccessState<GetUserModel>(data: model));
-
-    print(response.data);
+    final model = GetUserModel.fromJSON(response.data);
+    emit(ReadSuccessState<GetUserModel>(data: model));
   }
 }
