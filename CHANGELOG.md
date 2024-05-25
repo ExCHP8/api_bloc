@@ -57,4 +57,12 @@
 ## 2.0.1
 * Update description
 
-## 2.0.2
+## 3.0.2
+* Breaking Changes: 
+- * Remove copyWith, onIdle, onLoading, onSuccess, onFailed, onError Extension
+- * Change `ApiBloc` and split it to `BlocConsumer`, `BlocBuilder` and `BlocListener`
+* Add `BlocController` injection trough `ApiBloc`
+* Add `ApiBlocException`
+* Add Unit Test
+* Update Documentation
+* Update Example

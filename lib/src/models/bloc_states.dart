@@ -1,6 +1,6 @@
 part of 'package:api_bloc/api_bloc.dart';
 
-/// All states that can be represented in [BlocRequest].
+/// All states that can be represented in [BlocController].
 ///
 /// [message] is a status on what's going on in this state and
 /// [data] is an optional object in state.
@@ -33,7 +33,7 @@ class BlocStates<T extends dynamic> extends Equatable {
   /// The status message indicating what's going on in this state.
   final String message;
 
-  /// An optional object in state.
+  /// An dynamic object in state.
   final T data;
 
   /// Encode [BlocStates] to JSON.

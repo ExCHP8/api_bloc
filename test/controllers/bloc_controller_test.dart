@@ -1,53 +1,49 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:api_bloc/api_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-class MockController extends BlocRequest<BlocStates> {
-  MockController({super.value = const ReadLoadingState()});
-  bool success = true;
+import '../test.dart';
+
+class BlocControllerTest extends BlocController<ReadStates> {
+  BlocControllerTest([super.value = const ReadLoadingState()]);
 
   @override
   Future<void> run() async {
-    emit(const ReadLoadingState());
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-
-      if (success) {
-        emit(const ReadSuccessState<String>(data: 'Success'));
-      } else {
-        throw 'Mocked error';
-      }
-    } catch (e) {
-      emit(ReadErrorState(data: e));
-    }
+    emit(value);
   }
 }
 
 void main() {
-  group('BlocRequest', () {
-    late MockController myController;
+  group('BlocController', () {
+    late BlocControllerTest controller;
 
     setUp(() {
-      myController = MockController();
+      controller = BlocControllerTest();
+    });
+
+    tearDown(() {
+      controller.dispose();
     });
 
     test('Validate Initial State', () {
-      expect(myController.value, isA<ReadLoadingState>());
+      expect(controller.value, isA<ReadLoadingState>());
     });
 
     test('Validate Success State', () async {
-      await myController.run();
-      expect(myController.value, isA<ReadSuccessState<String>>());
-      expect(myController.value.data, isA<String>());
-      expect(myController.value.data, isNotEmpty);
-      expect(myController.value.data, equals('Success'));
+      controller.emit(ReadSuccessState<TestModel>(data: TestModel.test()));
+      await controller.run();
+      expect(controller.value, isA<ReadSuccessState>());
+      expect(controller.value, isA<ReadSuccessState<TestModel>>());
+      expect(controller.value.data, isA<TestModel>());
+      expect(controller.value.data.id, equals(6));
+      expect(controller.value.data.name, equals('Bob the Builder'));
     });
 
     test('Validate Error State', () async {
-      myController.success = false;
-      await myController.run();
-      expect(myController.value, isA<ReadErrorState>());
-      expect(myController.value.data, isNotEmpty);
-      expect(myController.value.data, equals('Mocked error'));
+      controller.emit(const ReadErrorState(message: 'Mocked error'));
+      await controller.run();
+      expect(controller.value, isA<ReadErrorState>());
+      expect(controller.value.message, equals('Mocked error'));
+      expect(controller.value.data, isNull);
     });
   });
 }

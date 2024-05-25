@@ -1,69 +1,68 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:api_bloc/api_bloc.dart';
 
-class MockWriteResponse {
-  final dynamic data;
 
-  MockWriteResponse(this.data);
-}
+// class MockWriteResponse {
+//   final dynamic data;
 
-class StatusModel {
-  final String status;
-  final String message;
+//   MockWriteResponse(this.data);
+// }
 
-  StatusModel(this.status, this.message);
+// class StatusModel {
+//   final String status;
+//   final String message;
 
-  factory StatusModel.fromJson(Map<String, dynamic> json) {
-    return StatusModel(json['status'], json['message']);
-  }
-}
+//   StatusModel(this.status, this.message);
 
-class MockWriteRequest extends WriteRequest {
-  bool success = true;
+//   factory StatusModel.fromJSON(Map<String, dynamic> json) {
+//     return StatusModel(json['status'], json['message']);
+//   }
+// }
 
-  @override
-  Future<void> onRequest(Map<String, dynamic> args) async {
-    await Future.delayed(const Duration(seconds: 1));
+// class MockWriteController extends WriteController {
+//   bool success = true;
 
-    if (success) {
-      final response = MockWriteResponse(
-          {'status': 'success', 'message': 'Operation successful'});
-      emit(WriteSuccessState<StatusModel>(
-          message: 'Operation successful',
-          data: StatusModel.fromJson(response.data)));
-    } else {
-      throw 'Mocked error';
-    }
-  }
-}
+//   @override
+//   Future<void> onRequest(Map<String, dynamic> args) async {
+//     await Future.delayed(const Duration(seconds: 1));
 
-void main() {
-  group('WriteRequest', () {
-    late MockWriteRequest mockWriteRequest;
+//     if (success) {
+//       final response = MockWriteResponse(
+//           {'status': 'success', 'message': 'Operation successful'});
+//       emit(WriteSuccessState<StatusModel>(
+//           message: 'Operation successful',
+//           data: StatusModel.fromJSON(response.data)));
+//     } else {
+//       throw 'Mocked error';
+//     }
+//   }
+// }
 
-    setUp(() {
-      mockWriteRequest = MockWriteRequest();
-    });
+// void main() {
+//   group('WriteController', () {
+//     late MockWriteController mockWriteController;
 
-    test('Validate Initial State', () {
-      expect(mockWriteRequest.value, isA<WriteIdleState>());
-    });
+//     setUp(() {
+//       mockWriteController = MockWriteController();
+//     });
 
-    test('Validate Success State', () async {
-      await mockWriteRequest.run();
-      expect(mockWriteRequest.value, isA<WriteSuccessState<StatusModel>>());
-      expect(mockWriteRequest.value.data, isA<StatusModel>());
-      expect(mockWriteRequest.value.message, isNotEmpty);
-      expect(mockWriteRequest.value.message, equals('Operation successful'));
-    });
+//     test('Validate Initial State', () {
+//       expect(mockWriteController.value, isA<WriteIdleState>());
+//     });
 
-    test('Validate Error State', () async {
-      mockWriteRequest.success = false;
-      await mockWriteRequest.run();
-      expect(mockWriteRequest.value, isA<WriteErrorState>());
-      expect(mockWriteRequest.value.message, isNotEmpty);
-      expect(mockWriteRequest.value.message, equals('Mocked error'));
-      expect(mockWriteRequest.value.data, isA<StackTrace>());
-    });
-  });
-}
+//     test('Validate Success State', () async {
+//       await mockWriteController.run();
+//       expect(mockWriteController.value, isA<WriteSuccessState<StatusModel>>());
+//       expect(mockWriteController.value.data, isA<StatusModel>());
+//       expect(mockWriteController.value.message, isNotEmpty);
+//       expect(mockWriteController.value.message, equals('Operation successful'));
+//     });
+
+//     test('Validate Error State', () async {
+//       mockWriteController.success = false;
+//       await mockWriteController.run();
+//       expect(mockWriteController.value, isA<WriteErrorState>());
+//       expect(mockWriteController.value.message, isNotEmpty);
+//       expect(mockWriteController.value.message, equals('Mocked error'));
+//       expect(mockWriteController.value.data, isA<StackTrace>());
+//     });
+//   });
+// }

@@ -1,19 +1,19 @@
 part of 'get_page.dart';
 
-class GetUserController extends ReadRequest {
+class GetUserController extends ReadController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
     // Mock Delay
     await Future.delayed(const Duration(seconds: 1));
 
-    final response = await Dio().get(
+    Response response = await Dio().get(
       'https://reqres.in/api/users/2',
       onReceiveProgress: (received, total) {
         emit(ReadLoadingState<double>(data: received / total));
       },
     );
 
-    final model = GetUserModel.fromJSON(response.data);
-    emit(ReadSuccessState<GetUserModel>(data: model));
+    emit(ReadSuccessState<GetUserModel>(
+        data: GetUserModel.fromJSON(response.data)));
   }
 }

@@ -64,13 +64,13 @@ Now the things that left to do is writing the content of the controllers, widget
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class ReadUserController extends ReadRequest {
+class ReadUserController extends ReadController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
     await Future.delayed(const Duration(seconds: 1));
     final response = await Dio().get('https://reqres.in/api/users/2');
 
-    final model = ReadUserModel.fromJson(response.data);
+    final model = ReadUserModel.fromJSON(response.data);
     emit(ReadSuccessState<ReadUserModel>(data: model));
   }
 }
@@ -96,7 +96,7 @@ ApiBloc.builder(
   },
 );
 ```
-When the first time it initiate the controller, on ReadRequest it's auto running the request function. But if you want to re run it, you can do it by calling
+When the first time it initiate the controller, on ReadController it's auto running the request function. But if you want to re run it, you can do it by calling
 
 ```dart
 controller.run();
@@ -107,7 +107,7 @@ controller.run();
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class CreateUserController extends WriteRequest {
+class CreateUserController extends WriteControllerRequest {
   @override
   // We're going to dispose it manually if we set it as false.
   bool get autoDispose => false;
@@ -119,10 +119,10 @@ class CreateUserController extends WriteRequest {
         data: FormData.fromMap(args));
 
     if (response.statusCode == 201) {
-      final model = CreateUserModel.fromJson(response.data);
-      emit(WriteSuccessState<CreateUserModel>(data: model));
+      final model = CreateUserModel.fromJSON(response.data);
+      emit(WriteControllerSuccessState<CreateUserModel>(data: model));
     } else {
-      emit(WriteFailedState<Map<String, dynamic>>(
+      emit(WriteControllerFailedState<Map<String, dynamic>>(
           data: response.data,
           message: "Expected response code output is 201"));
     }
@@ -140,16 +140,16 @@ final controller = CreateUserController();
 ApiBloc(
   controller: controller,
   listener: (context, state) {
-    if (state is WriteSuccessState<CreateUserModel>) {
+    if (state is WriteControllerSuccessState<CreateUserModel>) {
       snackbar(context, message: "Succesfully creating new user with id #${state.data!.id}");
-    } else if (state is WriteFailedState) {
+    } else if (state is WriteControllerFailedState) {
       snackbar(context, message: "Failed because ${state.message}", color: Colors.grey);
-    } else if (state is WriteErrorState) {
+    } else if (state is WriteControllerErrorState) {
       snackbar(context, message: state.message, color: Colors.red);
     }
   },
   builder: (context, state, child) {
-    if (state is WriteLoadingState) {
+    if (state is WriteControllerLoadingState) {
       return TextButton(text: "Loading ...");
     }  else {
       return TextButton(text: "Create", onPressed: () => controller.run());
@@ -157,16 +157,16 @@ ApiBloc(
   },
 );
 ```
-Unlike the ReadRequest, initial state of WriteRequest is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
+Unlike the ReadController, initial state of WriteControllerRequest is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
 
 ## Using Extension
 Now you can easily customize how your `ApiBloc` handles different state scenarios using these new extensions:
 
-- `onIdle`: Handle `WriteIdleState` and only work with `WriteRequest`.
-- `onLoading`: Handle `ReadLoadingState` and only work with `ReadRequest` or `WriteLoadingState` that only work with `WriteRequest`.
-- `onSuccess`: Handle `ReadSuccessState` and only work with `ReadRequest` or `WriteSuccessState` that only work with `WriteRequest`.
-- `onFailed`: Handle `WriteFailedState` and only work with `WriteRequest`.
-- `onError`: Handle `ReadErrorState` and only work with `ReadRequest` or `WriteErrorState` that only work with `WriteRequest`.
+- `onIdle`: Handle `WriteControllerIdleState` and only work with `WriteControllerRequest`.
+- `onLoading`: Handle `ReadLoadingState` and only work with `ReadController` or `WriteControllerLoadingState` that only work with `WriteControllerRequest`.
+- `onSuccess`: Handle `ReadSuccessState` and only work with `ReadController` or `WriteControllerSuccessState` that only work with `WriteControllerRequest`.
+- `onFailed`: Handle `WriteControllerFailedState` and only work with `WriteControllerRequest`.
+- `onError`: Handle `ReadErrorState` and only work with `ReadController` or `WriteControllerErrorState` that only work with `WriteControllerRequest`.
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
@@ -237,12 +237,12 @@ abstract class ReadSentryController extends BlocRequest<ReadStates> {
   final bool autoRun;
 }
 
-abstract class WriteSentryController extends BlocRequest<WriteStates> {
-  WriteSentryController() : super(value: const WriteIdleState());
+abstract class WriteControllerSentryController extends BlocRequest<WriteControllerStates> {
+  WriteControllerSentryController() : super(value: const WriteControllerIdleState());
 
   @override
   Future<void> run([JSON args = const {}]) async {
-    emit(const WriteLoadingState());
+    emit(const WriteControllerLoadingState());
     final http = SentryHttpClient();
     try {
       await onRequest(http, args);
@@ -257,7 +257,7 @@ abstract class WriteSentryController extends BlocRequest<WriteStates> {
 
   Future<void> onError(dynamic e, StrackTrace s) async {
     await Sentry.captureException(e, stackTrace: s);
-    emit(WriteErrorState(message: e.toString(), data: s));
+    emit(WriteControllerErrorState(message: e.toString(), data: s));
   }
 }
 ```

@@ -1,73 +1,55 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:api_bloc/api_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-class MockResponse {
-  final dynamic data;
+import '../test.dart';
 
-  MockResponse(this.data);
-}
-
-class UserModel {
-  final String userName;
-
-  UserModel(this.userName);
-
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(json['userName']);
-  }
-}
-
-class MockReadRequest extends ReadRequest {
-  bool success = true;
-
+class ReadControllerTest extends ReadController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (success) {
-      final response = MockResponse({'userName': 'John Doe'});
-      emit(
-          ReadSuccessState<UserModel>(data: UserModel.fromJson(response.data)));
-    } else {
-      throw 'Mocked error';
+    bool? value = args['success'];
+
+    switch (value) {
+      case true:
+        return emit(ReadSuccessState<TestModel>(data: TestModel.test()));
+      case false:
+        throw 'Mocked Error';
+      case null:
+        break;
     }
   }
 }
 
 void main() {
-  group('ReadRequest', () {
-    late MockReadRequest mockReadRequest;
+  group('ReadController', () {
+    late ReadControllerTest controller;
 
     setUp(() {
-      mockReadRequest = MockReadRequest();
+      controller = ReadControllerTest();
+    });
+
+    tearDown(() {
+      controller.dispose();
     });
 
     test('Validate Initial State', () {
-      expect(mockReadRequest.value, isA<ReadLoadingState>());
+      expect(controller.value, isA<ReadLoadingState>());
     });
 
     test('Validate Success State', () async {
-      await mockReadRequest.run();
-      expect(mockReadRequest.value, isA<ReadSuccessState<UserModel>>());
-      expect(mockReadRequest.value.data, isA<UserModel>());
-      expect(
-          (mockReadRequest.value as ReadSuccessState<UserModel>).data!.userName,
-          isNotEmpty);
-      expect(
-          (mockReadRequest.value as ReadSuccessState<UserModel>).data!.userName,
-          equals('John Doe'));
+      await controller.run({'success': true});
+      expect(controller.value, isA<ReadSuccessState>());
+      expect(controller.value, isA<ReadSuccessState<TestModel>>());
+      expect(controller.value.data, isA<TestModel>());
+      expect(controller.value.data.id, equals(6));
+      expect(controller.value.data.name, equals('Bob the Builder'));
     });
 
     test('Validate Error State', () async {
-      mockReadRequest.success = false;
-      await mockReadRequest.run();
-      expect(mockReadRequest.value, isA<ReadErrorState>());
-      expect(mockReadRequest.value.message, isNotEmpty);
-      expect(mockReadRequest.value.message, equals('Mocked error'));
-      expect(mockReadRequest.value.data, isA<StackTrace>());
-    });
-
-    test('Validate AutoRun Value', () {
-      expect(mockReadRequest.autorun, isTrue);
+      await controller.run({'success': false});
+      expect(controller.value, isA<ReadErrorState>());
+      expect(controller.value.message, equals('Mocked Error'));
+      expect(controller.value.data, isNotNull);
+      expect(controller.value.data, isA<StackTrace>());
     });
   });
 }
