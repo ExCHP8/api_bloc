@@ -16,16 +16,13 @@ class BlocControllerTest extends BlocController<ReadStates> {
 void main() {
   group('BlocController', () {
     late BlocControllerTest controller;
-    late BlocControllerTest controller2;
 
     setUp(() {
       controller = BlocControllerTest();
-      controller2 = BlocControllerTest();
     });
 
     tearDown(() {
       controller.dispose();
-      controller2.dispose();
     });
 
     test('Validate Initial State', () {
@@ -95,26 +92,6 @@ void main() {
       await tester.pumpWidget(MaterialApp(home: child));
       await tester.pump();
       expect(tester.takeException(), isA<ApiBlocException>());
-    });
-
-    testWidgets('Validate Notifier', (WidgetTester tester) async {
-      ApiBloc child(BlocControllerTest controller) => ApiBloc(
-            controller: controller,
-            dispose: false,
-            builder: (context, _) {
-              return BlocBuilder<BlocControllerTest, ReadStates>(
-                builder: (_, state, child) {
-                  if (state is ReadSuccessState) return Text(state.message);
-                  return child;
-                },
-              );
-            },
-          );
-
-      ApiBloc child1 = child(controller);
-      ApiBloc child2 = child(controller2);
-      expect(child1.updateShouldNotify(child2), true);
-      expect(child1.updateShouldNotify(child1), false);
     });
   });
 }

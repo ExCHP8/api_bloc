@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-05-26 17:24:08</td>
+            <td class="headerValue">2024-05-26 19:35:54</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -71,7 +71,7 @@
 <span id="L9"><span class="lineNum">       9</span>              :   ///</span>
 <span id="L10"><span class="lineNum">      10</span>              :   /// The [message] parameter represents an optional error message associated with the state.</span>
 <span id="L11"><span class="lineNum">      11</span>              :   /// The [data] parameter represents an optional data object associated with the state.</span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC tlaBgGNC">          14 :   const ReadStates({super.message, T? data}) : super(data: data as T);</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC tlaBgGNC">          25 :   const ReadStates({super.message, T? data}) : super(data: data as T);</span></span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
 <span id="L14"><span class="lineNum">      14</span>              :   /// Creates a [ReadLoadingState] with the specified [message] and [data].</span>
 <span id="L15"><span class="lineNum">      15</span>              :   ///</span>
@@ -173,7 +173,7 @@
 <span id="L111"><span class="lineNum">     111</span>              :   /// ```dart</span>
 <span id="L112"><span class="lineNum">     112</span>              :   /// ReadLoadingState&lt;double&gt;(data: 0.0));</span>
 <span id="L113"><span class="lineNum">     113</span>              :   /// ```</span>
-<span id="L114"><span class="lineNum">     114</span> <span class="tlaGNC">           9 :   const ReadLoadingState({</span></span>
+<span id="L114"><span class="lineNum">     114</span> <span class="tlaGNC">          20 :   const ReadLoadingState({</span></span>
 <span id="L115"><span class="lineNum">     115</span>              :     super.message = 'Fetching On Progress',</span>
 <span id="L116"><span class="lineNum">     116</span>              :     super.data,</span>
 <span id="L117"><span class="lineNum">     117</span>              :   });</span>
@@ -217,7 +217,7 @@
 <span id="L155"><span class="lineNum">     155</span>              : /// [ReadController].</span>
 <span id="L156"><span class="lineNum">     156</span>              : final class ReadErrorState&lt;T extends dynamic&gt; extends ReadStates&lt;T&gt; {</span>
 <span id="L157"><span class="lineNum">     157</span>              :   /// Create a [ReadErrorState] with an optional [message] and [data].</span>
-<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">           3 :   const ReadErrorState({</span></span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">          11 :   const ReadErrorState({</span></span>
 <span id="L159"><span class="lineNum">     159</span>              :     super.message = 'Something Went Wrong',</span>
 <span id="L160"><span class="lineNum">     160</span>              :     super.data,</span>
 <span id="L161"><span class="lineNum">     161</span>              :   });</span>

@@ -124,7 +124,6 @@ class BlocConsumer<Request extends BlocController<State>,
         WidgetsBinding.instance.addPostFrameCallback(
           (_) => listener(context, value),
         );
-
         return builder(context, value, child!);
       },
       child: child,

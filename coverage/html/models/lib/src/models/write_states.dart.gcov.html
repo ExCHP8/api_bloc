@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-05-26 17:24:08</td>
+            <td class="headerValue">2024-05-26 19:35:54</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -74,7 +74,7 @@
 <span id="L12"><span class="lineNum">      12</span>              :   /// with the state.</span>
 <span id="L13"><span class="lineNum">      13</span>              :   /// The [data] parameter represents an optional data object associated with</span>
 <span id="L14"><span class="lineNum">      14</span>              :   /// the state.</span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC tlaBgGNC">          15 :   const WriteStates({super.message, T? data}) : super(data: data as T);</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC tlaBgGNC">          24 :   const WriteStates({super.message, T? data}) : super(data: data as T);</span></span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
 <span id="L17"><span class="lineNum">      17</span>              :   /// Creates a [WriteIdleState] with the specified [message] and [data].</span>
 <span id="L18"><span class="lineNum">      18</span>              :   ///</span>
@@ -228,7 +228,7 @@
 <span id="L166"><span class="lineNum">     166</span>              : /// Represents the idle state when no request is in progress in [WriteController].</span>
 <span id="L167"><span class="lineNum">     167</span>              : final class WriteIdleState&lt;T extends dynamic&gt; extends WriteStates&lt;T&gt; {</span>
 <span id="L168"><span class="lineNum">     168</span>              :   /// Create a [WriteIdleState] with an optional [message] and [data].</span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">          10 :   const WriteIdleState({</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaGNC">          15 :   const WriteIdleState({</span></span>
 <span id="L170"><span class="lineNum">     170</span>              :     super.message = 'Waiting For Interaction',</span>
 <span id="L171"><span class="lineNum">     171</span>              :     super.data,</span>
 <span id="L172"><span class="lineNum">     172</span>              :   });</span>
@@ -252,7 +252,7 @@
 <span id="L190"><span class="lineNum">     190</span>              :   /// ```dart</span>
 <span id="L191"><span class="lineNum">     191</span>              :   /// WriteLoadingState&lt;double&gt;(data: 0.0));</span>
 <span id="L192"><span class="lineNum">     192</span>              :   /// ```</span>
-<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">          10 :   const WriteLoadingState({</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaGNC">          15 :   const WriteLoadingState({</span></span>
 <span id="L194"><span class="lineNum">     194</span>              :     super.message = 'Submitting In Progress',</span>
 <span id="L195"><span class="lineNum">     195</span>              :     super.data,</span>
 <span id="L196"><span class="lineNum">     196</span>              :   });</span>
@@ -277,7 +277,7 @@
 <span id="L215"><span class="lineNum">     215</span>              :   /// ```dart</span>
 <span id="L216"><span class="lineNum">     216</span>              :   /// WriteSuccessState&lt;Model&gt;(data: Model()));</span>
 <span id="L217"><span class="lineNum">     217</span>              :   /// ```</span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">           3 :   const WriteSuccessState({</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">           5 :   const WriteSuccessState({</span></span>
 <span id="L219"><span class="lineNum">     219</span>              :     super.message = 'Data Successfully Submitted',</span>
 <span id="L220"><span class="lineNum">     220</span>              :     required super.data,</span>
 <span id="L221"><span class="lineNum">     221</span>              :   });</span>
@@ -303,7 +303,7 @@
 <span id="L241"><span class="lineNum">     241</span>              :   /// ```dart</span>
 <span id="L242"><span class="lineNum">     242</span>              :   /// WriteFailedState&lt;Model&gt;(data: Model()));</span>
 <span id="L243"><span class="lineNum">     243</span>              :   /// ```</span>
-<span id="L244"><span class="lineNum">     244</span> <span class="tlaGNC">           3 :   const WriteFailedState(</span></span>
+<span id="L244"><span class="lineNum">     244</span> <span class="tlaGNC">           4 :   const WriteFailedState(</span></span>
 <span id="L245"><span class="lineNum">     245</span>              :       {super.message = 'Submitted Data Returns Failed', required super.data});</span>
 <span id="L246"><span class="lineNum">     246</span>              : </span>
 <span id="L247"><span class="lineNum">     247</span> <span class="tlaGNC">           1 :   static WriteFailedState&lt;T&gt; fromJSON&lt;T extends Object&gt;(</span></span>
@@ -321,7 +321,7 @@
 <span id="L259"><span class="lineNum">     259</span>              : final class WriteErrorState&lt;T extends dynamic&gt; extends WriteStates&lt;T&gt; {</span>
 <span id="L260"><span class="lineNum">     260</span>              :   /// Represents the error state when an error occurs during request submission in</span>
 <span id="L261"><span class="lineNum">     261</span>              :   /// [WriteController].</span>
-<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">           3 :   const WriteErrorState({</span></span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">           5 :   const WriteErrorState({</span></span>
 <span id="L263"><span class="lineNum">     263</span>              :     super.message = 'Something Went Wrong',</span>
 <span id="L264"><span class="lineNum">     264</span>              :     super.data,</span>
 <span id="L265"><span class="lineNum">     265</span>              :   });</span>
