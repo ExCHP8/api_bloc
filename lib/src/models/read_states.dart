@@ -32,7 +32,7 @@ sealed class ReadStates<T extends dynamic> extends BlocStates<T> {
   /// ));
   /// ```
   static ReadLoadingState<T> loading<T extends dynamic>({
-    String message = '',
+    String message = 'Fetching On Progress',
     T? data,
   }) {
     return ReadLoadingState<T>(
@@ -62,7 +62,7 @@ sealed class ReadStates<T extends dynamic> extends BlocStates<T> {
   /// ));
   /// ```
   static ReadSuccessState<T> success<T extends Object>({
-    String message = '',
+    String message = 'Data Successfully Fetched',
     required T data,
   }) {
     return ReadSuccessState<T>(
@@ -92,7 +92,7 @@ sealed class ReadStates<T extends dynamic> extends BlocStates<T> {
   /// ));
   /// ```
   static ReadErrorState<T> error<T extends Object>({
-    String message = '',
+    String message = 'Something Went Wrong',
     T? data,
   }) {
     return ReadErrorState<T>(
@@ -111,7 +111,19 @@ final class ReadLoadingState<T extends dynamic> extends ReadStates<T> {
   /// ```dart
   /// ReadLoadingState<double>(data: 0.0));
   /// ```
-  const ReadLoadingState({super.message, super.data});
+  const ReadLoadingState({
+    super.message = 'Fetching On Progress',
+    super.data,
+  });
+
+  static ReadLoadingState<T> fromJSON<T extends dynamic>(
+    Map<String, dynamic> value,
+  ) {
+    return ReadLoadingState<T>(
+      message: value['message'] ?? 'Fetching On Progress',
+      data: value['data'],
+    );
+  }
 }
 
 /// Represents the success state when data fetching is successful in
@@ -124,12 +136,36 @@ final class ReadSuccessState<T extends Object> extends ReadStates<T> {
   /// ```dart
   /// ReadSuccessState<Model>(data: Model()));
   /// ```
-  const ReadSuccessState({super.message, required super.data});
+  const ReadSuccessState({
+    super.message = 'Data Successfully Fetched',
+    required super.data,
+  });
+
+  static ReadSuccessState<T> fromJSON<T extends Object>(
+    Map<String, dynamic> value,
+  ) {
+    return ReadSuccessState<T>(
+      message: value['message'] ?? 'Data Successfully Fetched',
+      data: value['data'],
+    );
+  }
 }
 
 /// Represents the error state when an error occurs during data fetching in
 /// [ReadController].
 final class ReadErrorState<T extends dynamic> extends ReadStates<T> {
   /// Create a [ReadErrorState] with an optional [message] and [data].
-  const ReadErrorState({super.message, super.data});
+  const ReadErrorState({
+    super.message = 'Something Went Wrong',
+    super.data,
+  });
+
+  static ReadErrorState<T> fromJSON<T extends dynamic>(
+    Map<String, dynamic> value,
+  ) {
+    return ReadErrorState<T>(
+      message: value['message'] ?? 'Something Went Wrong',
+      data: value['data'],
+    );
+  }
 }

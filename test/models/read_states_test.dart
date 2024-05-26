@@ -1,76 +1,67 @@
+import 'package:api_bloc/api_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-// void main() {
-//   group('ReadStates', () {
-//     test('Validate Loading State', () {
-//       const readStates = ReadLoadingState<String>();
-//       expect(readStates.type, equals(ReadStateType.loading));
-//       expect(readStates.message, isEmpty);
-//       expect(readStates.data, isNull);
-//       expect(
-//           readStates.toJSON,
-//           equals({
-//             'message': '',
-//             'data': null,
-//             'type': {'name': 'loading', 'index': 0}
-//           }));
-//       expect(
-//           readStates.toString(),
-//           equals(
-//               'ReadLoadingState<String>(message: , data: null, type: {name: loading, index: 0})'));
-//     });
+import '../api_bloc_test.dart';
 
-//     test('Validate Success State', () {
-//       const customMessage = 'Custom Message';
-//       const customData = 'Success';
-//       const readStates =
-//           ReadSuccessState<String>(data: customData, message: customMessage);
-//       expect(readStates.type, equals(ReadStateType.success));
-//       expect(readStates.message, equals(customMessage));
-//       expect(readStates.data, isA<String>());
-//       expect(readStates.data, equals(customData));
-//       expect(
-//           readStates.toJSON,
-//           equals({
-//             'message': customMessage,
-//             'data': customData,
-//             'type': {'name': 'success', 'index': 1}
-//           }));
-//       expect(
-//           readStates.toString(),
-//           equals(
-//               'ReadSuccessState<String>(message: $customMessage, data: $customData, type: {name: success, index: 1})'));
-//     });
+void main() {
+  group('ReadStates', () {
+    test('Validate Loading State', () {
+      ReadStates state = ReadStates.loading<double>(data: 0.0);
+      expect(state, isA<ReadLoadingState>());
+      expect(state, isA<ReadLoadingState<double>>());
+      state = ReadLoadingState.fromJSON(state.toJSON);
+      expect(state, isA<ReadLoadingState<dynamic>>());
+      expect(state.message, 'Fetching On Progress');
+      expect(state.data, isNotNull);
+      expect(state.data, isA<double>());
+      expect(state.data, equals(0.0));
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('ReadLoadingState'));
+      expect(state.toJSON['data'], isA<double>());
+      expect(state.toJSON['data'], equals(0.0));
+    });
 
-//     test('Validate Error State', () {
-//       const customMessage = 'Custom Message';
-//       const customData = 'Error';
-//       const readStates =
-//           ReadErrorState<String>(data: customData, message: customMessage);
-//       expect(readStates.type, equals(ReadStateType.error));
-//       expect(readStates.message, equals(customMessage));
-//       expect(readStates.data, isA<String>());
-//       expect(readStates.data, equals(customData));
-//       expect(
-//           readStates.toJSON,
-//           equals({
-//             'message': customMessage,
-//             'data': customData,
-//             'type': {'name': 'error', 'index': 2}
-//           }));
-//       expect(
-//           readStates.toString(),
-//           equals(
-//               'ReadErrorState<String>(message: $customMessage, data: $customData, type: {name: error, index: 2})'));
-//     });
+    test('Validate Success State', () {
+      ReadStates state = ReadStates.success<TestModel>(
+        data: TestModel.test(),
+      );
+      expect(state, isA<ReadSuccessState>());
+      expect(state, isA<ReadSuccessState<TestModel>>());
+      state = ReadSuccessState.fromJSON(state.toJSON);
+      expect(state, isA<ReadSuccessState>());
+      expect(state, isA<ReadSuccessState<dynamic>>());
+      expect(state.message, 'Data Successfully Fetched');
+      expect(state.data, isNotNull);
+      expect(state.data, isA<TestModel>());
+      expect(state.data.id, equals(6));
+      expect(state.data.name, equals('Bob the Builder'));
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('ReadSuccessState'));
+      expect(state.toJSON['data'], isA<TestModel>());
+      expect(state.toJSON['data'].id, equals(6));
+      expect(state.toJSON['data'].name, equals('Bob the Builder'));
+    });
 
-//     test('Validate Equality', () {
-//       const originalReadStates = ReadLoadingState<int>();
-//       final decodedReadStates =
-//           ReadStates.fromJSON<int>(originalReadStates.toJSON);
-//       expect(decodedReadStates.type, equals(originalReadStates.type));
-//       expect(decodedReadStates.message, equals(originalReadStates.message));
-//       expect(decodedReadStates.data, equals(originalReadStates.data));
-//       expect(decodedReadStates, equals(originalReadStates));
-//     });
-//   });
-// }
+    test('Validate Error State', () {
+      ReadStates state = ReadStates.error<ApiBlocException>(
+        message: 'Something Went Wrong',
+        data: const ApiBlocException('Mocked error', StackTrace.empty),
+      );
+      expect(state, isA<ReadErrorState>());
+      expect(state, isA<ReadErrorState<ApiBlocException>>());
+      state = ReadErrorState.fromJSON(state.toJSON);
+      expect(state, isA<ReadErrorState>());
+      expect(state, isA<ReadErrorState<dynamic>>());
+      expect(state.message, 'Something Went Wrong');
+      expect(state.data, isNotNull);
+      expect(state.data, isA<ApiBlocException>());
+      expect(state.data.message, equals('Mocked error'));
+      expect(state.data.stackTrace, isA<StackTrace>());
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('ReadErrorState'));
+      expect(state.toJSON['data'], isA<ApiBlocException>());
+      expect(state.toJSON['data'].message, equals('Mocked error'));
+      expect(state.toJSON['data'].stackTrace, isA<StackTrace>());
+    });
+  });
+}

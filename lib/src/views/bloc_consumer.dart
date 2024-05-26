@@ -119,7 +119,7 @@ class BlocConsumer<Request extends BlocController<State>,
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<State>(
-      valueListenable: controller ?? context.read<Request>(),
+      valueListenable: controller ?? context.bloc<Request>(),
       builder: (context, value, child) {
         WidgetsBinding.instance.addPostFrameCallback(
           (_) => listener(context, value),

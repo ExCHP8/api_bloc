@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 import 'dart:io';
+// ignore: depend_on_referenced_packages
 import 'package:args/args.dart';
 
 part 'misc/extension.dart';

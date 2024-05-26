@@ -1,7 +1,7 @@
 import 'package:api_bloc/api_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../test.dart';
+import '../api_bloc_test.dart';
 
 class ReadControllerTest extends ReadController {
   @override
@@ -33,6 +33,8 @@ void main() {
 
     test('Validate Initial State', () {
       expect(controller.value, isA<ReadLoadingState>());
+      expect(controller.value.data, isNull);
+      expect(controller.value.message, equals('Fetching On Progress'));
     });
 
     test('Validate Success State', () async {
@@ -42,6 +44,7 @@ void main() {
       expect(controller.value.data, isA<TestModel>());
       expect(controller.value.data.id, equals(6));
       expect(controller.value.data.name, equals('Bob the Builder'));
+      expect(controller.value.message, equals('Data Successfully Fetched'));
     });
 
     test('Validate Error State', () async {

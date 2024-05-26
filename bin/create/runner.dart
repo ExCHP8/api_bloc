@@ -8,7 +8,7 @@ final class ApiBloc {
     String output = data['output']!.toString();
     String name = data['create']!.toString();
     StringBuffer buffer = StringBuffer()
-      ..write('\n[...] Succesfully generating bloc structure 🚀 [...]\n\n')
+      ..write('\n[...] Successfully generating bloc structure 🚀 [...]\n\n')
       ..write('\x1B[32m');
 
     // [1] Create module directory

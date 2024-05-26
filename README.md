@@ -141,7 +141,7 @@ ApiBloc(
   controller: controller,
   listener: (context, state) {
     if (state is WriteControllerSuccessState<CreateUserModel>) {
-      snackbar(context, message: "Succesfully creating new user with id #${state.data!.id}");
+      snackbar(context, message: "Successfully creating new user with id #${state.data!.id}");
     } else if (state is WriteControllerFailedState) {
       snackbar(context, message: "Failed because ${state.message}", color: Colors.grey);
     } else if (state is WriteControllerErrorState) {
@@ -186,7 +186,7 @@ ApiBloc(
   })
 .onSuccess<CreateUserModel>(
   listener: (context, state, child) {
-    snackbar(context, message: "Succesfully creating new user with id #${state.data!.id}");
+    snackbar(context, message: "Successfully creating new user with id #${state.data!.id}");
   })
 .onError(
   listener: (context, state, child) {

@@ -1,5 +1,3 @@
-
-
 // class MockResponse {
 //   final dynamic data;
 
@@ -87,7 +85,7 @@
 //       ).onLoading(builder: (context, state, _) {
 //         return const CircularProgressIndicator();
 //       }).onSuccess<UserModel>(listener: (context, _) {
-//         alertFrom(context, say: 'Succesfully creating new user');
+//         alertFrom(context, say: 'Successfully creating new user');
 //       }).onFailed(listener: (context, state) {
 //         alertFrom(context, say: 'Failed because ${state.data}');
 //       }).onError(listener: (context, state) {
@@ -122,7 +120,7 @@
 //       expect(controller.value, isA<WriteControllerSuccessState<UserModel>>());
 //       expect(find.byType(CircularProgressIndicator), findsNothing);
 //       expect(find.byType(SnackBar), findsOne);
-//       expect(find.text('Succesfully creating new user'), findsOne);
+//       expect(find.text('Successfully creating new user'), findsOne);
 //       expect(find.text('Submit'), findsOneWidget);
 //     });
 

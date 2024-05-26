@@ -1,127 +1,100 @@
+import 'package:api_bloc/api_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 
+import '../api_bloc_test.dart';
 
-// void main() {
-//   group('WriteStates', () {
-//     test('Validate Idle State', () {
-//       const writeStates = WriteIdleState<String>();
-//       expect(writeStates.type, equals(WriteStateType.idle));
-//       expect(writeStates.message, isEmpty);
-//       expect(writeStates.data, isNull);
-//       expect(
-//           writeStates.toJSON,
-//           equals({
-//             'message': '',
-//             'data': null,
-//             'type': {'name': 'idle', 'index': 0} // Corrected index for idle
-//           }));
-//       expect(
-//           writeStates.toString(),
-//           equals(
-//               'WriteIdleState<String>(message: , data: null, type: {name: idle, index: 0})'));
-//     });
+void main() {
+  group('WriteStates', () {
+    test('Validate Idle State', () {
+      WriteStates state = WriteStates.idle();
+      expect(state, isA<WriteIdleState>());
+      state = WriteIdleState.fromJSON(state.toJSON);
+      expect(state, isA<WriteIdleState>());
+      expect(state, isA<WriteIdleState<dynamic>>());
+      expect(state.message, 'Waiting For Interaction');
+      expect(state.data, isNull);
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('WriteIdleState'));
+      expect(state.toJSON['data'], isNull);
+    });
+    test('Validate Loading State', () {
+      WriteStates state = WriteStates.loading<double>(data: 0.0);
+      expect(state, isA<WriteLoadingState>());
+      expect(state, isA<WriteLoadingState<double>>());
+      state = WriteLoadingState.fromJSON<double>(state.toJSON);
+      expect(state, isA<WriteLoadingState>());
+      expect(state, isA<WriteLoadingState<double>>());
+      expect(state.message, 'Submitting In Progress');
+      expect(state.data, isNotNull);
+      expect(state.data, isA<double>());
+      expect(state.data, equals(0.0));
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('WriteLoadingState'));
+      expect(state.toJSON['data'], isA<double>());
+      expect(state.toJSON['data'], equals(0.0));
+    });
 
-//     test('Validate Loading State', () {
-//       const customMessage = 'Custom Message';
-//       const customData = 0.5;
-//       const writeStates =
-//           WriteLoadingState<double>(message: customMessage, data: customData);
-//       expect(writeStates.type, equals(WriteStateType.loading));
-//       expect(writeStates.message, equals(customMessage));
-//       expect(writeStates.data, isA<double>());
-//       expect(writeStates.data, equals(customData));
-//       expect(
-//           writeStates.toJSON,
-//           equals({
-//             'message': customMessage,
-//             'data': customData,
-//             'type': {
-//               'name': 'loading',
-//               'index': 1
-//             } // Corrected index for loading
-//           }));
-//       expect(
-//           writeStates.toString(),
-//           equals(
-//               'WriteLoadingState<double>(message: $customMessage, data: $customData, type: {name: loading, index: 1})'));
-//     });
+    test('Validate Success State', () {
+      WriteStates state = WriteStates.success<TestModel>(
+        data: TestModel.test(),
+      );
+      expect(state, isA<WriteSuccessState>());
+      expect(state, isA<WriteSuccessState<TestModel>>());
+      state = WriteSuccessState.fromJSON<TestModel>(state.toJSON);
+      expect(state, isA<WriteSuccessState>());
+      expect(state, isA<WriteSuccessState<TestModel>>());
+      expect(state.message, 'Data Successfully Submitted');
+      expect(state.data, isNotNull);
+      expect(state.data, isA<TestModel>());
+      expect(state.data.id, equals(6));
+      expect(state.data.name, equals('Bob the Builder'));
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('WriteSuccessState'));
+      expect(state.toJSON['data'], isA<TestModel>());
+      expect(state.toJSON['data'].id, equals(6));
+      expect(state.toJSON['data'].name, equals('Bob the Builder'));
+    });
 
-//     test('Validate Success State', () {
-//       const customMessage = 'Custom Message';
-//       const customData = 'Success';
-//       const writeStates =
-//           WriteSuccessState<String>(data: customData, message: customMessage);
-//       expect(writeStates.type, equals(WriteStateType.success));
-//       expect(writeStates.message, equals(customMessage));
-//       expect(writeStates.data, isA<String>());
-//       expect(writeStates.data, equals(customData));
-//       expect(
-//           writeStates.toJSON,
-//           equals({
-//             'message': customMessage,
-//             'data': customData,
-//             'type': {
-//               'name': 'success',
-//               'index': 2
-//             } // Corrected index for success
-//           }));
-//       expect(
-//           writeStates.toString(),
-//           equals(
-//               'WriteSuccessState<String>(message: $customMessage, data: $customData, type: {name: success, index: 2})'));
-//     });
-
-//     test('Validate Failed State', () {
-//       const customMessage = 'Custom Message';
-//       const customData = 'Failed';
-//       const writeStates =
-//           WriteFailedState<String>(data: customData, message: customMessage);
-//       expect(writeStates.type, equals(WriteStateType.failed));
-//       expect(writeStates.message, equals(customMessage));
-//       expect(writeStates.data, isA<String>());
-//       expect(writeStates.data, equals(customData));
-//       expect(
-//           writeStates.toJSON,
-//           equals({
-//             'message': customMessage,
-//             'data': customData,
-//             'type': {'name': 'failed', 'index': 3} // Corrected index for failed
-//           }));
-//       expect(
-//           writeStates.toString(),
-//           equals(
-//               'WriteFailedState<String>(message: $customMessage, data: $customData, type: {name: failed, index: 3})'));
-//     });
-
-//     test('Validate Error State', () {
-//       const customMessage = 'Custom Message';
-//       const customData = 'Error';
-//       const writeStates =
-//           WriteErrorState<String>(data: customData, message: customMessage);
-//       expect(writeStates.type, equals(WriteStateType.error));
-//       expect(writeStates.message, equals(customMessage));
-//       expect(writeStates.data, isA<String>());
-//       expect(writeStates.data, equals(customData));
-//       expect(
-//           writeStates.toJSON,
-//           equals({
-//             'message': customMessage,
-//             'data': customData,
-//             'type': {'name': 'error', 'index': 4} // Corrected index for error
-//           }));
-//       expect(
-//           writeStates.toString(),
-//           equals(
-//               'WriteErrorState<String>(message: $customMessage, data: $customData, type: {name: error, index: 4})'));
-//     });
-
-//     test('Validate Equality', () {
-//       const originalWriteStates = WriteLoadingState<int>();
-//       final decodedWriteStates =
-//           WriteStates.fromJSON<int>(originalWriteStates.toJSON);
-//       expect(decodedWriteStates.type, equals(originalWriteStates.type));
-//       expect(decodedWriteStates.message, equals(originalWriteStates.message));
-//       expect(decodedWriteStates.data, equals(originalWriteStates.data));
-//       expect(decodedWriteStates, equals(originalWriteStates));
-//     });
-//   });
-// }
+    test('Validate Failed State', () {
+      WriteStates state = WriteStates.failed<TestModel>(
+        data: TestModel.test(),
+      );
+      expect(state, isA<WriteFailedState>());
+      expect(state, isA<WriteFailedState<TestModel>>());
+      state = WriteFailedState.fromJSON<TestModel>(state.toJSON);
+      expect(state, isA<WriteFailedState>());
+      expect(state, isA<WriteFailedState<TestModel>>());
+      expect(state.message, 'Submitted Data Returns Failed');
+      expect(state.data, isNotNull);
+      expect(state.data, isA<TestModel>());
+      expect(state.data.id, equals(6));
+      expect(state.data.name, equals('Bob the Builder'));
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('WriteFailedState'));
+      expect(state.toJSON['data'], isA<TestModel>());
+      expect(state.toJSON['data'].id, equals(6));
+      expect(state.toJSON['data'].name, equals('Bob the Builder'));
+    });
+    test('Validate Error State', () {
+      WriteStates state = WriteStates.error<ApiBlocException>(
+        message: 'Something Went Wrong',
+        data: const ApiBlocException('Mocked error', StackTrace.empty),
+      );
+      expect(state, isA<WriteErrorState>());
+      expect(state, isA<WriteErrorState<ApiBlocException>>());
+      state = WriteErrorState.fromJSON<ApiBlocException>(state.toJSON);
+      expect(state, isA<WriteErrorState>());
+      expect(state, isA<WriteErrorState<ApiBlocException>>());
+      expect(state.message, 'Something Went Wrong');
+      expect(state.data, isNotNull);
+      expect(state.data, isA<ApiBlocException>());
+      expect(state.data.message, equals('Mocked error'));
+      expect(state.data.stackTrace, isA<StackTrace>());
+      expect(state.toJSON['type'], isA<String>());
+      expect(state.toJSON['type'], startsWith('WriteErrorState'));
+      expect(state.toJSON['data'], isA<ApiBlocException>());
+      expect(state.toJSON['data'].message, equals('Mocked error'));
+      expect(state.toJSON['data'].stackTrace, isA<StackTrace>());
+    });
+  });
+}

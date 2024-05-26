@@ -38,7 +38,7 @@ class PostPage extends StatelessWidget {
                   switch (state) {
                     case WriteSuccessState<CreateUserModel> _:
                       return context.alert(
-                        "Succesfully creating new user with id #${state.data.id}",
+                        "Successfully creating new user with id #${state.data.id}",
                       );
                     case WriteFailedState _:
                       return context.alert(

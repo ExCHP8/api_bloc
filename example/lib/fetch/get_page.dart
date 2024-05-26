@@ -36,9 +36,7 @@ class GetPage extends StatelessWidget {
                         ],
                       );
                     case ReadErrorState<StackTrace> _:
-                      return Text(
-                        'Oops something is wrong\n${state.message}',
-                      );
+                      return Text('Oops something is wrong\n${state.message}');
                     default:
                       return const CircularProgressIndicator();
                   }

@@ -35,7 +35,7 @@ sealed class WriteStates<T extends dynamic> extends BlocStates<T> {
   /// ));
   /// ```
   static WriteIdleState<T> idle<T extends dynamic>({
-    String message = '',
+    String message = 'Waiting For Interaction',
     T? data,
   }) {
     return WriteIdleState<T>(
@@ -66,7 +66,7 @@ sealed class WriteStates<T extends dynamic> extends BlocStates<T> {
   /// ```
 
   static WriteLoadingState<T> loading<T extends dynamic>({
-    String message = '',
+    String message = 'Submitting In Progress',
     T? data,
   }) {
     return WriteLoadingState<T>(data: data);
@@ -93,7 +93,7 @@ sealed class WriteStates<T extends dynamic> extends BlocStates<T> {
   /// ));
   /// ```
   static WriteSuccessState<T> success<T extends Object>({
-    String message = '',
+    String message = 'Data Successfully Submitted',
     required T data,
   }) {
     return WriteSuccessState<T>(
@@ -123,7 +123,7 @@ sealed class WriteStates<T extends dynamic> extends BlocStates<T> {
   /// ));
   /// ```
   static WriteFailedState<T> failed<T extends Object>({
-    String message = '',
+    String message = 'Submitted Data Returns Failed',
     required T data,
   }) {
     return WriteFailedState<T>(
@@ -153,7 +153,7 @@ sealed class WriteStates<T extends dynamic> extends BlocStates<T> {
   /// ));
   /// ```
   static WriteErrorState<T> error<T extends dynamic>({
-    String message = '',
+    String message = 'Something Went Wrong',
     T? data,
   }) {
     return WriteErrorState<T>(
@@ -166,7 +166,19 @@ sealed class WriteStates<T extends dynamic> extends BlocStates<T> {
 /// Represents the idle state when no request is in progress in [WriteController].
 final class WriteIdleState<T extends dynamic> extends WriteStates<T> {
   /// Create a [WriteIdleState] with an optional [message] and [data].
-  const WriteIdleState({super.message, super.data});
+  const WriteIdleState({
+    super.message = 'Waiting For Interaction',
+    super.data,
+  });
+
+  static WriteIdleState<T> fromJSON<T extends dynamic>(
+    Map<String, dynamic> value,
+  ) {
+    return WriteIdleState<T>(
+      message: value['message'] ?? 'Waiting For Interaction',
+      data: value['data'],
+    );
+  }
 }
 
 /// Represents the loading state when a request is in progress in [WriteController].
@@ -178,7 +190,19 @@ final class WriteLoadingState<T extends dynamic> extends WriteStates<T> {
   /// ```dart
   /// WriteLoadingState<double>(data: 0.0));
   /// ```
-  const WriteLoadingState({super.message, super.data});
+  const WriteLoadingState({
+    super.message = 'Submitting In Progress',
+    super.data,
+  });
+
+  static WriteLoadingState<T> fromJSON<T extends Object>(
+    Map<String, dynamic> value,
+  ) {
+    return WriteLoadingState<T>(
+      message: value['message'] ?? 'Submitting In Progress',
+      data: value['data'],
+    );
+  }
 }
 
 /// Represents the success state when a request is successfully submitted in
@@ -191,7 +215,19 @@ final class WriteSuccessState<T extends Object> extends WriteStates<T> {
   /// ```dart
   /// WriteSuccessState<Model>(data: Model()));
   /// ```
-  const WriteSuccessState({super.message, required super.data});
+  const WriteSuccessState({
+    super.message = 'Data Successfully Submitted',
+    required super.data,
+  });
+
+  static WriteSuccessState<T> fromJSON<T extends Object>(
+    Map<String, dynamic> value,
+  ) {
+    return WriteSuccessState<T>(
+      message: value['message'] ?? 'Data Successfully Submitted',
+      data: value['data'],
+    );
+  }
 }
 
 /// Represents the failed state when a request submission fails in
@@ -205,7 +241,17 @@ final class WriteFailedState<T extends Object> extends WriteStates<T> {
   /// ```dart
   /// WriteFailedState<Model>(data: Model()));
   /// ```
-  const WriteFailedState({super.message, required super.data});
+  const WriteFailedState(
+      {super.message = 'Submitted Data Returns Failed', required super.data});
+
+  static WriteFailedState<T> fromJSON<T extends Object>(
+    Map<String, dynamic> value,
+  ) {
+    return WriteFailedState<T>(
+      message: value['message'] ?? 'Submitted Data Returns Failed',
+      data: value['data'],
+    );
+  }
 }
 
 /// Represents the error state when an error occurs during request submission in
@@ -213,5 +259,17 @@ final class WriteFailedState<T extends Object> extends WriteStates<T> {
 final class WriteErrorState<T extends dynamic> extends WriteStates<T> {
   /// Represents the error state when an error occurs during request submission in
   /// [WriteController].
-  const WriteErrorState({super.message, super.data});
+  const WriteErrorState({
+    super.message = 'Something Went Wrong',
+    super.data,
+  });
+
+  static WriteErrorState<T> fromJSON<T extends dynamic>(
+    Map<String, dynamic> value,
+  ) {
+    return WriteErrorState<T>(
+      message: value['message'] ?? 'Something Went Wrong',
+      data: value['data'],
+    );
+  }
 }

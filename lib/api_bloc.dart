@@ -63,7 +63,7 @@ class ApiBloc<Request extends BlocController> extends InheritedWidget {
             child: Builder(
               builder: (context) {
                 if (builder == null) return child;
-                return builder(context, context.read<Request>());
+                return builder(context, context.bloc<Request>());
               },
             ),
           ),
@@ -140,7 +140,7 @@ extension ApiBlocExtension on BuildContext {
   /// [ApiBloc] widget in the widget tree.
   ///
   /// Throws an error if no [ApiBloc] widget is found in the ancestor tree.
-  Request read<Request extends BlocController>() {
+  Request bloc<Request extends BlocController>() {
     return BlocController.of<Request>(this);
   }
 }

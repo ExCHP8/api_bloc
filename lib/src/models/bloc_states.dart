@@ -28,7 +28,8 @@ class BlocStates<T extends dynamic> extends Equatable {
   ///
   /// emit(state);
   /// ```
-  const BlocStates({this.message = '', required this.data});
+  const BlocStates({this.message = 'No Information Provided', T? data})
+      : data = data as T;
 
   /// The status message indicating what's going on in this state.
   final String message;
@@ -50,11 +51,11 @@ class BlocStates<T extends dynamic> extends Equatable {
     return {
       'message': message,
       'data': data,
-      'type': runtimeType,
+      'type': runtimeType.toString(),
     };
   }
 
-  /// Decode JSON to [BlocStates]. with [message] by default empty string, and [data] as null.
+  /// Decode JSON to [BlocStates]. with [BlocStates.message] by default empty string, and [BlocStates.data] as null.
   ///
   /// ```dart
   /// final json = {
@@ -64,12 +65,10 @@ class BlocStates<T extends dynamic> extends Equatable {
   ///
   /// final state = BlocStates.fromJSON(json);
   /// ```
-  static BlocStates<T> fromJSON<T extends Object>(
-    Map<String, dynamic> value,
-  ) {
+  static BlocStates<T> fromJSON<T extends dynamic>(Map<String, dynamic> value) {
     return BlocStates<T>(
-      message: value['message'] ?? '',
       data: value['data'],
+      message: value['message'] ?? 'No Information Provided',
     );
   }
 
