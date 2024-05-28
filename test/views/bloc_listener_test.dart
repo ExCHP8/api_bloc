@@ -51,7 +51,7 @@ void main() {
         await tester.pump();
         expect(find.byType(Text), findsOneWidget);
         expect(find.text('Data Successfully Submitted'), findsOneWidget);
-        expect(find.byType(SnackBar), findsOne);
+        expect(find.byType(SnackBar), findsOneWidget);
       }, returnsNormally);
     });
 
@@ -72,7 +72,7 @@ void main() {
         await tester.pump();
         expect(find.byType(Text), findsOneWidget);
         expect(find.text('Submitted Data Returns Failed'), findsOneWidget);
-        expect(find.byType(SnackBar), findsOne);
+        expect(find.byType(SnackBar), findsOneWidget);
       }, returnsNormally);
     });
 
@@ -90,7 +90,7 @@ void main() {
         await tester.pump();
         expect(find.byType(Text), findsOneWidget);
         expect(find.text('Mocked Error'), findsOneWidget);
-        expect(find.byType(SnackBar), findsOne);
+        expect(find.byType(SnackBar), findsOneWidget);
       }, returnsNormally);
     });
   });

@@ -97,7 +97,7 @@ void main() {
         expect(find.byType(Text), findsWidgets);
         expect(find.text('Data Successfully Submitted'), findsWidgets);
         expect(find.byType(CircularProgressIndicator), findsNothing);
-        expect(find.byType(SnackBar), findsOne);
+        expect(find.byType(SnackBar), findsOneWidget);
       }, returnsNormally);
     });
 
@@ -119,7 +119,7 @@ void main() {
         expect(find.byType(Text), findsWidgets);
         expect(find.text('Submitted Data Returns Failed'), findsWidgets);
         expect(find.byType(CircularProgressIndicator), findsNothing);
-        expect(find.byType(SnackBar), findsOne);
+        expect(find.byType(SnackBar), findsOneWidget);
       }, returnsNormally);
     });
 
@@ -138,7 +138,7 @@ void main() {
         expect(find.byType(Text), findsWidgets);
         expect(find.text('Mocked Error'), findsWidgets);
         expect(find.byType(CircularProgressIndicator), findsNothing);
-        expect(find.byType(SnackBar), findsOne);
+        expect(find.byType(SnackBar), findsOneWidget);
       }, returnsNormally);
     });
   });
