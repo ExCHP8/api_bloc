@@ -23,13 +23,23 @@ jobs:
         run: flutter pub get
 
       - name: Run tests with coverage
-        run: flutter test --coverage
+        run: |
+          flutter test --coverage
+          if [ $? -ne 0 ]; then
+            echo "Tests failed or coverage not generated"
+            exit 1
+          fi
 
       - name: Install lcov
         run: sudo apt-get install lcov
 
       - name: Generate HTML report
-        run: genhtml coverage/lcov.info -o coverage/html
+        run: |
+          genhtml coverage/lcov.info -o coverage/html
+          if [ $? -ne 0 ]; then
+            echo "Failed to generate HTML report"
+            exit 1
+          fi
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
@@ -38,4 +48,6 @@ jobs:
           path: coverage
 
       - name: Display coverage report link
-        run: echo "Coverage report generated and uploaded. View the artifact in the GitHub Actions interface."
+        run: |
+          echo "Coverage report generated and uploaded. View the artifact in the GitHub Actions interface."
+          echo "Coverage report available at: https://raw.githack.com/Nialixus/api_bloc/main/coverage/html/index.html"
