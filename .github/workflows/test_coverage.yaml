@@ -25,9 +25,6 @@ jobs:
       - name: Run tests with coverage
         run: flutter test --coverage
 
-      - name: Remove existing coverage directory
-        run: rm -rf coverage
-
       - name: Install lcov
         run: sudo apt-get install lcov
 
@@ -44,3 +41,9 @@ jobs:
         run: |
           echo "Coverage report generated and uploaded. View the artifact in the GitHub Actions interface."
           echo "Coverage report available at: https://raw.githack.com/Nialixus/api_bloc/main/coverage/html/index.html"
+
+      - name: Git Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
