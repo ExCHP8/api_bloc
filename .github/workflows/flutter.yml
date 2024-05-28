@@ -23,23 +23,16 @@ jobs:
         run: flutter pub get
 
       - name: Run tests with coverage
-        run: |
-          flutter test --coverage
-          if [ $? -ne 0 ]; then
-            echo "Tests failed or coverage not generated"
-            exit 1
-          fi
+        run: flutter test --coverage
+
+      - name: Remove existing coverage directory
+        run: rm -rf coverage
 
       - name: Install lcov
         run: sudo apt-get install lcov
 
       - name: Generate HTML report
-        run: |
-          genhtml coverage/lcov.info -o coverage/html
-          if [ $? -ne 0 ]; then
-            echo "Failed to generate HTML report"
-            exit 1
-          fi
+        run: genhtml coverage/lcov.info -o coverage/html
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
