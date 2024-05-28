@@ -25,25 +25,9 @@ jobs:
       - name: Run tests with coverage
         run: flutter test --coverage
 
-      - name: Install lcov
-        run: sudo apt-get install lcov
-
-      - name: Generate HTML report
-        run: genhtml coverage/lcov.info -o coverage/html
-
       - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: coverage
+        uses: codecov/codecov-action@v2
 
       - name: Display coverage report link
         run: |
-          echo "Coverage report generated and uploaded. View the artifact in the GitHub Actions interface."
-          echo "Coverage report available at: https://raw.githack.com/Nialixus/api_bloc/main/coverage/html/index.html"
-
-      - name: Git Push
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          echo "Coverage report uploaded to Codecov. View the report at: https://codecov.io/gh/Nialixus/api_bloc"
