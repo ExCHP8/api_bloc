@@ -1,4 +1,4 @@
-part of 'get_page.dart';
+part of '../get.dart';
 
 class GetUserController extends ReadController {
   @override

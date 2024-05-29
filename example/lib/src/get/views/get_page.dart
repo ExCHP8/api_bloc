@@ -1,11 +1,4 @@
-import 'dart:async';
-
-import 'package:api_bloc/api_bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-
-part 'get_controller.dart';
-part 'get_model.dart';
+part of '../get.dart';
 
 class GetPage extends StatelessWidget {
   const GetPage({super.key});

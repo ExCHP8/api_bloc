@@ -1,4 +1,4 @@
-part of 'post_page.dart';
+part of '../post.dart';
 
 class CreateUserModel {
   const CreateUserModel({required this.id, required this.createdAt});

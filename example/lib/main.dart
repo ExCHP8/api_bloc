@@ -1,5 +1,5 @@
-import 'package:example/fetch/get_page.dart';
-import 'package:example/submit/post_page.dart';
+import 'package:example/src/get/get.dart';
+import 'package:example/src/post/post.dart';
 import 'package:flutter/material.dart';
 
 void main() {

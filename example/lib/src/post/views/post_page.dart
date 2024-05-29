@@ -1,10 +1,4 @@
-import 'package:api_bloc/api_bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:example/main.dart';
-import 'package:flutter/material.dart';
-
-part 'post_model.dart';
-part 'post_controller.dart';
+part of '../post.dart';
 
 class PostPage extends StatelessWidget {
   const PostPage({super.key});

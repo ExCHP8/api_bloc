@@ -1,4 +1,4 @@
-part of 'post_page.dart';
+part of '../post.dart';
 
 class CreateUserController extends WriteController {
   final TextEditingController name = TextEditingController();
