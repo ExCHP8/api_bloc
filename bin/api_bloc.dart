@@ -1,14 +1,8 @@
 // ignore_for_file: avoid_print
-import 'dart:io';
-// ignore: depend_on_referenced_packages
 import 'package:args/args.dart';
-
-part 'misc/extension.dart';
-part 'create/runner.dart';
-part 'create/controller.dart';
-part 'create/model.dart';
-part 'create/views.dart';
-part 'create/page.dart';
+import 'src/shared/shared.dart';
+import 'src/read/read.dart';
+import 'src/write/write.dart';
 
 Future<void> main(List<String> arguments) async {
   ArgParser creator = ArgParser()
@@ -19,7 +13,7 @@ Future<void> main(List<String> arguments) async {
     ..addOption('output',
         abbr: 'o',
         defaultsTo: 'lib/src/',
-        help: 'Output directory of created bloc structure')
+        help: 'Output directory of created bloc with mvc structure')
     ..addFlag('help',
         abbr: 'h',
         negatable: false,
@@ -27,12 +21,24 @@ Future<void> main(List<String> arguments) async {
         help: 'Print this usage information');
   try {
     ArgResults argument = creator.parse(arguments);
-    if (argument["help"]) {
+    if (argument["help"] == true) {
       throw '\x1B[0mAvailable commands:';
     } else {
-      ApiBloc.create(argument);
+      StringBuffer buffer = StringBuffer()
+        ..write('\n[...] Successfully generating bloc structure 🚀 [...]\n\n')
+        ..write('\x1B[32m');
+
+      ReadController(argument).run(buffer);
+      ReadModel(argument).run(buffer);
+      ReadView(argument).run(buffer);
+      WriteController(argument).run(buffer);
+      WriteModel(argument).run(buffer);
+      WriteView(argument).run(buffer);
+      Shared(argument).run(buffer);
+
+      print(buffer);
     }
   } catch (e) {
-    print('\n\x1B[31m$e\x1B[0m\n\n${creator.usage}');
+    print('\n\x1B[31m$e\x1B[0m\n\n\x1B[32m${creator.usage}\x1B[0m');
   }
 }

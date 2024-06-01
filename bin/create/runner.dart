@@ -4,16 +4,9 @@ part of '../api_bloc.dart';
 
 final class ApiBloc {
   static void create(ArgResults data) {
-    List<String> result = [];
-    String output = data['output']!.toString();
-    String name = data['create']!.toString();
     StringBuffer buffer = StringBuffer()
       ..write('\n[...] Successfully generating bloc structure 🚀 [...]\n\n')
       ..write('\x1B[32m');
-
-    // [1] Create module directory
-    Directory directory = Directory(output.directoryPath + name.directoryPath)
-      ..createSync(recursive: true);
 
     // [2] Create controller items
     result.addAll(
