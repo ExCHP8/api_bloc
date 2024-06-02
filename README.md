@@ -200,12 +200,12 @@ abstract class ReadSentryController extends BlocRequest<ReadStates> {
   final bool autoRun;
 }
 
-abstract class WriteControllerSentryController extends BlocRequest<WriteControllerStates> {
-  WriteControllerSentryController() : super(value: const WriteControllerIdleState());
+abstract class WriteSentryController extends BlocRequest<WriteStates> {
+  WriteSentryController() : super(value: const WriteIdleState());
 
   @override
   Future<void> run([JSON args = const {}]) async {
-    emit(const WriteControllerLoadingState());
+    emit(const WriteLoadingState());
     final http = SentryHttpClient();
     try {
       await onRequest(http, args);
@@ -220,7 +220,7 @@ abstract class WriteControllerSentryController extends BlocRequest<WriteControll
 
   Future<void> onError(dynamic e, StrackTrace s) async {
     await Sentry.captureException(e, stackTrace: s);
-    emit(WriteControllerErrorState(message: e.toString(), data: s));
+    emit(WriteErrorState(message: e.toString(), data: s));
   }
 }
 ```
