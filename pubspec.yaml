@@ -10,16 +10,10 @@ screenshots:
   - description: 'API Bloc Logo'
     path: logo.png
 topics:
-  - flutter
   - bloc
-  - business-logic
   - rest-api
   - mvc
-  - state-management
-  - api-integration
-  - boilerplate-reduction
-  - code-generation
-  - dart
+  - api
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
