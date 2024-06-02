@@ -6,4 +6,4 @@ import 'package:flutter/material.dart';
 
 part 'controllers/get_controller.dart';
 part 'models/get_model.dart';
-part 'views/get_page.dart';
+part 'views/get_view.dart';

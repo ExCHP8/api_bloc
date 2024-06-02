@@ -19,8 +19,8 @@ final class WriteView extends SharedRunner {
     return '''
 part of '../$module.dart';
 
-class ${module.toCamelCase()}${submodule.toCamelCase()}${type.name.toCamelCase()} extends StatelessWidget {
-  const ${module.toCamelCase()}${submodule.toCamelCase()}${type.name.toCamelCase()}({super.key});
+class ${module.toCamelCase()}${submodule.toCamelCase()}${type.toString().toCamelCase()} extends StatelessWidget {
+  const ${module.toCamelCase()}${submodule.toCamelCase()}${type.toString().toCamelCase()}({super.key});
 
   @override
   Widget build(BuildContext context) {

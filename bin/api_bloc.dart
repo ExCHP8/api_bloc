@@ -39,6 +39,14 @@ Future<void> main(List<String> arguments) async {
           ReadView(argument),
           WriteView(argument),
         ],
+        testRunner: [
+          ReadControllerTest(argument),
+          WriteControllerTest(argument),
+          ReadModelTest(argument),
+          WriteModelTest(argument),
+          ReadViewTest(argument),
+          WriteViewTest(argument),
+        ],
       ).run(buffer);
 
       print(buffer);

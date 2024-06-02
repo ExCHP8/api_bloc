@@ -28,7 +28,8 @@ class HomePage extends StatelessWidget {
               alignment: Alignment.center,
               color: Colors.blue,
               child: TextButton(
-                onPressed: () => context.to(const [GetPage(), PostPage()][i]),
+                onPressed: () =>
+                    context.to(const [GetUserView(), CreateUserView()][i]),
                 child: Text(
                   ["GET Request", "POST Request"][i],
                   textAlign: TextAlign.center,

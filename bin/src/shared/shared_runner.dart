@@ -1,4 +1,4 @@
-part of '../shared.dart';
+part of 'shared.dart';
 
 /// Base view class for all class generator.
 abstract class SharedRunner {
@@ -26,7 +26,7 @@ abstract class SharedRunner {
     )..createSync(recursive: true);
   }
 
-  /// Execute and create the view into the [directory].
+  /// Execute to create the template and transform it into a file.
   void run(StringBuffer buffer) {
     final folder =
         Directory('${directory.path.toPath}${type.name.toLowerCase()}')
@@ -47,7 +47,7 @@ abstract class SharedRunner {
     }
   }
 
-  /// Template for the view.
+  /// Template for the generated file.
   String template({
     required String module,
     required String submodule,

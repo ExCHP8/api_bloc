@@ -7,4 +7,4 @@ import 'package:flutter/material.dart';
 
 part 'controllers/post_controller.dart';
 part 'models/post_model.dart';
-part 'views/post_page.dart';
+part 'views/post_view.dart';

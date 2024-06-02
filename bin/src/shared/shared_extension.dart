@@ -1,4 +1,4 @@
-part of '../shared.dart';
+part of 'shared.dart';
 
 extension SharedExtension on String {
   String get toPath => endsWith('/') ? this : '$this/';

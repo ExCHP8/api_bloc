@@ -1,7 +1,7 @@
 part of '../post.dart';
 
-class PostPage extends StatelessWidget {
-  const PostPage({super.key});
+class CreateUserView extends StatelessWidget {
+  const CreateUserView({super.key});
 
   @override
   Widget build(BuildContext context) {

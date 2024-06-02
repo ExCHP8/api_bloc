@@ -1,7 +1,7 @@
 part of '../get.dart';
 
-class GetPage extends StatelessWidget {
-  const GetPage({super.key});
+class GetUserView extends StatelessWidget {
+  const GetUserView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,17 +3,19 @@ library shared;
 import 'dart:io';
 import 'package:args/args.dart';
 
-part 'models/shared_enum.dart';
-part 'models/shared_extension.dart';
-part 'models/shared_runner.dart';
+part 'shared_enum.dart';
+part 'shared_extension.dart';
+part 'shared_runner.dart';
 
 final class Shared extends SharedRunner {
   const Shared(
     super.data, {
     required this.runner,
+    required this.testRunner,
   }) : super(type: SharedType.models);
 
   final List<SharedRunner> runner;
+  final List<SharedRunner> testRunner;
 
   @override
   List<String> get submodules {
@@ -30,6 +32,7 @@ final class Shared extends SharedRunner {
 // Auto-Generated API Bloc structure
 // Created at ${DateTime.now()}
 // 🍔 [Buy me a coffee](https://www.buymeacoffee.com/nialixus) 🚀
+library ${module.toLowerCase()};
 
 import 'package:api_bloc/api_bloc.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +48,10 @@ import 'package:flutter/material.dart';
 
   @override
   void run(StringBuffer buffer) {
-    final folder = Directory(directory.path.toPath)
+    Directory folder = Directory(directory.path.toPath)
       ..createSync(recursive: true);
     buffer.write('📂 ${folder.path.toPath}\n');
-    final file = File('${folder.path.toPath}$module.dart');
+    File file = File('${folder.path.toPath}$module.dart');
 
     if (file.existsSync()) {
       buffer.write('\x1B[30m   📄 ${file.path} \x1B[33m[SKIPPED]\x1B[32m\n');
@@ -58,7 +61,21 @@ import 'package:flutter/material.dart';
         ..createSync(recursive: true)
         ..writeAsStringSync(template(module: module, submodule: ''));
     }
+
     for (var runner in this.runner) {
+      runner.run(buffer);
+    }
+
+    folder = Directory('${data['output']}'
+            .toLowerCase()
+            .toPath
+            .replaceFirst(RegExp(r'(^|/)\blib/'), 'test/') +
+        module.toLowerCase().toPath)
+      ..createSync(recursive: true);
+
+    buffer.write('📂 ${folder.path.toPath}\n');
+
+    for (var runner in testRunner) {
       runner.run(buffer);
     }
   }
