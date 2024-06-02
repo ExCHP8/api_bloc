@@ -3,7 +3,7 @@ part of '../write.dart';
 final class WriteView extends SharedRunner {
   const WriteView(
     super.data, {
-    super.type = SharedType.view,
+    super.type = SharedType.views,
   });
 
   @override
@@ -19,17 +19,17 @@ final class WriteView extends SharedRunner {
     return '''
 part of '../$module.dart';
 
-class $module$submodule${type.name.toCamelCase()} extends StatelessWidget {
-  const $module$submodule${type.name.toCamelCase()}({super.key});
+class ${module.toCamelCase()}${submodule.toCamelCase()}${type.name.toCamelCase()} extends StatelessWidget {
+  const ${module.toCamelCase()}${submodule.toCamelCase()}${type.name.toCamelCase()}({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ApiBloc(
-      controller: $module${submodule}Controller(),
-      child: BlocConsumer<$module${submodule}Controller, WriteStates>(
+      controller: ${module.toCamelCase()}${submodule.toCamelCase()}Controller(),
+      child: BlocConsumer<${module.toCamelCase()}${submodule.toCamelCase()}Controller, WriteStates>(
         listener: (context, state) {
-          if (state is WriteSuccessState<$module${submodule}SuccessModel>) {
-          } else if (state is WriteFailedState<$module${submodule}FailedModel>) {
+          if (state is WriteSuccessState<${module.toCamelCase()}${submodule.toCamelCase()}SuccessModel>) {
+          } else if (state is WriteFailedState<${module.toCamelCase()}${submodule.toCamelCase()}FailedModel>) {
           } else if (state is WriteErrorState) {}
         },
         builder: (context, state, child) {

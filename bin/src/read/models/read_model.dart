@@ -3,7 +3,7 @@ part of '../read.dart';
 class ReadModel extends SharedRunner {
   const ReadModel(
     super.data, {
-    super.type = SharedType.model,
+    super.type = SharedType.models,
   });
 
   @override
@@ -12,12 +12,15 @@ class ReadModel extends SharedRunner {
   }
 
   @override
-  String template({required String module, required String submodule}) {
+  String template({
+    required String module,
+    required String submodule,
+  }) {
     return '''
 part of '../$module.dart';
 
-class $module${submodule}Model {
-  const $module${submodule}Model.test();
+class ${module.toCamelCase()}${submodule.toCamelCase()}Model {
+  const ${module.toCamelCase()}${submodule.toCamelCase()}Model.test();
 }
 ''';
   }

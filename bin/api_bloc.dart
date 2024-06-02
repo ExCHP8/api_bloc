@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print
+
 import 'package:args/args.dart';
 import 'src/shared/shared.dart';
 import 'src/read/read.dart';
@@ -20,7 +21,7 @@ Future<void> main(List<String> arguments) async {
         defaultsTo: false,
         help: 'Print this usage information');
   try {
-    ArgResults argument = creator.parse(arguments);
+    final argument = creator.parse(arguments);
     if (argument["help"] == true) {
       throw '\x1B[0mAvailable commands:';
     } else {
@@ -28,13 +29,17 @@ Future<void> main(List<String> arguments) async {
         ..write('\n[...] Successfully generating bloc structure 🚀 [...]\n\n')
         ..write('\x1B[32m');
 
-      ReadController(argument).run(buffer);
-      ReadModel(argument).run(buffer);
-      ReadView(argument).run(buffer);
-      WriteController(argument).run(buffer);
-      WriteModel(argument).run(buffer);
-      WriteView(argument).run(buffer);
-      Shared(argument).run(buffer);
+      Shared(
+        argument,
+        runner: [
+          ReadController(argument),
+          WriteController(argument),
+          ReadModel(argument),
+          WriteModel(argument),
+          ReadView(argument),
+          WriteView(argument),
+        ],
+      ).run(buffer);
 
       print(buffer);
     }

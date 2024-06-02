@@ -3,7 +3,7 @@ part of '../write.dart';
 class WriteController extends SharedRunner {
   WriteController(
     super.data, {
-    super.type = SharedType.controller,
+    super.type = SharedType.controllers,
   });
 
   @override
@@ -19,7 +19,7 @@ class WriteController extends SharedRunner {
     return '''
 part of '../$module.dart';
 
-class $module${submodule}Controller extends WriteController {
+class ${module.toCamelCase()}${submodule.toCamelCase()}Controller extends WriteController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
     // Delay to make the loading state more noticable.
@@ -27,11 +27,11 @@ class $module${submodule}Controller extends WriteController {
 
     // Emit your success and failed state here ↓↓
     if (args['success'] ?? false) {
-    emit(const WriteSuccessState<$module${submodule}SuccessModel>(
-        data: $module${submodule}SuccessModel.test()));
+    emit(const WriteSuccessState<${module.toCamelCase()}${submodule.toCamelCase()}SuccessModel>(
+        data: ${module.toCamelCase()}${submodule.toCamelCase()}SuccessModel.test()));
     } else {
-    emit(const WriteFailedState<$module${submodule}FailedModel>(
-        data: $module${submodule}FailedModel.test()));
+    emit(const WriteFailedState<${module.toCamelCase()}${submodule.toCamelCase()}FailedModel>(
+        data: ${module.toCamelCase()}${submodule.toCamelCase()}FailedModel.test()));
     }
   }
 }
