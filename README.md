@@ -6,11 +6,11 @@
 [![Pub Version](https://img.shields.io/pub/v/api_bloc.svg?logo=flutter&color=blue&style=flat-square)](https://pub.dev/packages/api_bloc)
 [![codecov](https://codecov.io/gh/Nialixus/api_bloc/graph/badge.svg?token=FTA3TAWK7G)](https://codecov.io/gh/Nialixus/api_bloc)
 
-Flutter widgets designed to simplify the implementation of the BLoC (Business Logic Component) pattern for REST APIs within an MVC architecture. This package significantly reduces boilerplate code by automating BLoC pattern and test generation, efficiently handling REST API interactions.`
+Flutter widgets designed to simplify the implementation of the BLoC pattern for REST APIs within an MVC architecture. Significantly reduces boilerplate code by automating BLoC pattern and test generation for handling REST API interactions.
 
 ## Features
-- Significantly reducing boilerplate code of bloc pattern to interact with Rest API.
-- Generic classes for handling various API states such as _`loading, success,` & `error`_ for **READ** states and _`idle, loading, success, failed` & `error`_ for **WRITE** states.
+- Significantly reducing boilerplate code of bloc pattern to interact with REST API.
+- Generic classes for handling various API states such as `loading`, `success,` & `error` for **READ** states and `idle`, `loading`, `success`, `failed` & `error` for **WRITE** states.
 - Customizable builder and listener functions to respond to state changes.
 - Generate api bloc pattern & bloc test on command.
 

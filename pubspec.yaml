@@ -1,5 +1,5 @@
 name: api_bloc
-description: Flutter widgets designed to simplify the implementation of the BLoC (Business Logic Component) pattern for REST APIs within an MVC architecture. This package significantly reduces boilerplate code by automating BLoC pattern and test generation, efficiently handling REST API interactions.`
+description: Flutter widgets designed to simplify the implementation of the BLoC pattern for REST APIs within an MVC architecture. Significantly reduces boilerplate code by automating BLoC pattern and test generation for handling REST API interactions.
 version: 3.0.0
 homepage: https://inidia.app
 repository: https://github.com/Nialixus/api_bloc.git
@@ -10,8 +10,16 @@ screenshots:
   - description: 'API Bloc Logo'
     path: logo.png
 topics:
+  - flutter
   - bloc
-  - api
+  - business-logic
+  - rest-api
+  - mvc
+  - state-management
+  - api-integration
+  - boilerplate-reduction
+  - code-generation
+  - dart
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -25,6 +33,6 @@ dependencies:
 
 dev_dependencies:
   coverage: ^1.8.0
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
