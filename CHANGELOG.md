@@ -67,3 +67,4 @@
 * Update Documentation
 * Update Example
 * Add Github Workflows
+* Add test and bloc template generation

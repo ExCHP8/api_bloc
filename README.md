@@ -6,21 +6,20 @@
 [![Pub Version](https://img.shields.io/pub/v/api_bloc.svg?logo=flutter&color=blue&style=flat-square)](https://pub.dev/packages/api_bloc)
 [![codecov](https://codecov.io/gh/Nialixus/api_bloc/graph/badge.svg?token=FTA3TAWK7G)](https://codecov.io/gh/Nialixus/api_bloc)
 
-A Flutter library for managing Rest API calls using the BLoC pattern. This library provides a set of classes and utilities to simplify API calls and manage state changes.
+Flutter widgets designed to simplify the implementation of the BLoC (Business Logic Component) pattern for REST APIs within an MVC architecture. This package significantly reduces boilerplate code by automating BLoC pattern and test generation, efficiently handling REST API interactions.`
 
 ## Features
 - Significantly reducing boilerplate code of bloc pattern to interact with Rest API.
 - Generic classes for handling various API states such as _`loading, success,` & `error`_ for **READ** states and _`idle, loading, success, failed` & `error`_ for **WRITE** states.
 - Customizable builder and listener functions to respond to state changes.
-- Automatic disposal of the controller to prevent memory leaks.
-- Generate api bloc pattern on command.
+- Generate api bloc pattern & bloc test on command.
 
 ## Getting Started
 To use this library, add `api_bloc` as a dependency in your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  api_bloc: ^2.0.2
+  api_bloc: ^3.0.0
 ```
 
 and to use `api_bloc_cli` run this command in terminal.
@@ -28,75 +27,48 @@ and to use `api_bloc_cli` run this command in terminal.
 dart pub global activate api_bloc
 ```
 
-## Generating Api Bloc Structure (Optional)
-To make things faster on, let's say making `GET` detail and `GET` list also `PUT` update, `POST` create and `DELETE` using this library, we just need to run this command in terminal.
-```bash
-dart run api_bloc --output lib/src --create user --read detail,list --write update,create,delete
-```
-
-It will generating this structure in your project
-```
-lib/src/user/
-   - user.dart
-   - controllers/
-     - read_user_detail_controller.dart
-     - read_user_list_controller.dart
-     - write_user_update_controller.dart
-     - write_user_create_controller.dart
-     - write_user_delete_controller.dart
-   - models/
-     - read_user_detail_model.dart
-     - read_user_list_model.dart
-     - write_user_update_model.dart
-     - write_user_create_model.dart
-     - write_user_delete_model.dart
-   - views/
-     - read_user_detail_widget.dart
-     - read_user_list_widget.dart
-     - write_user_update_widget.dart
-     - write_user_create_widget.dart
-     - write_user_delete_widget.dart
-```
-Now the things that left to do is writing the content of the controllers, widgets and models.
-
 ## Fetching Scenario
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class ReadUserController extends ReadController {
+class GetUserController extends ReadController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
+    // Mock Delay
     await Future.delayed(const Duration(seconds: 1));
-    final response = await Dio().get('https://reqres.in/api/users/2');
 
-    final model = ReadUserModel.fromJSON(response.data);
-    emit(ReadSuccessState<ReadUserModel>(data: model));
+    Response response = await Dio().get(
+      'https://reqres.in/api/users/2',
+      onReceiveProgress: (received, total) {
+        emit(ReadLoadingState<double>(data: received / total));
+      },
+    );
+
+    emit(ReadSuccessState<GetUserModel>(
+        data: GetUserModel.fromJSON(response.data)));
   }
 }
+
 ```
 
-- Put the controller inside [ApiBloc] widget.
+Put the controller inside the [ApiBloc] widget.
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-final controller = ReadUserController();
-
-ApiBloc.builder(
-  controller: controller,
-  builder: (context, state, child) {
-    if (state is ReadSuccessState<UserModel>) {
-      return Text('Username: ${state.data!.username}');
-    } else if (state is ReadErrorState){
-      return Text('Error occurred: ${state.message}');
-    } else {
-      return CircularProgressIndicator();
-    }
-  },
+ApiBloc(
+  controller: UserDetailController(),
+  child: BlocBuilder<UserDetailController, ReadStates>(
+    builder: (context, state, child) {
+      if (state is ReadSuccessState<UserDetailModel>) {
+      } else if (state is ReadErrorState) {}
+      return Text(state.message);
+    },
+  ),
 );
 ```
-When the first time it initiate the controller, on ReadController it's auto running the request function. But if you want to re run it, you can do it by calling
+When the controller is first initiated, on ReadController it automatically runs the request function. If you want to rerun it, you can do it by calling:
 
 ```dart
 controller.run();
@@ -107,103 +79,94 @@ controller.run();
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-class CreateUserController extends WriteControllerRequest {
-  @override
-  // We're going to dispose it manually if we set it as false.
-  bool get autoDispose => false;
-
+class UserUpdateController extends WriteController {
   @override
   Future<void> onRequest(Map<String, dynamic> args) async {
-    await Future.delayed(const Duration(seconds: 1));
-    final response = await Dio().post('https://reqres.in/api/users/2',
-        data: FormData.fromMap(args));
+    // Delay to make the loading state more noticable.
+    await Future.delayed(const Duration(milliseconds: 300));
 
-    if (response.statusCode == 201) {
-      final model = CreateUserModel.fromJSON(response.data);
-      emit(WriteControllerSuccessState<CreateUserModel>(data: model));
+    // Emit your success and failed state here ↓↓
+    if (isSuccess) {
+    emit(const WriteSuccessState<UserUpdateSuccessModel>(
+        data: UserUpdateSuccessModel.test()));
     } else {
-      emit(WriteControllerFailedState<Map<String, dynamic>>(
-          data: response.data,
-          message: "Expected response code output is 201"));
+    emit(const WriteFailedState<UserUpdateFailedModel>(
+        data: UserUpdateFailedModel.test()));
     }
   }
 }
 ```
 
-- Put the controller inside [ApiBloc] widget.
+Put the controller inside the [ApiBloc] widget.
 
 ```dart
 import 'package:api_bloc/api_bloc.dart';
 
-final controller = CreateUserController();
-
 ApiBloc(
-  controller: controller,
-  listener: (context, state) {
-    if (state is WriteControllerSuccessState<CreateUserModel>) {
-      snackbar(context, message: "Successfully creating new user with id #${state.data!.id}");
-    } else if (state is WriteControllerFailedState) {
-      snackbar(context, message: "Failed because ${state.message}", color: Colors.grey);
-    } else if (state is WriteControllerErrorState) {
-      snackbar(context, message: state.message, color: Colors.red);
-    }
-  },
-  builder: (context, state, child) {
-    if (state is WriteControllerLoadingState) {
-      return TextButton(text: "Loading ...");
-    }  else {
-      return TextButton(text: "Create", onPressed: () => controller.run());
-    }
-  },
+  controller: UserUpdateController(),
+  child: BlocConsumer<UserUpdateController, WriteStates>(
+    listener: (context, state) {
+      if (state is WriteSuccessState<UserUpdateSuccessModel>) {
+      } else if (state is WriteFailedState<UserUpdateFailedModel>) {
+      } else if (state is WriteErrorState) {}
+    },
+    builder: (context, state, child) {
+      if (state is WriteLoadingState) {}
+      return Text(state.message);
+    },
+  ),
 );
 ```
-Unlike the ReadController, initial state of WriteControllerRequest is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
+Unlike the ReadController, the initial state of WriteControllerRequest is `idle` state, so to run the request you need to trigger the `controller.run()` manually.
 
-## Using Extension
-Now you can easily customize how your `ApiBloc` handles different state scenarios using these new extensions:
 
-- `onIdle`: Handle `WriteControllerIdleState` and only work with `WriteControllerRequest`.
-- `onLoading`: Handle `ReadLoadingState` and only work with `ReadController` or `WriteControllerLoadingState` that only work with `WriteControllerRequest`.
-- `onSuccess`: Handle `ReadSuccessState` and only work with `ReadController` or `WriteControllerSuccessState` that only work with `WriteControllerRequest`.
-- `onFailed`: Handle `WriteControllerFailedState` and only work with `WriteControllerRequest`.
-- `onError`: Handle `ReadErrorState` and only work with `ReadController` or `WriteControllerErrorState` that only work with `WriteControllerRequest`.
+## Generating Api Bloc Structure (Optional)
+To quickly create a module, for example `GET` detail and `GET` list, also `PUT` update, `POST` create, and `DELETE` for a module called `USER` using this library, run this command in terminal:
 
-```dart
-import 'package:api_bloc/api_bloc.dart';
+```bash
+dart run api_bloc --output lib/src --create user --read detail,list --write update,create,delete
+```
 
-final controller = CreateUserController();
+It will generate this structure in your project:
 
-ApiBloc(
-  controller: controller,
-  child: TextButton(text: "Create", onPressed: () => controller.run()))
-.onLoading(
-  builder: (context, state, child) {
-    return TextButton(text: "Loading ...");
-  })
-.onFailed(
-  listener: (context, state, child) {
-    snackbar(context, message: "Failed because ${state.message}", color: Colors.grey);
-  })
-.onSuccess<CreateUserModel>(
-  listener: (context, state, child) {
-    snackbar(context, message: "Successfully creating new user with id #${state.data!.id}");
-  })
-.onError(
-  listener: (context, state, child) {
-    snackbar(context, message: state.message, color: Colors.red);
-  })
-.onState<BlocStates<Object>>(
-  listener; (context, state) {
-    snackbar(context, message: "You're in this custom state of ${state.runtimeType}");
-  },
-  builder: (context, state, child) {
-    return Text("You're in this custom state of ${state.runtimeType}");
-  }
-);
+```
+📂 lib/src/user/
+   📄 lib/src/user/user.dart 
+   📄 lib/src/user/controllers/user_detail.dart 
+   📄 lib/src/user/controllers/user_list.dart 
+   📄 lib/src/user/controllers/user_update.dart 
+   📄 lib/src/user/controllers/user_create.dart 
+   📄 lib/src/user/controllers/user_delete.dart 
+   📄 lib/src/user/models/user_detail.dart 
+   📄 lib/src/user/models/user_list.dart 
+   📄 lib/src/user/models/user_update.dart 
+   📄 lib/src/user/models/user_create.dart 
+   📄 lib/src/user/models/user_delete.dart 
+   📄 lib/src/user/views/user_detail.dart 
+   📄 lib/src/user/views/user_list.dart 
+   📄 lib/src/user/views/user_update.dart 
+   📄 lib/src/user/views/user_create.dart 
+   📄 lib/src/user/views/user_delete.dart 
+📂 test/src/user/
+   📄 test/src/user/controllers/user_detail.dart 
+   📄 test/src/user/controllers/user_list.dart 
+   📄 test/src/user/controllers/user_update.dart 
+   📄 test/src/user/controllers/user_create.dart 
+   📄 test/src/user/controllers/user_delete.dart 
+   📄 test/src/user/models/user_detail.dart 
+   📄 test/src/user/models/user_list.dart 
+   📄 test/src/user/models/user_update.dart 
+   📄 test/src/user/models/user_create.dart 
+   📄 test/src/user/models/user_delete.dart 
+   📄 test/src/user/views/user_detail.dart 
+   📄 test/src/user/views/user_list.dart 
+   📄 test/src/user/views/user_update.dart 
+   📄 test/src/user/views/user_create.dart 
+   📄 test/src/user/views/user_delete.dart 
 ```
 
 ## Sentry Integration
-You can integrate this library with sentry by making custom controller like this.
+You also can integrate this library with Sentry by creating custom controllers like this:
 
 ```dart
 abstract class ReadSentryController extends BlocRequest<ReadStates> {
@@ -262,7 +225,7 @@ abstract class WriteControllerSentryController extends BlocRequest<WriteControll
 }
 ```
 
-and then whenever you want to interact with the api, you just need to make this controller:
+Whenever you want to interact with the API, create a controller like this:
 
 ```dart
 class ReadUserRequest extends ReadSentryController {
