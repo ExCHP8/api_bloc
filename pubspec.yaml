@@ -22,7 +22,7 @@ topics:
   - dart
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: '>=3.0.5 <4.0.0'
   flutter: '>=1.17.0'
 
 dependencies:
@@ -33,6 +33,6 @@ dependencies:
 
 dev_dependencies:
   coverage: ^1.8.0
-  flutter_lints: ^4.0.0
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
