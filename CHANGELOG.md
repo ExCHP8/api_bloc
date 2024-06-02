@@ -68,3 +68,6 @@
 * Update Example
 * Add Github Workflows
 * Add test and bloc template generation
+
+## 3.0.1
+* Shortening the description

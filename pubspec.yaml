@@ -1,6 +1,6 @@
 name: api_bloc
-description: Flutter widgets designed to simplify the implementation of the BLoC pattern for REST APIs within an MVC architecture. Significantly reduces boilerplate code by automating BLoC pattern and test generation for handling REST API interactions.
-version: 3.0.0
+description: Flutter widgets that simplify the BLoC pattern implementation for REST APIs within an MVC architecture, significantly reducing boilerplate code.
+version: 3.0.1
 homepage: https://inidia.app
 repository: https://github.com/Nialixus/api_bloc.git
 issue_tracker: https://github.com/Nialixus/api_bloc/issues
